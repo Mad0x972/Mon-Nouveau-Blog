@@ -1,5 +1,4 @@
-# fichiers de travail du rendu HyperFrames
-renders/work-*/
-renders/.*hf-transaction*/
+# rendus bruts HyperFrames (master ~500 Mo) et fichiers de travail
+renders/
 snapshots/
 .hyperframes/
