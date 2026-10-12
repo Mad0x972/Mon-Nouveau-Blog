@@ -1,0 +1,5 @@
+# fichiers de travail du rendu HyperFrames
+renders/work-*/
+renders/.*hf-transaction*/
+snapshots/
+.hyperframes/

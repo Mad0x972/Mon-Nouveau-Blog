@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #7fb5b7;
+        }
+        #s5-cam,
+        .s5-plane {
+          position: absolute;
+          inset: 0;
+          transform-origin: 48% 62%;
+        }
+        .s5-plane canvas {
+          position: absolute;
+          left: -96px;
+          top: -54px;
+          width: 2112px;
+          height: 1188px;
+        }
+        #s5-glow {
+          mix-blend-mode: screen;
+        }
+        #s5-fx {
+          position: absolute;
+          inset: 0;
+          width: 1920px;
+          height: 1080px;
+        }
+      </style>
+
+      <div id="root" data-composition-id="s5-sapin-rose" data-width="1920" data-height="1080">
+        <div id="s5-cam" data-layout-allow-overflow>
+          <div class="s5-plane" id="s5-p0" data-layout-allow-overflow></div>
+          <div class="s5-plane" id="s5-pg" data-layout-allow-overflow></div>
+          <div class="s5-plane" id="s5-p1" data-layout-allow-overflow></div>
+          <div class="s5-plane" id="s5-p2" data-layout-allow-overflow></div>
+        </div>
+        <canvas id="s5-fx" width="1920" height="1080" data-layout-allow-overflow></canvas>
+      </div>
+
+      <script>
+        (function () {
+          const P = window.Painter;
+          const W = 2112,
+            H = 1188;
+          const DUR = 13.5;
+          const TX = 860,
+            TB = 902,
+            TH = 780,
+            TW = 520; // sapin rose
+          const BANK = 930; // bord de la rive
+
+          // ---------------------------------------------------------- plan 0 : brume aqua
+          const base0 = P.canvas(W, H);
+          {
+            const c = base0.getContext("2d");
+            const R = P.rng(5101);
+            P.vgrad(c, W, H, [
+              [0, "#4f8f98"],
+              [0.35, "#8cc4c2"],
+              [0.7, "#a9d4cf"],
+              [1, "#7fb3b8"],
+            ]);
+            P.glow(c, TX, 420, 760, "#eaf6f1", 0.55);
+            // voiles verticaux, comme une aquarelle
+            for (let i = 0; i < 90; i++) {
+              const x = R() * W,
+                w = 20 + R() * 90;
+              const g = c.createLinearGradient(0, 0, 0, 900);
+              const col = R() < 0.5 ? "#3d7b88" : "#d7efea";
+              g.addColorStop(0, P.rgba(col, 0.0));
+              g.addColorStop(0.3, P.rgba(col, 0.1 + R() * 0.12));
+              g.addColorStop(1, P.rgba(col, 0));
+              c.fillStyle = g;
+              c.fillRect(x, 0, w, 900);
+            }
+            // lac
+            const lg = c.createLinearGradient(0, BANK, 0, H);
+            lg.addColorStop(0, "#7cb0be");
+            lg.addColorStop(1, "#4d8399");
+            c.fillStyle = lg;
+            c.fillRect(0, BANK - 10, W, H);
+          }
+          const paint0 = P.brushify(base0, {
+            seed: 15,
+            flowAngle: -Math.PI / 2,
+            flowSpread: 0.9,
+            passes: [
+              { size: 16, len: 58, density: 1.1, alpha: 0.45, jitter: 8 },
+              { size: 6, len: 24, density: 0.9, alpha: 0.5, jitter: 10 },
+            ],
+          });
+          P.mount(document.getElementById("s5-p0"), paint0);
+
+          // halo rose autour du sapin
+          const glowCan = P.canvas(W, H);
+          {
+            const c = glowCan.getContext("2d");
+            P.glow(c, TX, TB - TH * 0.45, 620, "#ffd2dc", 0.5);
+            P.glow(c, TX, TB + 120, 480, "#ffc4d0", 0.3);
+          }
+          P.mount(document.getElementById("s5-pg"), glowCan).id = "s5-glow";
+
+          // ---------------------------------------------------------- plan 1 : sapin rose, rive, reflet
+          const base1 = P.canvas(W, H);
+          const treePts = [];
+          {
+            const c = base1.getContext("2d");
+            const R = P.rng(5201);
+            const tree = (ctx, alpha) => {
+              const tiers = 14;
+              for (let i = 0; i < tiers; i++) {
+                const t = i / tiers;
+                const ty = TB - TH * t * 0.93;
+                const tw = TW * Math.pow(1 - t, 0.95) + 30;
+                const th = (TH / tiers) * 1.9;
+                // masse rose
+                ctx.fillStyle = P.rgba(P.mix("#d77f98", "#efb3c3", 0.2 + t * 0.5), alpha);
+                ctx.beginPath();
+                ctx.moveTo(TX - tw / 2, ty);
+                for (let k = 0; k <= 12; k++) {
+                  const u = k / 12;
+                  ctx.quadraticCurveTo(TX - tw / 2 + tw * (u - 1 / 24), ty + 16 + R() * 10, TX - tw / 2 + tw * u, ty + (k % 2 ? 4 : -2));
+                }
+                ctx.lineTo(TX + tw * 0.05, ty - th);
+                ctx.closePath();
+                ctx.fill();
+                // neige pailletée sur le dessus des branches
+                for (let k = 0; k < 9 * (1 - t) + 3; k++) {
+                  const x = TX - tw * 0.45 + R() * tw * 0.9;
+                  const y = ty - th * (0.15 + R() * 0.55);
+                  ctx.fillStyle = P.rgba(P.mix("#fff2f5", "#ffffff", R()), alpha * (0.7 + 0.3 * R()));
+                  ctx.beginPath();
+                  ctx.ellipse(x, y, 18 + R() * 30 * (1 - t * 0.6), 8 + R() * 8, (R() - 0.5) * 0.3, 0, P.TAU);
+                  ctx.fill();
+                  if (alpha === 1) treePts.push([x, y]);
+                }
+                // ombre rose foncé sous les étages
+                ctx.fillStyle = P.rgba("#b9577a", 0.3 * alpha);
+                ctx.beginPath();
+                ctx.ellipse(TX, ty + 6, tw * 0.42, 9, 0, 0, P.TAU);
+                ctx.fill();
+              }
+              ctx.fillStyle = P.rgba("#5a2c38", alpha);
+              ctx.fillRect(TX - 12, TB - 4, 24, 14);
+            };
+            // reflet dans le lac
+            c.save();
+            c.translate(0, BANK * 2 + 40);
+            c.scale(1, -1);
+            c.filter = "blur(4px)";
+            tree(c, 0.35);
+            c.filter = "none";
+            c.restore();
+            // rides du lac
+            for (let i = 0; i < 260; i++) {
+              const y = BANK + 10 + Math.pow(R(), 0.8) * 250;
+              c.fillStyle = R() < 0.5 ? "rgba(225,245,245,0.25)" : "rgba(50,100,120,0.25)";
+              c.fillRect(R() * W, y, 30 + R() * 140, 2 + R() * 2);
+            }
+            // rive enneigée
+            const sg = c.createLinearGradient(0, 860, 0, BANK + 20);
+            sg.addColorStop(0, "#f7fafa");
+            sg.addColorStop(1, "#cfe2ea");
+            c.fillStyle = sg;
+            c.beginPath();
+            c.moveTo(0, 900);
+            c.bezierCurveTo(400, 870, 700, 890, TX, 885);
+            c.bezierCurveTo(1200, 880, 1600, 895, W, 880);
+            c.lineTo(W, BANK + 6);
+            c.bezierCurveTo(1500, BANK + 22, 900, BANK - 4, 0, BANK + 14);
+            c.closePath();
+            c.fill();
+            c.fillStyle = "rgba(120,170,200,0.45)";
+            c.beginPath();
+            c.moveTo(0, BANK + 4);
+            c.bezierCurveTo(900, BANK - 14, 1500, BANK + 12, W, BANK - 4);
+            c.lineTo(W, BANK + 8);
+            c.bezierCurveTo(1500, BANK + 24, 900, BANK - 2, 0, BANK + 16);
+            c.closePath();
+            c.fill();
+            tree(c, 1);
+          }
+          const paint1 = P.brushify(base1, {
+            seed: 25,
+            mask: true,
+            flowAngle: 0,
+            flowSpread: 1.4,
+            passes: [
+              { size: 9, len: 26, density: 1.0, alpha: 0.5, jitter: 12 },
+              { size: 4, len: 12, density: 1.0, alpha: 0.55, jitter: 12 },
+              { size: 2, len: 6, density: 0.6, alpha: 0.65, jitter: 12, edge: 22 },
+            ],
+          });
+          const p1 = document.getElementById("s5-p1");
+          P.mount(p1, paint1);
+          const live = P.mount(p1, P.canvas(W, H));
+
+          // ---------------------------------------------------------- plan 2 : branches pailletées aux coins
+          const base2 = P.canvas(W, H);
+          const glitter = [];
+          {
+            const c = base2.getContext("2d");
+            const R = P.rng(5301);
+            const bough = (x0, y0, ang, len) => {
+              for (let i = 0; i < 26; i++) {
+                const t = i / 26;
+                const x = x0 + Math.cos(ang) * len * t;
+                const y = y0 + Math.sin(ang) * len * t + Math.sin(t * 3) * 20;
+                for (let k = 0; k < 14; k++) {
+                  const a = ang + Math.PI / 2 + (k / 14 - 0.5) * 2.6 + (R() - 0.5) * 0.2;
+                  const l = 40 + R() * 70 * (1 - t * 0.5);
+                  c.strokeStyle = P.rgba(P.mix("#1d3a50", "#3b5f78", R()), 0.85);
+                  c.lineWidth = 2 + R() * 2;
+                  c.beginPath();
+                  c.moveTo(x, y);
+                  c.quadraticCurveTo(x + Math.cos(a) * l * 0.5, y + Math.sin(a) * l * 0.5 + 6, x + Math.cos(a) * l, y + Math.sin(a) * l + 18);
+                  c.stroke();
+                  if (R() < 0.35) glitter.push([x + Math.cos(a) * l * R(), y + Math.sin(a) * l * R() + 10, R() * 6, 1 + R() * 2.5]);
+                }
+              }
+            };
+            bough(-40, 40, 0.55, 520);
+            bough(60, -20, 0.95, 380);
+            bough(W + 40, 60, Math.PI - 0.5, 560);
+            bough(W - 80, -30, Math.PI - 0.9, 420);
+            // paillettes argentées fixes
+            for (const [x, y] of glitter) {
+              c.fillStyle = "rgba(220,232,245,0.7)";
+              c.fillRect(x, y, 2, 2);
+            }
+          }
+          const paint2 = P.brushify(base2, {
+            seed: 35,
+            mask: true,
+            flowAngle: 1.2,
+            passes: [{ size: 3, len: 14, density: 0.8, alpha: 0.5, jitter: 12 }],
+          });
+          P.mount(document.getElementById("s5-p2"), paint2);
+
+          // ---------------------------------------------------------- vivant : chevaux, cavalière, paillettes
+          const fx = document.getElementById("s5-fx");
+          const fctx = fx.getContext("2d");
+          const tex = P.paperTexture(600, 480, 15);
+          const fig = P.canvas(600, 480);
+          const fg = fig.getContext("2d");
+          const R = P.rng(5401);
+          const flakes = [];
+          for (let i = 0; i < 46; i++) flakes.push({ x: R() * 1920, y: R() * 1080, v: 10 + R() * 26, r: 3 + R() * 7, ph: R() * 6, rot: R() * 6 });
+          const treeSpark = [];
+          for (let i = 0; i < 90; i++) {
+            const p = treePts[Math.floor(R() * treePts.length)];
+            treeSpark.push({ x: p[0] + (R() - 0.5) * 30, y: p[1] + (R() - 0.5) * 16, ph: R() * 6, f: 1.5 + R() * 2.5, s: 2 + R() * 4 });
+          }
+
+          function crystal(ctx, x, y, r, rot, a) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rot);
+            ctx.strokeStyle = `rgba(255,255,255,${a})`;
+            ctx.lineWidth = 1.6;
+            for (let k = 0; k < 6; k++) {
+              ctx.rotate(Math.PI / 3);
+              ctx.beginPath();
+              ctx.moveTo(0, 0);
+              ctx.lineTo(0, -r);
+              ctx.moveTo(0, -r * 0.55);
+              ctx.lineTo(-r * 0.22, -r * 0.75);
+              ctx.moveTo(0, -r * 0.55);
+              ctx.lineTo(r * 0.22, -r * 0.75);
+              ctx.stroke();
+            }
+            ctx.restore();
+          }
+
+          function figure(c, draw, x, y, shade, rim) {
+            fg.clearRect(0, 0, 600, 480);
+            draw();
+            P.shadeFigure(fig, { gradient: [0, 160, 0, 460], gradColors: shade, texture: tex, textureAlpha: 0.35 });
+            P.rimLight(fig, fig, rim, 3, 4, 0.8, 1.4);
+            // reflet sur l'eau
+            c.save();
+            c.globalAlpha = 0.22;
+            c.translate(0, (BANK + 8) * 2);
+            c.scale(1, -1);
+            c.filter = "blur(2px)";
+            c.drawImage(fig, x - 300, y - 460);
+            c.restore();
+            c.drawImage(fig, x - 300, y - 460);
+          }
+
+          function drawLiving(t) {
+            const c = live.getContext("2d");
+            c.clearRect(0, 0, W, H);
+            const shade = ["rgba(255,200,215,0.12)", "rgba(30,50,80,0.4)"];
+            // jument qui broute (gauche)
+            figure(c, () => P.drawHorse(fg, 300, 460, 0.86, { head: 0.95 + Math.sin(t * 0.8) * 0.05, tail: Math.sin(t * 0.9) * 0.7, breath: (Math.sin(t * 1.4) + 1) / 2 }, { body: "#6b4029", mane: "#2a1810", seed: 11 }), 420, 906, shade, "#ffe1ea");
+            // poulain qui regarde le sapin
+            figure(c, () => P.drawHorse(fg, 300, 460, 0.62, { head: 0.05, nod: Math.sin(t * 1.3) * 0.6, tail: Math.sin(t * 1.6) * 0.5, earFlick: P.smooth((t - 5) / 0.25) - P.smooth((t - 5.5) / 0.25) }, { body: "#9a6a44", mane: "#3a2416", blaze: "rgba(250,240,230,0.7)", seed: 12 }), 590, 912, shade, "#ffe1ea");
+            // cavalière et son cheval, front contre front (droite)
+            const lean = P.smooth((t - 3) / 3);
+            figure(c, () => P.drawHorse(fg, 300, 460, 1.02, { head: 0.18 + lean * 0.16, nod: Math.sin(t * 0.7) * 0.3, tail: Math.sin(t * 0.8) * 0.5, breath: (Math.sin(t * 1.2) + 1) / 2 }, { body: "#4a3226", mane: "#20140f", halter: "#8e2f2a", seed: 13 }, true), 1440, 912, shade, "#ffe1ea");
+            figure(c, () => P.drawRider(fg, 300, 460, 1.22, { walk: 0, stride: 0, armReach: 0.7 + lean * 0.25 }, { coat: "#1d2a44", coatLight: "#3b5486", pants: "#1b1d26", scarf: "#a03c36", hat: "#d8cbbd" }), 1160, 918, ["rgba(255,200,215,0.08)", "rgba(20,30,60,0.3)"], "#ffe1ea");
+            P.breathPuff(c, 1230, 918 - 200 * 1.0, t, 3.4, -1, 0.9, 0.55);
+
+            // paillettes du sapin et des branches
+            c.save();
+            for (const s of treeSpark) {
+              const tw = Math.max(0, Math.sin(s.ph + t * s.f));
+              if (tw < 0.25) continue;
+              P.sparkle(c, s.x, s.y, s.s * tw, tw * 0.95, "#fffaf6");
+            }
+            c.restore();
+            fctx.clearRect(0, 0, 1920, 1080);
+            for (let i = 0; i < glitter.length; i += 3) {
+              const [x, y, ph, s] = glitter[i];
+              const tw = Math.max(0, Math.sin(ph + t * 2.3));
+              if (tw < 0.5) continue;
+              P.sparkle(fctx, x - 96, y - 54, s * tw, tw * 0.9, "#eef6ff");
+            }
+            // cristaux de neige qui flottent
+            for (const f of flakes) {
+              const y = (f.y + f.v * t) % 1100;
+              const x = f.x + Math.sin(t * 0.5 + f.ph) * 18;
+              const a = 0.55 + 0.35 * Math.sin(t * 1.5 + f.ph);
+              crystal(fctx, x, y - 10, f.r, f.rot + t * 0.2, a);
+            }
+          }
+
+          // ---------------------------------------------------------- timeline
+          const tl = gsap.timeline({ paused: true });
+          const clock = { t: 0 };
+          tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => drawLiving(clock.t) }, 0);
+          tl.fromTo("#s5-cam", { scale: 1.0, y: 16 }, { scale: 1.08, y: -10, duration: DUR, ease: "sine.inOut" }, 0);
+          tl.fromTo("#s5-p0", { x: 0 }, { x: -14, duration: DUR, ease: "none" }, 0);
+          tl.fromTo("#s5-p2", { x: 30, scale: 1.0 }, { x: -30, scale: 1.05, duration: DUR, ease: "none" }, 0);
+          tl.fromTo("#s5-glow", { opacity: 0.7 }, { opacity: 1, duration: 3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0);
+          drawLiving(0);
+          window.__timelines["s5-sapin-rose"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

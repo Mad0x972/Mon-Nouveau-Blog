@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #2a3656;
+        }
+        #s3-cam,
+        .s3-plane {
+          position: absolute;
+          inset: 0;
+          transform-origin: 50% 60%;
+        }
+        .s3-plane canvas {
+          position: absolute;
+          left: -96px;
+          top: -54px;
+          width: 2112px;
+          height: 1188px;
+        }
+        #s3-p1 canvas,
+        #s3-p2 canvas {
+          width: 2752px;
+        }
+        #s3-fx {
+          position: absolute;
+          inset: 0;
+          width: 1920px;
+          height: 1080px;
+        }
+      </style>
+
+      <div id="root" data-composition-id="s3-aube" data-width="1920" data-height="1080">
+        <div id="s3-cam" data-layout-allow-overflow>
+          <div class="s3-plane" id="s3-p0" data-layout-allow-overflow></div>
+          <div class="s3-plane" id="s3-p1" data-layout-allow-overflow></div>
+          <div class="s3-plane" id="s3-p2" data-layout-allow-overflow></div>
+        </div>
+        <canvas id="s3-fx" width="1920" height="1080" data-layout-allow-overflow></canvas>
+      </div>
+
+      <script>
+        (function () {
+          const P = window.Painter;
+          const W = 2112,
+            WW = 2752,
+            H = 1188;
+          const DUR = 13.1;
+          const HOR = 640; // ligne d'horizon
+          const GROUND = 942; // sol sous les sabots
+
+          // ---------------------------------------------------------- plan 0 : ciel d'aube, collines
+          const base0 = P.canvas(W, H);
+          {
+            const c = base0.getContext("2d");
+            const R = P.rng(3101);
+            P.vgrad(c, W, H, [
+              [0, "#1d2946"],
+              [0.3, "#36486f"],
+              [0.46, "#7d7ea2"],
+              [0.54, "#d7a9a6"],
+              [0.58, "#f0c7ad"],
+              [0.62, "#c9b4c0"],
+              [1, "#8f9cc0"],
+            ]);
+            P.glow(c, 1500, HOR - 20, 700, "#ffd2b0", 0.45);
+            // étoiles pâlissantes
+            for (let i = 0; i < 160; i++) {
+              const y = Math.pow(R(), 1.6) * 380;
+              c.fillStyle = `rgba(255,248,236,${0.15 + 0.5 * R() * (1 - y / 400)})`;
+              c.beginPath();
+              c.arc(R() * W, y, 0.6 + R() * 1.6, 0, P.TAU);
+              c.fill();
+            }
+            // collines lointaines
+            const ridge = (y0, amp, col, seed) => {
+              const n = P.noise2(seed);
+              c.fillStyle = col;
+              c.beginPath();
+              c.moveTo(0, H);
+              for (let x = 0; x <= W; x += 16) c.lineTo(x, y0 - P.fbm(n, x * 0.002, 0.5, 4) * amp);
+              c.lineTo(W, H);
+              c.closePath();
+              c.fill();
+            };
+            ridge(HOR + 10, 140, "#6c6f97", 3);
+            P.fog(c, R, 0, HOR - 60, W, HOR + 40, 30, 120, 260, "#e6c3bd", 0.25);
+            ridge(HOR + 30, 90, "#4d5781", 4);
+            // lisière de sapins
+            for (let x = -20; x < W + 20; x += 9 + R() * 14) {
+              const h = 30 + R() * 70;
+              P.fir(c, R, x, HOR + 34 + R() * 10, h, h * 0.45, "#2b3557", "#3a4670", null);
+            }
+            P.fog(c, R, 0, HOR, W, HOR + 80, 26, 100, 240, "#c8b9cc", 0.22);
+            // champ de neige lointain
+            const g = c.createLinearGradient(0, HOR + 40, 0, H);
+            g.addColorStop(0, "#d6c2cc");
+            g.addColorStop(0.3, "#aab3d2");
+            g.addColorStop(1, "#7f90bb");
+            c.fillStyle = g;
+            c.fillRect(0, HOR + 44, W, H);
+          }
+          const paint0 = P.brushify(base0, {
+            seed: 13,
+            flowAngle: 0,
+            flowSpread: 0.8,
+            passes: [
+              { size: 14, len: 52, density: 1.0, alpha: 0.45, jitter: 8 },
+              { size: 6, len: 22, density: 1.0, alpha: 0.5, jitter: 10 },
+              { size: 2.4, len: 9, density: 0.6, alpha: 0.65, jitter: 10, edge: 24 },
+            ],
+          });
+          P.mount(document.getElementById("s3-p0"), paint0);
+          const starCan = P.mount(document.getElementById("s3-p0"), P.canvas(W, H));
+
+          // ---------------------------------------------------------- plan 1 : champ, arbre nu, clôture
+          const base1 = P.canvas(WW, H);
+          {
+            const c = base1.getContext("2d");
+            const R = P.rng(3201);
+            const g = c.createLinearGradient(0, 760, 0, H);
+            g.addColorStop(0, "#c4bfd6");
+            g.addColorStop(0.4, "#a2add0");
+            g.addColorStop(1, "#7486b4");
+            c.fillStyle = g;
+            c.beginPath();
+            c.moveTo(0, 800);
+            c.bezierCurveTo(600, 770, 1200, 800, 1700, 780);
+            c.bezierCurveTo(2200, 760, 2500, 790, WW, 770);
+            c.lineTo(WW, H);
+            c.lineTo(0, H);
+            c.closePath();
+            c.fill();
+            c.save();
+            c.clip();
+            for (let i = 0; i < 1400; i++) {
+              const x = R() * WW,
+                y = 780 + R() * 420;
+              c.fillStyle = R() < 0.55 ? P.rgba("#e9d6dc", 0.2 + 0.25 * R()) : P.rgba("#5d6f9f", 0.15 + 0.2 * R());
+              c.beginPath();
+              c.ellipse(x, y, 30 + R() * 80, 3 + R() * 5, (R() - 0.5) * 0.1, 0, P.TAU);
+              c.fill();
+            }
+            c.restore();
+            // arbre nu solitaire
+            c.fillStyle = "#2a2f4a";
+            c.beginPath();
+            c.moveTo(372, 820);
+            c.lineTo(380, 560);
+            c.lineTo(392, 560);
+            c.lineTo(404, 820);
+            c.closePath();
+            c.fill();
+            for (let i = 0; i < 9; i++) P.branch(c, R, 386, 600 + R() * 120, -Math.PI / 2 + (R() - 0.5) * 1.8, 120 + R() * 140, 5, "#2a2f4a", 3);
+            // clôture qui fuit vers l'horizon
+            const posts = [];
+            for (let i = 0; i < 16; i++) {
+              const t = i / 15;
+              const x = P.lerp(1500, 2700, t),
+                y = P.lerp(800, 690, Math.pow(t, 0.7));
+              const h = P.lerp(110, 30, Math.pow(t, 0.6));
+              posts.push([x, y, h]);
+              c.fillStyle = "#2b2f48";
+              c.fillRect(x, y - h, Math.max(3, h * 0.09), h);
+              c.fillStyle = "rgba(240,232,240,0.9)";
+              c.fillRect(x - 2, y - h - 3, Math.max(5, h * 0.12), 5);
+            }
+            c.strokeStyle = "rgba(43,47,72,0.7)";
+            c.lineWidth = 2;
+            [0.35, 0.7].forEach((k) => {
+              c.beginPath();
+              posts.forEach(([x, y, h], i) => (i ? c.lineTo(x, y - h * k) : c.moveTo(x, y - h * k)));
+              c.stroke();
+            });
+          }
+          const paint1 = P.brushify(base1, {
+            seed: 23,
+            mask: true,
+            flowAngle: 0,
+            flowSpread: 0.6,
+            passes: [
+              { size: 10, len: 40, density: 1.0, alpha: 0.5, jitter: 10 },
+              { size: 4, len: 16, density: 0.9, alpha: 0.55, jitter: 10 },
+              { size: 2, len: 8, density: 0.7, alpha: 0.7, jitter: 10, edge: 24 },
+            ],
+          });
+          const p1 = document.getElementById("s3-p1");
+          P.mount(p1, paint1);
+          const live = P.mount(p1, P.canvas(WW, H));
+
+          // ---------------------------------------------------------- plan 2 : avant-plan flou
+          const base2 = P.canvas(WW, H);
+          {
+            const c = base2.getContext("2d");
+            const R = P.rng(3301);
+            c.filter = "blur(5px)";
+            c.fillStyle = "#6577a6";
+            c.beginPath();
+            c.moveTo(0, 1110);
+            c.bezierCurveTo(500, 1060, 900, 1120, 1300, 1100);
+            c.bezierCurveTo(1800, 1080, 2300, 1130, WW, 1090);
+            c.lineTo(WW, H + 20);
+            c.lineTo(0, H + 20);
+            c.closePath();
+            c.fill();
+            for (let i = 0; i < 260; i++) {
+              const x = R() * WW,
+                y = 1100 + R() * 80;
+              c.strokeStyle = P.rgba(P.mix("#3a3550", "#7a6a7a", R()), 0.8);
+              c.lineWidth = 2 + R() * 3;
+              c.beginPath();
+              c.moveTo(x, y);
+              c.quadraticCurveTo(x + (R() - 0.5) * 30, y - 50, x + (R() - 0.5) * 60, y - 70 - R() * 90);
+              c.stroke();
+            }
+            c.fillStyle = "#232742";
+            c.fillRect(2380, 640, 46, 560);
+            c.fillStyle = "rgba(240,232,240,0.85)";
+            c.fillRect(2372, 628, 62, 16);
+            c.filter = "none";
+          }
+          P.mount(document.getElementById("s3-p2"), base2);
+
+          // ---------------------------------------------------------- personnages
+          const fx = document.getElementById("s3-fx");
+          const fctx = fx.getContext("2d");
+          const snow = P.makeSnow(33, 140, 1920, 1080, { rmin: 1, rmax: 4.5, vmin: 20, vmax: 70, wind: 18, color: "#fff4f4" });
+          const tex = P.paperTexture(700, 520, 12);
+          const fig = P.canvas(700, 520);
+          const fg = fig.getContext("2d");
+          const HSC = 1.25,
+            STRIDE = 58,
+            PERIOD = 2.2;
+          const SPEED = (STRIDE * HSC) / (0.64 * PERIOD);
+          const X0 = 640;
+          const horseX = (t) => X0 + SPEED * t;
+
+          function drawLiving(t) {
+            const c = live.getContext("2d");
+            c.clearRect(0, 0, WW, H);
+            const hx = horseX(t);
+            const rx = hx + 150;
+            // empreintes dans la neige (déterministes)
+            c.fillStyle = "rgba(70,84,130,0.45)";
+            for (let k = 0; k * 0.55 < t; k++) {
+              const tk = k * 0.55;
+              const px = horseX(tk) + (k % 2 ? 90 : -110) * HSC + 18;
+              const age = t - tk;
+              c.globalAlpha = Math.max(0, 0.9 - age * 0.04);
+              c.beginPath();
+              c.ellipse(px, GROUND + 6 + (k % 2) * 6, 11, 3.5, 0, 0, P.TAU);
+              c.fill();
+              const rpx = horseX(tk) + 150 + (k % 2 ? 10 : -8);
+              c.beginPath();
+              c.ellipse(rpx, GROUND + 22 + (k % 2) * 4, 9, 3, 0, 0, P.TAU);
+              c.fill();
+            }
+            c.globalAlpha = 1;
+            // ombres
+            c.save();
+            c.filter = "blur(5px)";
+            c.fillStyle = "rgba(58,70,118,0.35)";
+            c.beginPath();
+            c.ellipse(hx - 20, GROUND + 6, 170, 14, 0, 0, P.TAU);
+            c.ellipse(rx - 10, GROUND + 24, 60, 9, 0, 0, P.TAU);
+            c.fill();
+            c.restore();
+
+            // cheval
+            fg.clearRect(0, 0, 700, 520);
+            const phase = t / PERIOD;
+            const hm = P.drawHorse(fg, 300, 500, HSC, {
+              walk: phase % 1,
+              stride: STRIDE,
+              head: 0.22 + Math.sin(phase * P.TAU * 2) * 0.03,
+              nod: Math.sin(phase * P.TAU * 2 + 0.6),
+              tail: Math.sin(t * 1.3) * 0.5,
+              wind: 0.6,
+            }, { body: "#4a3226", mane: "#20140f", halter: "#8e2f2a", seed: 8 });
+            P.shadeFigure(fig, { gradient: [0, 220, 0, 500], gradColors: ["rgba(150,100,96,0.10)", "rgba(18,22,52,0.42)"], texture: tex, textureAlpha: 0.38 });
+            P.rimLight(fig, fig, "#ffcdb8", -3, 5, 0.9, 1.6);
+            c.drawImage(fig, hx - 300, GROUND - 500);
+            P.breathPuff(c, hm.muzzle[0] + hx - 300, hm.muzzle[1] + GROUND - 500, t, 2.9, 1, 1.1, 0.75);
+
+            // cavalière (devant, à l'épaule du cheval)
+            fg.clearRect(0, 0, 700, 520);
+            const rm = P.drawRider(fg, 300, 500, 1.3, { walk: (t / 1.1) % 1, stride: 26, armReach: 0.85, lantern: true, wind: 0.5 }, { coat: "#1d2a44", coatLight: "#3b5486", pants: "#1b1d26", scarf: "#a03c36", hat: "#d8cbbd" });
+            P.shadeFigure(fig, { gradient: [0, 260, 0, 500], gradColors: ["rgba(150,110,110,0.06)", "rgba(10,14,40,0.3)"], texture: tex, textureAlpha: 0.3 });
+            P.rimLight(fig, fig, "#ffcdb8", -3, 4, 0.85, 1.4);
+            const ox = rx - 300,
+              oy = GROUND + 18 - 500;
+            // longe : de la main au licol
+            const hand = [rm.hand[0] + ox, rm.hand[1] + oy];
+            const halter = [hm.halter[0] + hx - 300, hm.halter[1] + GROUND - 500];
+            c.drawImage(fig, ox, oy);
+            c.strokeStyle = "#5a1f1c";
+            c.lineWidth = 3.2;
+            c.beginPath();
+            c.moveTo(hand[0], hand[1]);
+            c.quadraticCurveTo((hand[0] + halter[0]) / 2, Math.max(hand[1], halter[1]) + 26, halter[0], halter[1]);
+            c.stroke();
+            // lanterne : halo chaud sur la neige et les silhouettes
+            const lp = [rm.lantern[0] + ox, rm.lantern[1] + oy];
+            const flick = 0.9 + 0.1 * Math.sin(t * 9.1) * Math.sin(t * 5.3);
+            c.save();
+            c.globalCompositeOperation = "lighter";
+            P.glow(c, lp[0], lp[1], 70, "#ffd28a", 0.9 * flick);
+            P.glow(c, lp[0], lp[1], 260, "#ff9c50", 0.32 * flick);
+            c.fillStyle = `rgba(255,170,90,${0.18 * flick})`;
+            c.beginPath();
+            c.ellipse(lp[0] + 10, GROUND + 22, 260, 30, 0, 0, P.TAU);
+            c.fill();
+            c.restore();
+            P.breathPuff(c, ox + 300 + 14 * 1.3, oy + 500 - 196 * 1.3, t + 1.1, 3.1, 1, 0.8, 0.6);
+
+            // étoile du berger, qui pâlit avec le jour
+            const sc = starCan.getContext("2d");
+            sc.clearRect(0, 0, W, H);
+            const day = P.smooth(t / DUR);
+            P.sparkle(sc, 1640, 210, 9, 0.95 - day * 0.4, "#fff6dc");
+            P.glow(sc, 1640, 210, 90, "#fff1c8", 0.4 - day * 0.2);
+
+            fctx.clearRect(0, 0, 1920, 1080);
+            snow.draw(fctx, t, 0.8);
+          }
+
+          // ---------------------------------------------------------- timeline
+          const tl = gsap.timeline({ paused: true });
+          const clock = { t: 0 };
+          tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => drawLiving(clock.t) }, 0);
+          tl.fromTo("#s3-cam", { scale: 1.02 }, { scale: 1.07, duration: DUR, ease: "sine.inOut" }, 0);
+          tl.fromTo("#s3-p0", { x: 0 }, { x: -40, duration: DUR, ease: "none" }, 0);
+          tl.fromTo("#s3-p1", { x: 0 }, { x: -330, duration: DUR, ease: "none" }, 0);
+          tl.fromTo("#s3-p2", { x: 0 }, { x: -620, duration: DUR, ease: "none" }, 0);
+          drawLiving(0);
+          window.__timelines["s3-aube"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

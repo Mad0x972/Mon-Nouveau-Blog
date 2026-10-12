@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Instrument Serif";
+          font-style: italic;
+          font-weight: 400;
+          src: url("../assets/fonts/instrument-serif-latin-400-italic.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 300;
+          src: url("../assets/fonts/montserrat-latin-300-normal.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 500;
+          src: url("../assets/fonts/montserrat-latin-500-normal.woff2") format("woff2");
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #0b1d27;
+        }
+        #s6-cam {
+          position: absolute;
+          inset: 0;
+          transform-origin: 50% 50%;
+        }
+        #s6-cam canvas {
+          position: absolute;
+          left: -96px;
+          top: -54px;
+          width: 2112px;
+          height: 1188px;
+        }
+        #s6-fx {
+          position: absolute;
+          inset: 0;
+          width: 1920px;
+          height: 1080px;
+        }
+        #s6-card {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 250px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 26px;
+          text-align: center;
+        }
+        #s6-noel {
+          font-family: "Instrument Serif", serif;
+          font-style: italic;
+          font-size: 168px;
+          line-height: 1;
+          color: #f7ecd6;
+          text-shadow: 0 0 50px rgba(255, 210, 130, 0.35);
+        }
+        #s6-rule {
+          width: 200px;
+          height: 2px;
+          background: #e2bf78;
+        }
+        #s6-brand {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 500;
+          font-size: 50px;
+          letter-spacing: 0.5em;
+          margin-right: -0.5em;
+          color: #f7ecd6;
+        }
+        #s6-city {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 300;
+          font-size: 24px;
+          letter-spacing: 0.7em;
+          margin-right: -0.7em;
+          color: #e2bf78;
+        }
+        #s6-url {
+          margin-top: 40px;
+          font-family: "Montserrat", sans-serif;
+          font-weight: 300;
+          font-size: 28px;
+          letter-spacing: 0.12em;
+          color: #d8e4e6;
+        }
+      </style>
+
+      <div id="root" data-composition-id="s6-fin" data-width="1920" data-height="1080">
+        <div id="s6-cam" data-layout-allow-overflow></div>
+        <canvas id="s6-fx" width="1920" height="1080" data-layout-allow-overflow></canvas>
+        <div id="s6-card">
+          <div id="s6-noel">Joyeux Noël</div>
+          <div id="s6-rule"></div>
+          <div id="s6-brand">DADA SPORT</div>
+          <div id="s6-city">PARIS</div>
+          <div id="s6-url">dadasport.com</div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const P = window.Painter;
+          const W = 2112,
+            H = 1188;
+          const DUR = 9.2;
+
+          // ---------------------------------------------------------- nuit d'hiver, colline et écurie au loin
+          const base = P.canvas(W, H);
+          const ridge = [];
+          {
+            const c = base.getContext("2d");
+            const R = P.rng(6101);
+            P.vgrad(c, W, H, [
+              [0, "#06141c"],
+              [0.45, "#0e2c38"],
+              [0.75, "#15404a"],
+              [1, "#0c2630"],
+            ]);
+            P.glow(c, 1520, 190, 520, "#d9ef9a", 0.22);
+            for (let i = 0; i < 260; i++) {
+              c.fillStyle = `rgba(240,248,236,${0.15 + 0.55 * R()})`;
+              c.beginPath();
+              c.arc(R() * W, Math.pow(R(), 1.4) * 760, 0.6 + R() * 1.6, 0, P.TAU);
+              c.fill();
+            }
+            c.fillStyle = "#f2e98a";
+            P.starPath(c, 1520, 190, 26, 0.45, -0.18);
+            c.fill();
+            // colline enneigée
+            const n = P.noise2(61);
+            c.fillStyle = "#2c5a64";
+            c.beginPath();
+            c.moveTo(0, H);
+            for (let x = 0; x <= W; x += 12) {
+              const y = 930 - P.fbm(n, x * 0.0016, 0.3, 4) * 120 - Math.sin(x / W * Math.PI) * 60;
+              ridge.push([x, y]);
+              c.lineTo(x, y);
+            }
+            c.lineTo(W, H);
+            c.closePath();
+            c.fill();
+            c.strokeStyle = "rgba(190,230,224,0.6)";
+            c.lineWidth = 5;
+            c.beginPath();
+            ridge.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y)));
+            c.stroke();
+            // petite écurie au loin
+            const [ex, ey] = ridge[Math.round(1620 / 12)];
+            c.fillStyle = "#0b1d24";
+            c.fillRect(ex - 50, ey - 50, 100, 54);
+            c.beginPath();
+            c.moveTo(ex - 62, ey - 46);
+            c.lineTo(ex, ey - 88);
+            c.lineTo(ex + 62, ey - 46);
+            c.closePath();
+            c.fill();
+            c.fillStyle = "#d6ece6";
+            c.beginPath();
+            c.moveTo(ex - 64, ey - 44);
+            c.lineTo(ex, ey - 92);
+            c.lineTo(ex + 64, ey - 44);
+            c.lineTo(ex + 56, ey - 46);
+            c.lineTo(ex, ey - 82);
+            c.lineTo(ex - 56, ey - 46);
+            c.closePath();
+            c.fill();
+            c.fillStyle = "#ff8a4a";
+            c.fillRect(ex - 30, ey - 34, 16, 18);
+            c.fillRect(ex + 12, ey - 34, 16, 18);
+            P.glow(c, ex, ey - 26, 90, "#ff8a4a", 0.35);
+          }
+          const paint = P.brushify(base, {
+            seed: 61,
+            flowAngle: 0,
+            flowSpread: 1.6,
+            passes: [
+              { size: 14, len: 46, density: 1.0, alpha: 0.45, jitter: 10 },
+              { size: 5, len: 18, density: 0.8, alpha: 0.5, jitter: 10 },
+            ],
+          });
+          const cam = document.getElementById("s6-cam");
+          P.mount(cam, paint);
+          const live = P.mount(cam, P.canvas(W, H));
+
+          // ---------------------------------------------------------- vivant
+          const fx = document.getElementById("s6-fx");
+          const fctx = fx.getContext("2d");
+          const snow = P.makeSnow(66, 180, 1920, 1080, { rmin: 1, rmax: 4.5, vmin: 18, vmax: 60, wind: 10, color: "#f2fbf8" });
+          const R = P.rng(6201);
+          const ring = [];
+          for (let i = 0; i < 520; i++) ring.push({ a: R() * P.TAU, r: 0.86 + Math.pow(R(), 2) * 0.3, s: 0.12 + R() * 0.3, sz: 1 + Math.pow(R(), 3) * 4.5, ph: R() * 6, star: R() < 0.05 });
+          const fig = P.canvas(240, 160);
+          const fg = fig.getContext("2d");
+
+          function drawLiving(t) {
+            const c = live.getContext("2d");
+            c.clearRect(0, 0, W, H);
+            // la cavalière et son cheval s'éloignent sur la crête
+            const u = t / DUR;
+            const x = P.lerp(560, 760, u);
+            const k = Math.round(x / 12);
+            const y = ridge[k][1] + 2;
+            fg.clearRect(0, 0, 240, 160);
+            P.drawHorse(fg, 130, 150, 0.34, { walk: (t / 2.4) % 1, stride: 40, head: 0.25, tail: Math.sin(t) * 0.5 }, { body: "#071419", mane: "#071419", eye: false });
+            P.drawRider(fg, 182, 154, 0.36, { walk: (t / 1.2) % 1, stride: 24, armReach: 0.8, lantern: true }, { coat: "#071419", pants: "#071419", boots: "#071419", skin: "#071419", hair: "#071419", hat: "#071419", scarf: "#071419", glove: "#071419" });
+            c.drawImage(fig, x - 130, y - 150);
+            c.save();
+            c.globalCompositeOperation = "lighter";
+            P.glow(c, x + 182 - 130 - 30 * 0.36, y - 150 + 154 - 85 * 0.36, 40, "#ffb766", 0.7);
+            c.restore();
+
+            // anneau doré qui se forme autour du texte
+            fctx.clearRect(0, 0, 1920, 1080);
+            const form = P.smooth((t - 0.4) / 2.2);
+            fctx.save();
+            fctx.globalCompositeOperation = "lighter";
+            for (const p of ring) {
+              const a = p.a + t * p.s;
+              const rr = P.lerp(1.6, 1, form) * p.r;
+              const px = 960 + Math.cos(a) * 640 * rr;
+              const py = 470 + Math.sin(a) * 300 * rr;
+              const tw = 0.5 + 0.5 * Math.sin(p.ph + t * 2.4);
+              const al = form * tw * 0.85;
+              if (al < 0.03) continue;
+              P.glow(fctx, px, py, p.sz * 4, "#ffc864", al * 0.7);
+              fctx.fillStyle = `rgba(255,248,226,${al})`;
+              fctx.beginPath();
+              fctx.arc(px, py, p.sz * 0.5, 0, P.TAU);
+              fctx.fill();
+              if (p.star) P.sparkle(fctx, px, py, p.sz * 1.5, al, "#fff6dc");
+            }
+            fctx.restore();
+            snow.draw(fctx, t, 0.85);
+          }
+
+          // ---------------------------------------------------------- timeline
+          const tl = gsap.timeline({ paused: true });
+          const clock = { t: 0 };
+          tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => drawLiving(clock.t) }, 0);
+          tl.fromTo("#s6-cam", { scale: 1.06 }, { scale: 1.0, duration: DUR, ease: "sine.out" }, 0);
+          tl.fromTo("#s6-noel", { opacity: 0, y: 30, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.8, ease: "power2.out" }, 1.1);
+          tl.fromTo("#s6-rule", { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power3.inOut" }, 2.3);
+          tl.fromTo("#s6-brand", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" }, 2.6);
+          tl.fromTo("#s6-city", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power1.out" }, 3.1);
+          tl.fromTo("#s6-url", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1.0, ease: "power2.out" }, 3.9);
+          drawLiving(0);
+          window.__timelines["s6-fin"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

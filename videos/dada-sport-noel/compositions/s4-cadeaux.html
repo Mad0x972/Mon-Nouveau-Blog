@@ -1,0 +1,548 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <template>
+      <style>
+        @font-face {
+          font-family: "Instrument Serif";
+          font-style: italic;
+          font-weight: 400;
+          src: url("../assets/fonts/instrument-serif-latin-400-italic.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 300;
+          src: url("../assets/fonts/montserrat-latin-300-normal.woff2") format("woff2");
+        }
+        @font-face {
+          font-family: "Montserrat";
+          font-style: normal;
+          font-weight: 500;
+          src: url("../assets/fonts/montserrat-latin-500-normal.woff2") format("woff2");
+        }
+        #root {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          background: #1c120d;
+        }
+        #s4-cam {
+          position: absolute;
+          inset: 0;
+          transform-origin: 74% 80%;
+        }
+        #s4-cam canvas {
+          position: absolute;
+          left: -96px;
+          top: -54px;
+          width: 2112px;
+          height: 1188px;
+        }
+        #s4-dim {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse 70% 80% at 32% 50%, rgba(28, 18, 12, 0.35) 0%, rgba(14, 9, 6, 0.86) 100%);
+          opacity: 0;
+        }
+        .s4-prod {
+          position: absolute;
+          left: 250px;
+          top: 170px;
+          width: 740px;
+          height: 740px;
+          opacity: 0;
+        }
+        .s4-text {
+          position: absolute;
+          left: 1060px;
+          top: 0;
+          bottom: 0;
+          width: 760px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 22px;
+          opacity: 0;
+        }
+        .s4-kicker {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 500;
+          font-size: 22px;
+          letter-spacing: 0.4em;
+          text-transform: uppercase;
+          color: #e2bf78;
+        }
+        .s4-name {
+          font-family: "Instrument Serif", serif;
+          font-style: italic;
+          font-size: 132px;
+          line-height: 1;
+          color: #f7ecd6;
+        }
+        .s4-rule {
+          transform-origin: left center;
+          width: 160px;
+          height: 2px;
+          background: #e2bf78;
+        }
+        .s4-desc {
+          font-family: "Montserrat", sans-serif;
+          font-weight: 300;
+          font-size: 36px;
+          line-height: 1.35;
+          color: #efe2cb;
+          max-width: 640px;
+        }
+        #s4-fx {
+          position: absolute;
+          inset: 0;
+          width: 1920px;
+          height: 1080px;
+        }
+      </style>
+
+      <div id="root" data-composition-id="s4-cadeaux" data-width="1920" data-height="1080">
+        <div id="s4-cam" data-layout-allow-overflow></div>
+        <div id="s4-dim"></div>
+        <canvas id="s4-fx" width="1920" height="1080" data-layout-allow-overflow></canvas>
+        <div class="s4-text" id="s4-t1">
+          <div class="s4-kicker">Dada Sport · Paris — 01</div>
+          <div class="s4-name">Tinka</div>
+          <div class="s4-rule"></div>
+          <div class="s4-desc">Doudoune imperméable, pour les matins gelés.</div>
+        </div>
+        <div class="s4-text" id="s4-t2">
+          <div class="s4-kicker">Dada Sport · Paris — 02</div>
+          <div class="s4-name">Giovani Winter</div>
+          <div class="s4-rule"></div>
+          <div class="s4-desc">Pantalon d’équitation doublé polaire, grip aux genoux.</div>
+        </div>
+        <div class="s4-text" id="s4-t3">
+          <div class="s4-kicker">Dada Sport · Paris — 03</div>
+          <div class="s4-name">New Tzara</div>
+          <div class="s4-rule"></div>
+          <div class="s4-desc">Veste de concours, coloris Orage.</div>
+        </div>
+      </div>
+
+      <script>
+        (function () {
+          const P = window.Painter;
+          const W = 2112,
+            H = 1188;
+          const DUR = 19.7;
+          const TX = 1500,
+            TBASE = 1010,
+            TH = 780; // sapin
+          const GIFT = { x: 1330, y: 948, w: 150, h: 96 };
+          const SHOW = [4.9, 9.0, 13.1]; // apparition de chaque pièce
+          const PC = [620, 540]; // centre des pièces à l'écran
+
+          // ---------------------------------------------------------- décor : intérieur de l'écurie
+          const base = P.canvas(W, H);
+          const ornaments = [];
+          {
+            const c = base.getContext("2d");
+            const R = P.rng(4101);
+            // mur de planches
+            for (let x = 0; x < W; x += 64) {
+              c.fillStyle = P.mix("#5a3a28", "#3f281c", R());
+              c.fillRect(x, 0, 64, H);
+              c.fillStyle = "rgba(20,10,6,0.6)";
+              c.fillRect(x, 0, 3, H);
+              for (let k = 0; k < 6; k++) {
+                c.strokeStyle = "rgba(30,18,10,0.35)";
+                c.lineWidth = 1.5;
+                c.beginPath();
+                const y = R() * H;
+                c.moveTo(x + 8 + R() * 50, y);
+                c.quadraticCurveTo(x + 30, y + 40, x + 10 + R() * 50, y + 120);
+                c.stroke();
+              }
+            }
+            const g = c.createLinearGradient(0, 0, 0, H);
+            g.addColorStop(0, "rgba(16,9,6,0.75)");
+            g.addColorStop(0.45, "rgba(16,9,6,0.1)");
+            g.addColorStop(1, "rgba(16,9,6,0.4)");
+            c.fillStyle = g;
+            c.fillRect(0, 0, W, H);
+            // poutre
+            c.fillStyle = "#2a1a12";
+            c.fillRect(0, 120, W, 54);
+            c.fillStyle = "rgba(255,200,140,0.12)";
+            c.fillRect(0, 168, W, 6);
+            // fenêtre sur la nuit enneigée
+            c.fillStyle = "#24170f";
+            c.fillRect(210, 250, 340, 360);
+            const wg = c.createLinearGradient(0, 270, 0, 590);
+            wg.addColorStop(0, "#1c2e4f");
+            wg.addColorStop(1, "#4a6a92");
+            c.fillStyle = wg;
+            c.fillRect(230, 270, 300, 320);
+            for (let i = 0; i < 120; i++) {
+              c.fillStyle = `rgba(235,242,255,${0.4 + 0.5 * R()})`;
+              c.beginPath();
+              c.arc(230 + R() * 300, 270 + R() * 320, 0.8 + R() * 2.2, 0, P.TAU);
+              c.fill();
+            }
+            c.fillStyle = "#e8eef6";
+            c.beginPath();
+            c.moveTo(230, 590);
+            c.quadraticCurveTo(380, 560, 530, 590);
+            c.fill();
+            c.fillStyle = "#24170f";
+            c.fillRect(374, 270, 12, 320);
+            c.fillRect(230, 424, 300, 12);
+            // lumière froide de la fenêtre au sol
+            c.fillStyle = "rgba(90,130,190,0.10)";
+            c.beginPath();
+            c.moveTo(230, 600);
+            c.lineTo(530, 600);
+            c.lineTo(760, 1188);
+            c.lineTo(150, 1188);
+            c.closePath();
+            c.fill();
+            // box du cheval
+            c.fillStyle = "#2c1b12";
+            c.fillRect(640, 380, 330, 640);
+            c.fillStyle = "#170e09";
+            c.fillRect(670, 420, 270, 250);
+            P.glow(c, 805, 520, 160, "#7a4a2a", 0.4);
+            c.fillStyle = "#4a3022";
+            c.fillRect(660, 670, 290, 350);
+            c.strokeStyle = "#24160e";
+            c.lineWidth = 6;
+            c.strokeRect(660, 670, 290, 350);
+            c.beginPath();
+            c.moveTo(660, 670);
+            c.lineTo(950, 1020);
+            c.moveTo(950, 670);
+            c.lineTo(660, 1020);
+            c.stroke();
+            // sol de paille
+            const fg = c.createLinearGradient(0, 960, 0, H);
+            fg.addColorStop(0, "#6e4e2a");
+            fg.addColorStop(1, "#3d2a17");
+            c.fillStyle = fg;
+            c.fillRect(0, 1000, W, H);
+            for (let i = 0; i < 1600; i++) {
+              const x = R() * W,
+                y = 990 + R() * 200;
+              c.strokeStyle = P.rgba(P.mix("#c79a52", "#8a6430", R()), 0.6);
+              c.lineWidth = 1 + R() * 1.5;
+              c.beginPath();
+              c.moveTo(x, y);
+              const a = (R() - 0.5) * 0.9;
+              c.lineTo(x + Math.cos(a) * 26, y + Math.sin(a) * 10);
+              c.stroke();
+            }
+            // ballots de foin
+            [
+              [40, 860, 250, 150],
+              [120, 740, 220, 130],
+            ].forEach(([x, y, w, h]) => {
+              c.fillStyle = "#a07a3e";
+              c.fillRect(x, y, w, h);
+              for (let i = 0; i < 220; i++) {
+                c.strokeStyle = P.rgba(P.mix("#d8b06a", "#7a5a2a", R()), 0.7);
+                c.lineWidth = 1.2;
+                c.beginPath();
+                const px = x + R() * w,
+                  py = y + R() * h;
+                c.moveTo(px, py);
+                c.lineTo(px + (R() - 0.5) * 30, py + (R() - 0.5) * 8);
+                c.stroke();
+              }
+              c.strokeStyle = "#5a3a1a";
+              c.lineWidth = 4;
+              c.beginPath();
+              c.moveTo(x, y + h * 0.3);
+              c.lineTo(x + w, y + h * 0.3);
+              c.moveTo(x, y + h * 0.7);
+              c.lineTo(x + w, y + h * 0.7);
+              c.stroke();
+            });
+            // halo chaud derrière le sapin
+            P.glow(c, TX, 640, 900, "#ffb766", 0.35);
+            // sapin
+            const tiers = 11;
+            for (let i = 0; i < tiers; i++) {
+              const t = i / tiers;
+              const ty = TBASE - TH * t * 0.92;
+              const tw = 560 * (1 - t) + 40;
+              const th = (TH / tiers) * 2.0;
+              c.fillStyle = P.mix("#173a2e", "#2f5e45", 0.25 + t * 0.4);
+              c.beginPath();
+              c.moveTo(TX - tw / 2, ty);
+              for (let k = 0; k <= 10; k++) c.lineTo(TX - tw / 2 + (tw * k) / 10, ty + (k % 2 ? 14 : -4));
+              c.lineTo(TX, ty - th);
+              c.closePath();
+              c.fill();
+              c.fillStyle = "rgba(255,190,110,0.14)";
+              c.beginPath();
+              c.moveTo(TX - tw * 0.1, ty - th * 0.2);
+              c.lineTo(TX + tw * 0.45, ty);
+              c.lineTo(TX, ty - th);
+              c.closePath();
+              c.fill();
+              // boules
+              const nb = Math.round(5 * (1 - t)) + 1;
+              for (let k = 0; k < nb; k++) {
+                const u = (k + 0.5) / nb;
+                ornaments.push({ x: TX - tw * 0.42 + tw * 0.84 * u, y: ty - 6 - R() * 14, r: 9 + R() * 8, col: ["#d8a645", "#9e2c2a", "#e9d3a0", "#7b1f2a"][(i + k) % 4] });
+              }
+            }
+            ornaments.forEach((o) => {
+              c.fillStyle = o.col;
+              c.beginPath();
+              c.arc(o.x, o.y, o.r, 0, P.TAU);
+              c.fill();
+              c.fillStyle = "rgba(255,240,210,0.6)";
+              c.beginPath();
+              c.arc(o.x - o.r * 0.35, o.y - o.r * 0.35, o.r * 0.3, 0, P.TAU);
+              c.fill();
+            });
+            // étoile au sommet (écho de la grande étoile)
+            c.fillStyle = "#f4e27a";
+            P.starPath(c, TX, TBASE - TH * 0.97, 34, 0.45, 0);
+            c.fill();
+            // cadeaux
+            [
+              [1190, 960, 130, 80, "#1d2a44", "#d9b25f"],
+              [1560, 970, 170, 100, "#e8dcc4", "#9e2c2a"],
+              [1720, 950, 110, 120, "#2f5e57", "#e8d39a"],
+              [1630, 1000, 120, 70, "#7b1f2a", "#e8d39a"],
+            ].forEach(([x, y, w, h, col, rib]) => {
+              c.fillStyle = col;
+              c.fillRect(x, y + (100 - h), w, h);
+              c.fillStyle = rib;
+              c.fillRect(x + w / 2 - 7, y + (100 - h), 14, h);
+              c.fillRect(x, y + (100 - h) + h / 2 - 6, w, 12);
+            });
+            // boîte principale (sans couvercle : le couvercle est animé)
+            c.fillStyle = "#1d2a44";
+            c.fillRect(GIFT.x, GIFT.y, GIFT.w, GIFT.h);
+            c.fillStyle = "#d9b25f";
+            c.fillRect(GIFT.x + GIFT.w / 2 - 8, GIFT.y, 16, GIFT.h);
+            // poutre-lanterne
+            c.strokeStyle = "#1a100a";
+            c.lineWidth = 3;
+            c.beginPath();
+            c.moveTo(1040, 174);
+            c.lineTo(1040, 250);
+            c.stroke();
+            c.fillStyle = "#1a100a";
+            c.fillRect(1020, 248, 40, 8);
+            c.fillStyle = "#ffcf7a";
+            c.fillRect(1024, 256, 32, 44);
+            c.fillStyle = "#1a100a";
+            c.fillRect(1020, 298, 40, 8);
+            P.glow(c, 1040, 280, 320, "#ffb766", 0.4);
+          }
+          const paint = P.brushify(base, {
+            seed: 41,
+            flowAngle: -Math.PI / 2,
+            flowSpread: 1.2,
+            passes: [
+              { size: 10, len: 34, density: 1.0, alpha: 0.45, jitter: 10 },
+              { size: 4, len: 15, density: 0.9, alpha: 0.5, jitter: 12 },
+              { size: 2, len: 7, density: 0.6, alpha: 0.6, jitter: 12, edge: 24 },
+            ],
+          });
+          const cam = document.getElementById("s4-cam");
+          P.mount(cam, paint);
+          const blurred = P.canvas(W, H);
+          {
+            const c = blurred.getContext("2d");
+            c.filter = "blur(9px)";
+            c.drawImage(paint, 0, 0);
+            c.filter = "none";
+          }
+          const blurLayer = P.mount(cam, blurred);
+          blurLayer.id = "s4-blur";
+          blurLayer.style.opacity = "0";
+          const live = P.mount(cam, P.canvas(W, H));
+
+          // ---------------------------------------------------------- pièces dessinées
+          const prods = [Products.tinka(), Products.giovani(), Products.tzara()];
+          const prodEls = prods.map((cnv, i) => {
+            cnv.className = "s4-prod";
+            cnv.id = "s4-prod" + (i + 1);
+            document.getElementById("root").insertBefore(cnv, document.getElementById("s4-fx"));
+            return cnv;
+          });
+
+          // ---------------------------------------------------------- vivant
+          const fx = document.getElementById("s4-fx");
+          const fctx = fx.getContext("2d");
+          const tex = P.paperTexture(360, 300, 14);
+          const hcan = P.canvas(360, 300);
+          const hctx = hcan.getContext("2d");
+          const R = P.rng(4401);
+          const lights = [];
+          for (let i = 0; i < 70; i++) {
+            const t = Math.pow(R(), 0.8);
+            const ty = TBASE - TH * 0.9 * t;
+            const tw = (560 * (1 - t) + 40) * 0.92;
+            lights.push({ x: TX + (R() - 0.5) * tw, y: ty - R() * 30, ph: R() * 6, f: 1 + R() * 2 });
+          }
+          const sw = [];
+          for (let i = 0; i < 240; i++) sw.push({ a: R() * P.TAU, r: 380 + R() * 260, tx: (R() - 0.5) * 420, ty: (R() - 0.5) * 560, sz: 1 + R() * 3, d: R() * 0.25, ph: R() * 6 });
+          const motes = [];
+          for (let i = 0; i < 90; i++) motes.push({ x: R() * W, y: R() * H, v: 4 + R() * 10, ph: R() * 6 });
+
+          function drawLiving(t) {
+            const c = live.getContext("2d");
+            c.clearRect(0, 0, W, H);
+            const showing = P.smooth((t - 4.3) / 0.9) - P.smooth((t - 17.8) / 0.8) * 0.6;
+            // guirlande du sapin
+            c.save();
+            c.globalCompositeOperation = "lighter";
+            for (const l of lights) {
+              const tw = 0.55 + 0.45 * Math.sin(l.ph + t * l.f);
+              P.glow(c, l.x, l.y, 26, "#ffcf7a", 0.55 * tw);
+              c.fillStyle = `rgba(255,244,214,${0.9 * tw})`;
+              c.beginPath();
+              c.arc(l.x, l.y, 3, 0, P.TAU);
+              c.fill();
+            }
+            const flick = 0.92 + 0.08 * Math.sin(t * 8.3) * Math.sin(t * 3.7);
+            P.glow(c, 1040, 280, 160, "#ffcf7a", 0.35 * flick);
+            // poussières dans la lumière
+            for (const m of motes) {
+              const y = (m.y - m.v * t + H) % H;
+              const x = m.x + Math.sin(t * 0.4 + m.ph) * 20;
+              c.fillStyle = `rgba(255,230,180,${0.25 + 0.2 * Math.sin(t + m.ph)})`;
+              c.fillRect(x, y, 2, 2);
+            }
+            c.restore();
+
+            // couvercle du cadeau qui se soulève + lumière
+            const lift = P.smooth((t - 2.0) / 1.6);
+            c.globalAlpha = 1 - showing * 0.85;
+            c.save();
+            c.translate(GIFT.x + GIFT.w / 2, GIFT.y - lift * 70);
+            c.rotate(-lift * 0.35);
+            c.fillStyle = "#26365a";
+            c.fillRect(-GIFT.w / 2 - 8, -22, GIFT.w + 16, 26);
+            c.fillStyle = "#d9b25f";
+            c.fillRect(-9, -22, 18, 26);
+            c.beginPath();
+            c.ellipse(-22, -30, 22, 12, -0.4, 0, P.TAU);
+            c.ellipse(22, -30, 22, 12, 0.4, 0, P.TAU);
+            c.fill();
+            c.restore();
+            if (lift > 0) {
+              c.save();
+              c.globalCompositeOperation = "lighter";
+              const beam = c.createLinearGradient(0, GIFT.y, 0, GIFT.y - 700);
+              beam.addColorStop(0, `rgba(255,214,130,${0.55 * lift})`);
+              beam.addColorStop(1, "rgba(255,214,130,0)");
+              c.fillStyle = beam;
+              c.filter = "blur(18px)";
+              c.beginPath();
+              c.moveTo(GIFT.x + 10, GIFT.y);
+              c.lineTo(GIFT.x + GIFT.w - 10, GIFT.y);
+              c.lineTo(GIFT.x + GIFT.w + 140, GIFT.y - 700);
+              c.lineTo(GIFT.x - 140, GIFT.y - 700);
+              c.closePath();
+              c.fill();
+              c.filter = "none";
+              P.glow(c, GIFT.x + GIFT.w / 2, GIFT.y, 200, "#ffd98a", 0.7 * lift);
+              for (let i = 0; i < 60; i++) {
+                const k = ((t - 2.0) * 0.35 + i / 60) % 1;
+                const px = GIFT.x + GIFT.w / 2 + Math.sin(i * 7.1 + t) * (30 + k * 140);
+                const py = GIFT.y - k * 620;
+                c.fillStyle = `rgba(255,236,190,${(1 - k) * lift})`;
+                c.beginPath();
+                c.arc(px, py, 1.5 + (i % 3), 0, P.TAU);
+                c.fill();
+              }
+              c.restore();
+            }
+            c.globalAlpha = 1;
+
+            // cheval gris qui regarde par-dessus la porte du box
+            hctx.clearRect(0, 0, 360, 300);
+            const look = P.smooth((t - 2.4) / 1.5);
+            P.drawHorse(hctx, 280, 400, 0.95, { head: 0.12 - look * 0.12, nod: Math.sin(t * 0.9) * 0.5, earFlick: P.smooth((t - 6) / 0.3) - P.smooth((t - 6.6) / 0.3) }, { body: "#a7a29c", mane: "#4d4a48", blaze: "rgba(240,236,228,0.6)", seed: 9 }, true);
+            P.shadeFigure(hcan, { gradient: [0, 0, 360, 0], gradColors: ["rgba(255,190,120,0.25)", "rgba(30,20,14,0.45)"], texture: tex, textureAlpha: 0.35 });
+            c.save();
+            c.globalAlpha = 1 - showing;
+            c.beginPath();
+            c.rect(560, 300, 380, 372);
+            c.clip();
+            c.drawImage(hcan, 600, 300);
+            c.restore();
+
+            // particules des pièces
+            fctx.clearRect(0, 0, 1920, 1080);
+            fctx.save();
+            fctx.globalCompositeOperation = "lighter";
+            SHOW.forEach((s0, idx) => {
+              const u = (t - s0 + 0.3) / 1.1; // convergence
+              const out = (t - (idx < 2 ? SHOW[idx + 1] - 0.5 : 17.6)) / 0.8; // dispersion
+              for (const p of sw) {
+                let x, y, a;
+                if (u > 0 && u < 1) {
+                  const e = P.smooth(Math.max(0, u - p.d) / (1 - p.d));
+                  const ang = p.a + (1 - e) * 2.4;
+                  x = PC[0] + Math.cos(ang) * p.r * (1 - e) + p.tx * e;
+                  y = PC[1] + Math.sin(ang) * p.r * (1 - e) + p.ty * e;
+                  a = Math.sin(e * Math.PI) * 0.9 + 0.1;
+                } else if (out > 0 && out < 1) {
+                  const e = P.smooth(out);
+                  x = PC[0] + p.tx * (1 + e * 1.4) + Math.cos(p.a) * e * 120;
+                  y = PC[1] + p.ty * (1 + e * 1.4) - e * 160;
+                  a = (1 - e) * 0.8;
+                } else continue;
+                P.glow(fctx, x, y, p.sz * 5, "#ffca6a", a * 0.6);
+                fctx.fillStyle = `rgba(255,246,220,${a})`;
+                fctx.fillRect(x - p.sz / 2, y - p.sz / 2, p.sz, p.sz);
+              }
+              // scintillements pendant la présentation
+              const hold0 = s0 + 0.6,
+                hold1 = idx < 2 ? SHOW[idx + 1] - 0.5 : 17.6;
+              if (t > hold0 && t < hold1) {
+                const k = Math.min(1, (t - hold0) / 0.6, (hold1 - t) / 0.4);
+                for (let i = 0; i < 16; i++) {
+                  const p = sw[i * 7];
+                  const tw = Math.max(0, Math.sin(t * 2.2 + p.ph * 3));
+                  P.sparkle(fctx, PC[0] + p.tx * 0.9, PC[1] + p.ty * 0.75, 5 + p.sz * 2, k * tw * 0.9, "#fff3d6");
+                }
+              }
+            });
+            fctx.restore();
+          }
+
+          // ---------------------------------------------------------- timeline
+          const tl = gsap.timeline({ paused: true });
+          const clock = { t: 0 };
+          tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: () => drawLiving(clock.t) }, 0);
+          tl.fromTo("#s4-cam", { scale: 1.0 }, { scale: 1.1, duration: 4.6, ease: "power1.inOut" }, 0);
+          tl.to("#s4-cam", { scale: 1.16, duration: DUR - 4.6, ease: "none" }, 4.6);
+          tl.fromTo("#s4-dim", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.inOut" }, 4.3);
+          tl.fromTo("#s4-blur", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.inOut" }, 4.3);
+          tl.to("#s4-dim", { opacity: 0.55, duration: 0.8, ease: "power2.inOut" }, 17.8);
+          SHOW.forEach((s0, i) => {
+            const end = i < 2 ? SHOW[i + 1] - 0.5 : 17.6;
+            const pid = "#s4-prod" + (i + 1),
+              tid = "#s4-t" + (i + 1);
+            tl.fromTo(pid, { opacity: 0, scale: 0.9, filter: "blur(12px) brightness(1.8)" }, { opacity: 1, scale: 1, filter: "blur(0px) brightness(1)", duration: 0.9, ease: "power2.out" }, s0);
+            tl.fromTo(pid, { y: 0 }, { y: -14, duration: end - s0, ease: "sine.inOut" }, s0);
+            tl.to(pid, { opacity: 0, scale: 1.05, filter: "blur(10px) brightness(1.6)", duration: 0.5, ease: "power2.in" }, end);
+            tl.fromTo(tid, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }, s0 + 0.3);
+            tl.fromTo(tid + " .s4-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, s0 + 0.5);
+            tl.to(tid, { opacity: 0, x: -24, duration: 0.45, ease: "power2.in" }, end);
+          });
+          drawLiving(0);
+          window.__timelines["s4-cadeaux"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
