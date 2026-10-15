@@ -1,0 +1,25 @@
+Les messages à faire passer
+
+Pour des entreprises (installateurs, sociétés de maintenance, exploitants), classe-les par impact :
+
+Gain de temps : moins d’administratif après chaque intervention
+Rapport pro immédiat : une preuve d’intervention propre à remettre au client
+Traçabilité : historique par site/installation, rien ne se perd
+Fiable sur le terrain : simple à utiliser, même sans aucun réseau
+Équipe alignée : techniciens et bureau voient la même information grâce à l'export facile sur drive partagé, téléchargement ou envoi par mail
+Prise en main rapide : pas de formation lourde
+
+Un seul message par scène. Une vidéo qui en dit trop n’en fait retenir aucun.
+
+Timeline (≈ 60 s)
+Temps	Visuel motion design	Voix off / texte à l’écran
+0–5 s Accroche	Un toit de panneaux solaires, une pile de papiers qui s’envole	« Une intervention photovoltaïque, c’est 2 heures sur le toit… et 2 heure de paperasse. »
+5–15 s Problème	Icônes qui se désorganisent : feuilles, photos perdues, SMS, tableur	« Fiches papier, photos dispersées, rapports en retard : vos équipes perdent du temps, et vos clients attendent. »
+15–22 s Bascule	Tout se range d’un coup, le logo Ohmnia PV apparaît	« Ohmnia PV : l’application de maintenance photovoltaïque pensée pour les pros. »
+22–30 s Bénéfice 1	Écran de l’app animé : checklist d’intervention cochée, photos ajoutées	« Le technicien saisit tout sur place, en quelques gestes. »
+30–38 s Bénéfice 2	Le signe et le rapport se génère, glisse vers un e-mail client	« Le rapport est prêt à la fin de l’intervention. Plus de saisie le soir. »
+38–46 s Bénéfice 3	Carte/liste des sites avec historique qui se déroule	« Chaque site garde son historique : interventions, photos, suivi. Tout est retrouvable. »
+46–54 s Temps gagné, rapports envoyés	« Moins d’administratif, plus d’interventions, une image plus professionnelle. »
+54–60 s Appel à l’action	Logo + bouton + URL	« Ohmnia PV Pro. Essayez-le dès maintenant. » + URL du site ohmnia.fr
+
+(Site indiqué par l'utilisateur : ohmniapv.fr)

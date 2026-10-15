@@ -1,0 +1,5 @@
+node_modules/
+.hyperframes/artifacts/
+.hyperframes/frame-packets/
+.thumbnails/
+*.log
