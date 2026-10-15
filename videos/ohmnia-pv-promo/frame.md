@@ -153,7 +153,7 @@ jour ». Un message par scène, un titre court qui domine, le téléphone ou le 
 Never invent figures as claims. Aucune statistique ni promesse chiffrée inventée (pas de « −40 % »,
 pas de « 500 clients ») : le seul chiffre-argument est « 2 heures » / « 2 h » (script utilisateur).
 Les données de démonstration affichées DANS l'interface (valeurs de relevés, dates d'interventions,
-noms de sites « (démo) ») sont du contenu d'UI, autorisé, et reprennent autant que possible les
+noms de sites, sans mention « (démo) » à l'écran) sont du contenu d'UI, autorisé, et reprennent autant que possible les
 valeurs des captures (9,53 kW, 4,29 kW, 236,4 V, 18,2 A, 45 MΩ, 850 W/m², 24 °C, 48 °C,
 5 anomalies, 6 pages, 251 Ko, 15/10/2026).
 

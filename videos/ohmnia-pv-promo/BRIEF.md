@@ -61,7 +61,9 @@ Messages à faire passer, classés par impact (verbatim utilisateur) :
 - Format, URL et rendu : questions posées, non répondues → défauts recommandés appliqués (16:9,
   ohmniapv.fr, rendu direct).
 - Données affichées : uniquement des données de démo cohérentes avec les captures (Maison Durand,
-  Ferme du Moulin…), aucune donnée client réelle.
+  Ferme du Moulin…), aucune donnée client réelle. Demande utilisateur : aucune mention « (démo) »
+  visible à l'écran ; « Technicien démo » remplacé par « Julien M. » sur le rapport ; eyebrow de la
+  scène 1 = « INTERVENTION DE MAINTENANCE ».
 - Structure finale : 7 compositions (le problème et la bascule sont fusionnés dans
   `02-chaos-bascule.html` pour un rangement du chaos sans coupure), 8 temps de la timeline conservés.
 - Reconstruire : `python tools/sound.py assets/audio` (musique + bruitages), placements dans

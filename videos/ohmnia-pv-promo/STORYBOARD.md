@@ -53,7 +53,7 @@ Adapt : les deux temps de phrase se construisent (le titre est l'argument) ; le 
 décor : le jour devient nuit pile dans la pause de la voix.
 Scene 1 (0.0–2.1s): plein jour (palette froide bleutée, soleil orange seul accent chaud) ; maison au toit
 de panneaux PV centre-droit (~40 % du cadre, 3 plans : ciel / maison / collines) monte en place ; les
-panneaux s'allument en vague, un reflet balaie le toit ; pilule « INTERVENTION PHOTOVOLTAÏQUE ».
+panneaux s'allument en vague, un reflet balaie le toit ; pilule « INTERVENTION DE MAINTENANCE ».
 Scene 2 (2.1–3.3s): sur « deux heures sur le toit », horloge (aiguilles qui tournent de 2 h) + « 2 h sur
 le toit… » mot à mot, « 2 h » en orange.
 Scene 3 (3.3–3.8s): pause de la voix : le soleil plonge derrière la colline, nuit navy, étoiles,

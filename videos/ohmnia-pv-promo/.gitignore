@@ -12,3 +12,4 @@ renders/*
 !renders/ohmnia-pv-promo.mp4
 .hyperframes/*-lock/
 !renders/planche-contact.jpg
+.hyperframes/history-turn.json
