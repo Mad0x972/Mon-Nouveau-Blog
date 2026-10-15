@@ -42,12 +42,12 @@ Messages à faire passer, classés par impact (verbatim utilisateur) :
 
 ## Customizations
 
-- Voix off : Google TTS (Gemini) ou Flora demandés par l'utilisateur. Indisponibles dans cet environnement
-  (pas de clé, hôtes bloqués) → piste voix laissée vide pour l'instant ; on régénère quand une clé
-  `GEMINI_API_KEY` est disponible (nouvelle session) ou quand l'utilisateur fournit le fichier audio.
+- Voix off : Google Gemini TTS, voix « Charon » choisie par l'utilisateur parmi 4 échantillons
+  (Sulafat, Kore, Achird, Charon). Modèle gemini-3.8-flash-tts (ligne 7 : gemini-3.8-flash-lite-tts,
+  quota gratuit de 10 requêtes/jour atteint). Fichiers : assets/voice/voix-ligne-1..8.mp3 (-16 LUFS).
   La voix locale Kokoro a été refusée (« la voix ne va pas du tout »).
-- Musique : bed original synthétisé localement (aucune bibliothèque musicale accessible), énergie
-  montante, cuts calés sur la grille.
+- Musique : bed original synthétisé localement (tools/sound.py ; Lyria indisponible sur le palier
+  gratuit, aucune bibliothèque musicale accessible), énergie montante, cuts calés sur la grille.
 - Bruitages : synthétisés localement (whoosh, pop, coche, notification e-mail).
 - Vidéo : uniquement HyperFrames (consigne utilisateur).
 
@@ -62,3 +62,8 @@ Messages à faire passer, classés par impact (verbatim utilisateur) :
   ohmniapv.fr, rendu direct).
 - Données affichées : uniquement des données de démo cohérentes avec les captures (Maison Durand,
   Ferme du Moulin…), aucune donnée client réelle.
+- Structure finale : 7 compositions (le problème et la bascule sont fusionnés dans
+  `02-chaos-bascule.html` pour un rangement du chaos sans coupure), 8 temps de la timeline conservés.
+- Reconstruire : `python tools/sound.py assets/audio` (musique + bruitages), placements dans
+  `audio_cues.json`, puis `tools/build.sh` (assemblage → transitions → carve de la musique sous la
+  voix) et `npx hyperframes render --quality high --output renders/ohmnia-pv-promo.mp4`.

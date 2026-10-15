@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "preferences": {
+    "voice": {
+      "value": "gemini:Charon",
+      "confirmed_in": [
+        "ohmnia-pv-promo"
+      ],
+      "updated_at": "2026-10-15T01:51:03.917Z"
+    }
+  },
+  "sightings": {}
+}

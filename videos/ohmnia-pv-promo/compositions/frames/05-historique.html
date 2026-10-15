@@ -1,0 +1,209 @@
+<template>
+  <style>
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Medium.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Black.woff2") format("woff2");}
+
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #f05-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 70% 45%, #EAF1FB 0%, #F5F7FB 65%); }
+
+    #f05-copy { position: absolute; left: 120px; top: 96px; width: 800px; }
+    .f05-eyebrow { display: inline-block; padding: 10px 22px; border-radius: 100px; font-family: "Inter Display", sans-serif; font-weight: 700; font-size: 24px;
+      letter-spacing: 0.12em; color: #0151A2; background: rgba(1, 81, 162, 0.08); border: 1.5px solid rgba(1, 81, 162, 0.22); white-space: nowrap; }
+    .f05-accent { width: 72px; height: 6px; border-radius: 3px; background: #FB9500; margin-top: 26px; transform-origin: left center; }
+    .f05-h { margin-top: 16px; font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 80px; line-height: 1.02; letter-spacing: -0.03em; color: #0B1F3F; }
+    .f05-hl { display: block; white-space: nowrap; }
+    .f05-hw { display: inline-block; }
+    #f05-chips { display: flex; gap: 14px; margin-top: 28px; }
+    .f05-chip { position: relative; height: 54px; padding: 0 24px; border-radius: 100px; display: flex; align-items: center; font-weight: 700; font-size: 24px; color: #0151A2;
+      background: #FFFFFF; border: 1.5px solid rgba(1, 81, 162, 0.22); white-space: nowrap; overflow: hidden; }
+    .f05-chip i { position: absolute; inset: 0; background: #0151A2; border-radius: 100px; opacity: 0; }
+    .f05-chip span { position: relative; }
+    #f05-sub { margin-top: 22px; display: flex; align-items: center; gap: 14px; font-weight: 600; font-size: 40px; color: #475569; white-space: nowrap; }
+
+    #f05-map { position: absolute; left: 120px; top: 548px; width: 720px; height: 340px; border-radius: 28px; background: #FFFFFF; overflow: hidden;
+      box-shadow: 0 24px 50px rgba(11, 31, 63, 0.12), 0 0 0 1px rgba(11, 31, 63, 0.06); }
+    #f05-map svg.f05-mapbg { position: absolute; left: 0; top: -25px; width: 720px; height: 390px; }
+    .f05-pin { position: absolute; width: 44px; height: 58px; margin-left: -22px; margin-top: -56px; }
+    .f05-pin-ring { position: absolute; left: -26px; top: 22px; width: 96px; height: 40px; border-radius: 50%; border: 3px solid #FB9500; opacity: 0; }
+    .f05-plabel { position: absolute; padding: 6px 14px; border-radius: 12px; background: #FFFFFF; color: #0B1F3F; font-weight: 800; font-size: 17px; white-space: nowrap;
+      box-shadow: 0 8px 18px rgba(11, 31, 63, 0.16); }
+    #f05-link { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+
+    #f05-panel { position: absolute; left: 940px; top: 96px; width: 860px; height: 794px; border-radius: 32px; background: #0D1526; padding: 28px; color: #E9ECF5;
+      box-shadow: 0 34px 70px rgba(11, 31, 63, 0.30); }
+    #f05-search { position: relative; height: 64px; border-radius: 18px; background: #11192D; border: 2px solid #38445A; display: flex; align-items: center; gap: 14px; padding: 0 18px; }
+    #f05-search-ph { font-size: 22px; color: #8E9BB3; white-space: nowrap; }
+    #f05-search-txt { font-size: 22px; color: #FFFFFF; font-weight: 700; white-space: nowrap; }
+    #f05-caret { width: 3px; height: 28px; background: #F59F00; margin-left: -10px; }
+    #f05-result { position: absolute; left: 28px; right: 28px; top: 100px; height: 96px; border-radius: 18px; background: #11284E; border: 2px solid #F59F00; display: flex; align-items: center; gap: 16px; padding: 0 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); }
+    #f05-result b { display: block; font-size: 22px; font-weight: 800; white-space: nowrap; }
+    #f05-result i { display: block; font-style: normal; font-size: 17px; color: #C8D1E0; margin-top: 3px; white-space: nowrap; }
+    #f05-site { margin-top: 18px; border-radius: 22px; background: #11192D; border: 1px solid #1E2A44; padding: 20px 22px; }
+    #f05-site b { display: block; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 30px; white-space: nowrap; }
+    #f05-site i { display: block; font-style: normal; font-size: 19px; color: #8E9BB3; margin-top: 4px; white-space: nowrap; }
+    .f05-tags { display: flex; gap: 10px; margin-top: 14px; }
+    .f05-tag { height: 34px; padding: 0 14px; border-radius: 17px; background: #10274B; color: #C8D1E0; font-size: 15px; font-weight: 700; display: flex; align-items: center; white-space: nowrap; }
+    .f05-hist-t { margin-top: 20px; font-size: 18px; font-weight: 800; letter-spacing: 0.06em; color: #8E9BB3; white-space: nowrap; }
+    #f05-tl { position: relative; margin-top: 12px; }
+    #f05-tl-line { position: absolute; left: 14px; top: 10px; width: 3px; height: 400px; border-radius: 2px; background: #2A3756; transform-origin: top center; }
+    .f05-e { position: relative; display: flex; gap: 22px; margin-bottom: 12px; }
+    .f05-dot { position: relative; margin-top: 30px; width: 31px; height: 31px; border-radius: 50%; background: #0D1526; border: 4px solid #1E5FB8; flex: 0 0 31px; }
+    .f05-dot.f05-new { border-color: #F59F00; background: #3B3420; }
+    .f05-ecard { flex: 1; height: 92px; border-radius: 18px; background: #11192D; border: 1px solid #1E2A44; display: flex; align-items: center; gap: 16px; padding: 0 18px; }
+    .f05-date { width: 120px; flex: 0 0 120px; font-size: 18px; font-weight: 800; color: #F59F00; white-space: nowrap; }
+    .f05-ebody b { display: block; font-size: 19px; font-weight: 800; white-space: nowrap; }
+    .f05-ebody i { display: block; font-style: normal; font-size: 15px; color: #8E9BB3; margin-top: 3px; white-space: nowrap; }
+    .f05-thumbs { display: flex; gap: 6px; margin-left: auto; }
+    .f05-thumb { width: 46px; height: 46px; border-radius: 10px; overflow: hidden; }
+    .f05-thumb svg { width: 100%; height: 100%; display: block; }
+    .f05-st { margin-left: auto; height: 34px; padding: 0 14px; border-radius: 17px; font-size: 14px; font-weight: 800; display: flex; align-items: center; white-space: nowrap; }
+    .f05-st.f05-red { background: #52151A; color: #FF9B9B; border: 1.5px solid #E5484D; }
+    .f05-st.f05-green { background: #113328; color: #5EE08F; border: 1.5px solid #22A35A; }
+    .f05-st.f05-grey { background: #1B2740; color: #C8D1E0; border: 1.5px solid #38445A; }
+    .f05-glow { box-shadow: 0 0 0 0 rgba(245, 159, 0, 0); }
+  </style>
+
+  <div data-hf-id="hf-etbp" id="root" data-composition-id="05-historique" data-width="1920" data-height="1080" data-duration="8.5">
+    <div data-hf-id="hf-ewzm" id="f05-bg" class="clip" data-start="0" data-duration="8.5" data-track-index="0"></div>
+
+    <div data-hf-id="hf-t7ye" id="f05-copy">
+      <div data-hf-id="hf-uoxt" class="f05-eyebrow" id="f05-eyebrow">HISTORIQUE</div>
+      <div data-hf-id="hf-jzoi" class="f05-accent" id="f05-accent"></div>
+      <div data-hf-id="hf-wi5o" class="f05-h">
+        <span data-hf-id="hf-5jql" class="f05-hl"><span data-hf-id="hf-nn21" class="f05-hw">Chaque</span> <span data-hf-id="hf-yqc5" class="f05-hw">site</span> <span data-hf-id="hf-66uf" class="f05-hw">garde</span></span>
+        <span data-hf-id="hf-1lgh" class="f05-hl"><span data-hf-id="hf-n96y" class="f05-hw">son</span> <span data-hf-id="hf-6w5n" class="f05-hw">historique.</span></span>
+      </div>
+      <div data-hf-id="hf-mx8a" id="f05-chips">
+        <div data-hf-id="hf-xr5z" class="f05-chip" id="f05-chip1"><i data-hf-id="hf-wt6k"></i><span data-hf-id="hf-g389">Interventions</span></div>
+        <div data-hf-id="hf-mvoc" class="f05-chip" id="f05-chip2"><i data-hf-id="hf-zeb8"></i><span data-hf-id="hf-if7o">Photos</span></div>
+        <div data-hf-id="hf-nnc5" class="f05-chip" id="f05-chip3"><i data-hf-id="hf-y7e5"></i><span data-hf-id="hf-xp4x">Suivi</span></div>
+      </div>
+      <div data-hf-id="hf-p44g" id="f05-sub"><svg data-hf-id="hf-snce" width="40" height="40" viewBox="0 0 40 40"><circle data-hf-id="hf-jofp" cx="17" cy="17" r="11" fill="none" stroke="#0151A2" stroke-width="4.5"/><path data-hf-id="hf-sjsq" d="M25,25 L35,35" stroke="#0151A2" stroke-width="4.5" stroke-linecap="round"/></svg>Tout est retrouvable.</div>
+    </div>
+
+    <div data-hf-id="hf-b5e1" id="f05-map">
+      <svg data-hf-id="hf-we2s" class="f05-mapbg" viewBox="0 0 720 390">
+        <rect data-hf-id="hf-f2ff" width="720" height="390" fill="#EEF3F9"/>
+        <path data-hf-id="hf-r7dz" d="M-20,300 C120,250 210,330 330,280 C450,230 520,120 740,140 L740,190 C540,180 480,280 340,330 C220,375 120,310 -20,350 Z" fill="#CFE0F3"/>
+        <rect data-hf-id="hf-zef0" x="40" y="40" width="150" height="90" rx="14" fill="#E2EAF3"/>
+        <rect data-hf-id="hf-9fea" x="230" y="30" width="120" height="110" rx="14" fill="#E2EAF3"/>
+        <rect data-hf-id="hf-rnt7" x="400" y="50" width="170" height="80" rx="14" fill="#DCEFE2"/>
+        <rect data-hf-id="hf-8wi0" x="610" y="20" width="90" height="100" rx="14" fill="#E2EAF3"/>
+        <rect data-hf-id="hf-gk5b" x="60" y="170" width="190" height="80" rx="14" fill="#E2EAF3"/>
+        <rect data-hf-id="hf-0tcq" x="560" y="230" width="140" height="130" rx="14" fill="#E2EAF3"/>
+        <path data-hf-id="hf-vllo" d="M0,155 C200,150 420,170 720,205" stroke="#FFFFFF" stroke-width="16" fill="none"/>
+        <path data-hf-id="hf-zjci" d="M210,0 C215,120 260,260 250,390" stroke="#FFFFFF" stroke-width="14" fill="none"/>
+        <path data-hf-id="hf-k9s5" d="M520,0 C500,120 470,250 520,390" stroke="#FFFFFF" stroke-width="10" fill="none"/>
+        <path data-hf-id="hf-fxpm" d="M0,60 C180,70 300,40 720,80" stroke="#FFFFFF" stroke-width="6" fill="none"/>
+      </svg>
+      <div data-hf-id="hf-1b0v" class="f05-plabel" id="f05-lab2" style="left:110px; top:37px;">Ferme du Moulin</div>
+      <div data-hf-id="hf-rs43" class="f05-plabel" id="f05-lab1" style="left:400px; top:125px;">Maison Durand</div>
+      <svg data-hf-id="hf-tbvk" class="f05-pin" id="f05-pin1" style="left:470px; top:225px;" viewBox="0 0 44 58"><path data-hf-id="hf-okpi" d="M22,56 C22,56 4,34 4,21 A18,18 0 0 1 40,21 C40,34 22,56 22,56 Z" fill="#0151A2"/><circle data-hf-id="hf-rrwr" cx="22" cy="21" r="7" fill="#FFFFFF"/></svg>
+      <div data-hf-id="hf-0hlk" class="f05-pin-ring" id="f05-pin1-ring" style="left:444px; top:203px;"></div>
+      <svg data-hf-id="hf-hmb1" class="f05-pin" id="f05-pin2" style="left:180px; top:135px;" viewBox="0 0 44 58"><path data-hf-id="hf-dgoq" d="M22,56 C22,56 4,34 4,21 A18,18 0 0 1 40,21 C40,34 22,56 22,56 Z" fill="#0151A2"/><circle data-hf-id="hf-9hm3" cx="22" cy="21" r="7" fill="#FFFFFF"/></svg>
+      <svg data-hf-id="hf-348a" class="f05-pin" id="f05-pin3" style="left:620px; top:305px;" viewBox="0 0 44 58"><path data-hf-id="hf-duzr" d="M22,56 C22,56 4,34 4,21 A18,18 0 0 1 40,21 C40,34 22,56 22,56 Z" fill="#0151A2"/><circle data-hf-id="hf-93b2" cx="22" cy="21" r="7" fill="#FFFFFF"/></svg>
+      <svg data-hf-id="hf-vksa" class="f05-pin" id="f05-pin4" style="left:320px; top:305px;" viewBox="0 0 44 58"><path data-hf-id="hf-e9as" d="M22,56 C22,56 4,34 4,21 A18,18 0 0 1 40,21 C40,34 22,56 22,56 Z" fill="#0151A2"/><circle data-hf-id="hf-8p01" cx="22" cy="21" r="7" fill="#FFFFFF"/></svg>
+      <svg data-hf-id="hf-36f1" class="f05-pin" id="f05-pin5" style="left:600px; top:85px;" viewBox="0 0 44 58"><path data-hf-id="hf-enlt" d="M22,56 C22,56 4,34 4,21 A18,18 0 0 1 40,21 C40,34 22,56 22,56 Z" fill="#0151A2"/><circle data-hf-id="hf-8ap0" cx="22" cy="21" r="7" fill="#FFFFFF"/></svg>
+    </div>
+    <svg data-hf-id="hf-rxk0" id="f05-link" viewBox="0 0 1920 1080"><path data-hf-id="hf-yj9v" id="f05-link-path" d="M592,750 C760,750 820,330 940,330" fill="none" stroke="#FB9500" stroke-width="4" stroke-dasharray="10 10" stroke-linecap="round"/></svg>
+
+    <div data-hf-id="hf-5s4x" id="f05-panel">
+      <div data-hf-id="hf-cc49" id="f05-search">
+        <svg data-hf-id="hf-hk4i" width="28" height="28" viewBox="0 0 28 28"><circle data-hf-id="hf-qnd2" cx="12" cy="12" r="8" fill="none" stroke="#8E9BB3" stroke-width="3"/><path data-hf-id="hf-rihv" d="M18,18 L25,25" stroke="#8E9BB3" stroke-width="3" stroke-linecap="round"/></svg>
+        <span data-hf-id="hf-trhy" id="f05-search-ph">Rechercher un client ou un site</span><span data-hf-id="hf-dsnp" id="f05-search-txt"></span><i data-hf-id="hf-gs3e" id="f05-caret"></i>
+      </div>
+      <div data-hf-id="hf-u9qg" id="f05-site">
+        <b data-hf-id="hf-k268">Maison Durand (démo)</b>
+        <i data-hf-id="hf-mcmr">4 rue des Lilas, 69005 Lyon</i>
+        <div data-hf-id="hf-dw1b" class="f05-tags"><span data-hf-id="hf-bwhg" class="f05-tag">4,29 kW</span><span data-hf-id="hf-n4pu" class="f05-tag">Onduleur + optimiseurs</span><span data-hf-id="hf-lff5" class="f05-tag">23 modules</span></div>
+      </div>
+      <div data-hf-id="hf-t68g" class="f05-hist-t">HISTORIQUE DES INTERVENTIONS</div>
+      <div data-hf-id="hf-yoi9" id="f05-tl">
+        <i data-hf-id="hf-ggsk" id="f05-tl-line"></i>
+        <div data-hf-id="hf-79vx" class="f05-e" id="f05-e1"><span data-hf-id="hf-ibh0" class="f05-dot f05-new"></span><div data-hf-id="hf-gydb" class="f05-ecard"><span data-hf-id="hf-bl9o" class="f05-date">15/10/2026</span><div data-hf-id="hf-ru0h" class="f05-ebody"><b data-hf-id="hf-gios">Maintenance préventive</b><i data-hf-id="hf-e5ob">5 anomalies · rapport envoyé</i></div>
+          <div data-hf-id="hf-luvn" class="f05-thumbs" id="f05-thumbs1">
+            <span data-hf-id="hf-9dsj" class="f05-thumb"><svg data-hf-id="hf-b9l5" viewBox="0 0 46 46"><rect data-hf-id="hf-4gdg" width="46" height="46" fill="#9CC3EA"/><polygon data-hf-id="hf-3hcy" points="2,44 44,44 38,20 8,20" fill="#34465F"/><g data-hf-id="hf-u5z5" fill="#1E4E9C"><rect data-hf-id="hf-hxkg" x="12" y="23" width="9" height="7"/><rect data-hf-id="hf-eju5" x="24" y="23" width="9" height="7"/><rect data-hf-id="hf-g7lz" x="10" y="33" width="10" height="7"/><rect data-hf-id="hf-a7dw" x="24" y="33" width="10" height="7"/></g></svg></span>
+            <span data-hf-id="hf-812r" class="f05-thumb"><svg data-hf-id="hf-pn3x" viewBox="0 0 46 46"><rect data-hf-id="hf-mtr7" width="46" height="46" fill="#D9DEE6"/><rect data-hf-id="hf-8tu2" x="11" y="8" width="24" height="30" rx="3" fill="#F4F6F9" stroke="#8A94A6" stroke-width="2"/><rect data-hf-id="hf-h49m" x="15" y="12" width="16" height="7" rx="1.5" fill="#24324B"/><circle data-hf-id="hf-yjry" cx="18" cy="26" r="2.4" fill="#22A35A"/><circle data-hf-id="hf-a0mq" cx="25" cy="26" r="2.4" fill="#F59F00"/></svg></span>
+            <span data-hf-id="hf-7mrq" class="f05-thumb"><svg data-hf-id="hf-qu10" viewBox="0 0 46 46"><rect data-hf-id="hf-eryf" width="46" height="46" fill="#1A3F7E"/><g data-hf-id="hf-blww" stroke="#C8DAF3" stroke-width="1.5"><line data-hf-id="hf-1934" x1="0" y1="14" x2="46" y2="10"/><line data-hf-id="hf-t891" x1="0" y1="30" x2="46" y2="26"/><line data-hf-id="hf-m2ym" x1="14" y1="0" x2="16" y2="46"/><line data-hf-id="hf-3vcr" x1="31" y1="0" x2="34" y2="46"/></g></svg></span>
+          </div></div></div>
+        <div data-hf-id="hf-b7zy" class="f05-e" id="f05-e2"><span data-hf-id="hf-s0ka" class="f05-dot"></span><div data-hf-id="hf-avwf" class="f05-ecard"><span data-hf-id="hf-cwy9" class="f05-date">22/04/2026</span><div data-hf-id="hf-2e91" class="f05-ebody"><b data-hf-id="hf-pyal">Dépannage · onduleur</b><i data-hf-id="hf-rjm7">2 photos · intervention clôturée</i></div><span data-hf-id="hf-4bnk" class="f05-st f05-green" id="f05-st2">Résolu</span></div></div>
+        <div data-hf-id="hf-hdpr" class="f05-e" id="f05-e3"><span data-hf-id="hf-z8ji" class="f05-dot"></span><div data-hf-id="hf-ahle" class="f05-ecard"><span data-hf-id="hf-1pvq" class="f05-date">03/10/2025</span><div data-hf-id="hf-3l64" class="f05-ebody"><b data-hf-id="hf-8w44">Maintenance préventive</b><i data-hf-id="hf-n857">6 photos · aucune anomalie</i></div><span data-hf-id="hf-oxrg" class="f05-st f05-green" id="f05-st3">Conforme</span></div></div>
+        <div data-hf-id="hf-lbts" class="f05-e" id="f05-e4"><span data-hf-id="hf-zmuj" class="f05-dot"></span><div data-hf-id="hf-a3ad" class="f05-ecard"><span data-hf-id="hf-gngf" class="f05-date">18/06/2025</span><div data-hf-id="hf-36v3" class="f05-ebody"><b data-hf-id="hf-7f9p">Mise en service</b><i data-hf-id="hf-swat">Rapport de mise en service</i></div><span data-hf-id="hf-pixw" class="f05-st f05-grey" id="f05-st4">Archivé</span></div></div>
+      </div>
+      <div data-hf-id="hf-4e2q" id="f05-result" data-layout-allow-overlap>
+        <svg data-hf-id="hf-i2py" width="44" height="44" viewBox="0 0 44 44"><rect data-hf-id="hf-alao" width="44" height="44" rx="12" fill="#3B3420"/><path data-hf-id="hf-ipja" d="M22,34 C22,34 11,22 11,16 A11,11 0 0 1 33,16 C33,22 22,34 22,34 Z" fill="none" stroke="#F59F00" stroke-width="3"/><circle data-hf-id="hf-4b7w" cx="22" cy="16" r="4" fill="#F59F00"/></svg>
+        <div data-hf-id="hf-yeow"><b data-hf-id="hf-u0hk">Maison Durand (démo)</b><i data-hf-id="hf-xma3">4 interventions · 12 photos · dernier passage le 15/10/2026</i></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="05-historique"]');
+      var q = function (s) { return root.querySelector(s); };
+      var tl = gsap.timeline({ paused: true });
+
+      // map + pins (the panel is on screen from the push-slide)
+      tl.fromTo("#f05-map", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.05);
+      ["#f05-pin1", "#f05-pin2", "#f05-pin3", "#f05-pin4", "#f05-pin5"].forEach(function (p, k) {
+        tl.fromTo(p, { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.42, ease: "power3.out" }, 0.3 + k * 0.12);
+      });
+      tl.fromTo(["#f05-lab1", "#f05-lab2"], { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.1 }, 0.85);
+      tl.fromTo("#f05-panel", { x: 60, opacity: 0 }, { x: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, 0.95);
+
+      // copy (VO "Chaque site garde son historique" 0.61)
+      tl.fromTo("#f05-eyebrow", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.3);
+      tl.fromTo("#f05-accent", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 0.42);
+      tl.fromTo(".f05-hw", { y: 46, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out", stagger: 0.1 }, 0.6);
+      tl.fromTo(".f05-chip", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.08 }, 1.2);
+
+      // select Maison Durand → link → site card
+      tl.to("#f05-pin1 path", { fill: "#FB9500", duration: 0.25, ease: "power2.out" }, 1.0);
+      tl.fromTo("#f05-pin1-ring", { scale: 0.4, opacity: 0.9 }, { scale: 1.4, opacity: 0, duration: 0.8, ease: "power2.out" }, 1.0);
+      var lp = q("#f05-link-path");
+      tl.fromTo("#f05-link", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power2.inOut" }, 1.05);
+      tl.fromTo("#f05-site", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 1.25);
+      tl.fromTo(".f05-hist-t", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 1.55);
+
+      // history unrolls (1.7–3.6) ; chips on their words (2.87 · 3.86 · 4.62)
+      tl.fromTo("#f05-tl-line", { scaleY: 0 }, { scaleY: 1, duration: 1.9, ease: "power2.inOut" }, 1.7);
+      ["#f05-e1", "#f05-e2", "#f05-e3", "#f05-e4"].forEach(function (e, k) {
+        tl.fromTo(e + " .f05-dot", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power3.out" }, 1.8 + k * 0.5);
+        tl.fromTo(e + " .f05-ecard", { x: 30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 1.84 + k * 0.5);
+      });
+      var chipOn = function (n, t) {
+        tl.to("#f05-chip" + n + " i", { opacity: 1, duration: 0.3, ease: "power2.out" }, t);
+        tl.to("#f05-chip" + n, { color: "#FFFFFF", borderColor: "#0151A2", duration: 0.3, ease: "power2.out" }, t);
+      };
+      chipOn(1, 2.87);
+      chipOn(2, 3.86);
+      tl.fromTo("#f05-thumbs1 .f05-thumb", { y: 0, boxShadow: "0 0 0 0px rgba(245,159,0,0)" }, { y: -4, boxShadow: "0 0 0 3px rgba(245,159,0,0.9)", duration: 0.3, ease: "power2.out", stagger: 0.07 }, 3.9);
+      tl.to("#f05-thumbs1 .f05-thumb", { y: 0, boxShadow: "0 0 0 0px rgba(245,159,0,0)", duration: 0.4, ease: "power2.inOut", stagger: 0.07 }, 4.35);
+      chipOn(3, 4.62);
+      tl.fromTo(["#f05-st2", "#f05-st3", "#f05-st4"], { scale: 1 }, { scale: 1.12, duration: 0.18, ease: "power2.out", stagger: 0.08 }, 4.65);
+      tl.to(["#f05-st2", "#f05-st3", "#f05-st4"], { scale: 1, duration: 0.3, ease: "power2.out", stagger: 0.08 }, 4.85);
+
+      // "Tout est retrouvable" (VO 5.51): search types "Durand", result card
+      tl.fromTo("#f05-sub", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 5.48);
+      tl.set("#f05-caret", { opacity: 0 }, 0);
+      tl.to("#f05-search", { borderColor: "#F59F00", duration: 0.2 }, 5.5);
+      tl.set("#f05-search-ph", { opacity: 0 }, 5.55);
+      tl.set("#f05-caret", { opacity: 1 }, 5.55);
+      var txt = "Durand", st = { p: 0 }, out = q("#f05-search-txt");
+      tl.to(st, { p: 1, duration: 0.5, ease: "none", onUpdate: function () { out.textContent = txt.slice(0, Math.ceil(st.p * txt.length)); } }, 5.58);
+      tl.fromTo("#f05-result", { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 6.15);
+      tl.set("#f05-caret", { opacity: 0 }, 6.6);
+
+      window.__timelines["05-historique"] = tl;
+    })();
+  </script>
+</template>

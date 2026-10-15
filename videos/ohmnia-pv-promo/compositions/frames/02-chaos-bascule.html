@@ -1,0 +1,431 @@
+<template>
+  <style>
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Medium.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Black.woff2") format("woff2");}
+
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #f02-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 62%, #142443 0%, #0B1528 55%, #060C18 100%); }
+    #f02-lamp { position: absolute; left: 460px; top: 260px; width: 1000px; height: 700px; border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(255, 196, 120, 0.13) 0%, rgba(255, 196, 120, 0.04) 45%, rgba(255, 196, 120, 0) 70%); }
+    #f02-chaos { position: absolute; inset: 0; }
+    #f02-carry { position: absolute; inset: 0; }
+    .f02-csheet { position: absolute; width: 150px; height: 196px; border-radius: 5px; background-color: #FFFFFF;
+      background-image: linear-gradient(#24324B, #24324B), repeating-linear-gradient(180deg, transparent 0 15px, #C7D1E1 15px 17px);
+      background-size: 70px 7px, 118px 130px; background-position: 16px 18px, 16px 44px; background-repeat: no-repeat;
+      box-shadow: 0 12px 26px rgba(2, 6, 16, 0.45); }
+    .f02-item { position: absolute; }
+
+    /* fiche papier */
+    .f02-form { width: 280px; height: 360px; border-radius: 6px; background: #F3F0E8; box-shadow: 0 16px 34px rgba(0, 0, 0, 0.45); padding: 18px 20px; color: #24324B; }
+    .f02-form-h { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.08em; padding-bottom: 8px; border-bottom: 2px solid #24324B; white-space: nowrap; }
+    .f02-field { display: flex; align-items: flex-end; gap: 8px; margin-top: 13px; font-size: 12px; font-weight: 600; color: #55627A; white-space: nowrap; }
+    .f02-field svg { flex: 1; height: 18px; }
+    .f02-check { display: flex; gap: 10px; align-items: center; margin-top: 11px; font-size: 12px; color: #55627A; font-weight: 600; white-space: nowrap; }
+    .f02-box { width: 15px; height: 15px; border: 2px solid #55627A; border-radius: 3px; position: relative; flex: 0 0 15px; }
+    .f02-stain { position: absolute; width: 110px; height: 110px; border-radius: 50%; border: 9px solid rgba(120, 72, 30, 0.18); right: -16px; bottom: 28px; }
+
+    /* polaroid */
+    .f02-polaroid { width: 230px; height: 272px; background: #FFFFFF; border-radius: 4px; padding: 12px 12px 0 12px; box-shadow: 0 18px 36px rgba(0, 0, 0, 0.5); }
+    .f02-polaroid svg { width: 206px; height: 206px; display: block; border-radius: 2px; }
+    .f02-pcap { font-size: 15px; font-weight: 600; color: #8A94A6; margin-top: 12px; white-space: nowrap; }
+    .f02-lost { position: absolute; right: -14px; top: -14px; width: 46px; height: 46px; border-radius: 50%; background: #E5484D; color: #FFFFFF;
+      font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(0,0,0,0.35); }
+
+    /* rapport */
+    .f02-report { width: 360px; height: 470px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); overflow: hidden; }
+    .f02-rh { height: 92px; background: #10274B; border-top: 6px solid #F59F00; padding: 16px 20px; }
+    .f02-rh b { display: block; font-family: "Inter Display", sans-serif; font-weight: 800; color: #FFFFFF; font-size: 21px; white-space: nowrap; }
+    .f02-rh i { display: block; font-style: normal; color: #9FB0CC; font-size: 13px; margin-top: 6px; white-space: nowrap; }
+    .f02-rrow { height: 12px; border-radius: 6px; background: #E3E8F0; margin: 16px 22px 0 22px; }
+    .f02-stamp { position: absolute; left: 34px; top: 196px; padding: 10px 22px; border: 7px solid #E5484D; border-radius: 12px; color: #E5484D;
+      font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 52px; letter-spacing: 0.06em; white-space: nowrap; background: rgba(255, 255, 255, 0.55); }
+
+    /* sms */
+    .f02-sms { padding: 16px 24px; border-radius: 26px 26px 26px 8px; background: #23304A; color: #F1F5FB; font-size: 25px; font-weight: 600;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); white-space: nowrap; }
+    .f02-sms.f02-me { background: #0151A2; border-radius: 26px 26px 8px 26px; }
+    .f02-sms small { display: block; font-size: 15px; font-weight: 700; color: #8FA3C4; margin-bottom: 4px; letter-spacing: 0.02em; }
+    .f02-sms.f02-me small { color: #BBD3F3; }
+
+    /* tableur */
+    .f02-sheet { width: 560px; height: 300px; border-radius: 10px; background: #FFFFFF; overflow: hidden; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5); }
+    .f02-sheet-t { height: 42px; background: #2B3A55; color: #E9EEF7; font-size: 16px; font-weight: 700; padding: 11px 16px; white-space: nowrap; }
+    .f02-grid { display: grid; grid-template-columns: 60px repeat(5, 1fr); }
+    .f02-c { height: 36px; border-right: 1px solid #D5DCE6; border-bottom: 1px solid #D5DCE6; font-size: 14px; font-weight: 600; color: #3B4860; padding: 9px 8px; white-space: nowrap; overflow: hidden; }
+    .f02-c.f02-hd { background: #EEF2F7; color: #6B778C; }
+    .f02-c.f02-err { background: #FDE2E2; color: #C81E1E; font-weight: 800; }
+
+    /* horloge */
+    .f02-clock { width: 130px; height: 130px; }
+
+    /* carte client */
+    .f02-client { width: 620px; height: 120px; border-radius: 22px; background: rgba(26, 36, 56, 0.96); border: 1.5px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5); display: flex; align-items: center; gap: 22px; padding: 0 26px; }
+    .f02-client b { display: block; color: #FFFFFF; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 28px; white-space: nowrap; }
+    .f02-client i { display: block; font-style: normal; color: #FF9B9B; font-weight: 700; font-size: 21px; margin-top: 4px; white-space: nowrap; }
+    .f02-badge { position: absolute; width: 64px; height: 64px; border-radius: 50%; background: #E5484D; color: #FFFFFF; font-family: "Inter Display", sans-serif;
+      font-weight: 900; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 18px rgba(0,0,0,0.4); }
+
+    /* liste des douleurs */
+    #f02-pains { position: absolute; left: 120px; top: 92px; }
+    .f02-pain { display: flex; align-items: center; gap: 18px; height: 64px; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 42px;
+      color: #F1F5FB; letter-spacing: -0.015em; white-space: nowrap; }
+    .f02-x { width: 44px; height: 44px; border-radius: 12px; background: #E5484D; display: flex; align-items: center; justify-content: center; flex: 0 0 44px; }
+
+    /* titre central */
+    #f02-scrim { position: absolute; left: 260px; top: 300px; width: 1400px; height: 460px; border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(6, 11, 22, 0.92) 0%, rgba(6, 11, 22, 0.75) 45%, rgba(6, 11, 22, 0) 72%); }
+    #f02-head { position: absolute; left: 0; right: 0; top: 410px; text-align: center; font-family: "Inter Display", sans-serif; font-weight: 900;
+      font-size: 88px; letter-spacing: -0.03em; line-height: 1.08; color: #FFFFFF; }
+    .f02-hl { display: block; white-space: nowrap; }
+    .f02-hw { display: inline-block; }
+    .f02-redw { color: #FF6B6B; }
+
+    /* bascule */
+    #f02-dot { position: absolute; left: 945px; top: 505px; width: 30px; height: 30px; border-radius: 50%;
+      background: radial-gradient(circle, #FFFFFF 0%, #FFD48A 45%, #FB9500 100%); box-shadow: 0 0 60px 20px rgba(251, 149, 0, 0.55); opacity: 0; }
+    #f02-flood { position: absolute; left: 960px; top: 520px; width: 2600px; height: 2600px; margin-left: -1300px; margin-top: -1300px; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #FFF3DE 18%, #F5F7FB 46%, #F5F7FB 100%); }
+    #f02-day { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 30%, #FFF2DC 0%, #F8F5EE 40%, #F5F7FB 75%); opacity: 0; }
+    #f02-rays { position: absolute; left: 560px; top: -10px; width: 800px; height: 800px; opacity: 0; }
+    #f02-halo { position: absolute; left: 610px; top: 0px; width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(251, 149, 0, 0.30) 0%, rgba(251, 149, 0, 0.10) 40%, rgba(251, 149, 0, 0) 68%); opacity: 0; }
+    #f02-lockup { position: absolute; left: 0; top: 0; width: 1920px; height: 700px; }
+    #f02-emblem { position: absolute; left: 786px; top: 190px; width: 348px; height: 330px; }
+    #f02-wordmark-box { position: absolute; left: 680px; top: 554px; width: 560px; height: 84px; }
+    #f02-wordmark { width: 560px; height: 83px; display: block; }
+    #f02-tag { position: absolute; left: 0; right: 0; top: 640px; text-align: center; font-family: "Inter Display", sans-serif; font-weight: 800;
+      font-size: 58px; letter-spacing: -0.02em; line-height: 1.32; color: #0B1F3F; }
+    .f02-tl { display: block; white-space: nowrap; }
+    .f02-tw { display: inline-block; position: relative; }
+    .f02-pros { color: #0151A2; }
+    #f02-tag-ul { position: absolute; left: 0; right: 0; bottom: -2px; height: 9px; border-radius: 6px; background: #FB9500; display: block; transform-origin: left center; }
+  </style>
+
+  <div data-hf-id="hf-z0xn" id="root" data-composition-id="02-chaos-bascule" data-width="1920" data-height="1080" data-duration="17.5">
+    <div data-hf-id="hf-73xv" id="f02-bg" class="clip" data-start="0" data-duration="17.5" data-track-index="0"></div>
+    <div data-hf-id="hf-1hh6" id="f02-lamp"></div>
+    <div data-hf-id="hf-pwb8" id="f02-carry" data-layout-allow-overflow data-layout-allow-overlap></div>
+
+    <div data-hf-id="hf-vyvc" id="f02-chaos" data-layout-allow-overlap>
+      <!-- fiches papier -->
+      <div data-hf-id="hf-2vww" id="f02-F1" class="f02-item f02-form" style="left:190px; top:380px;">
+        <div data-hf-id="hf-hgef" class="f02-form-h">FICHE D'INTERVENTION</div>
+        <div data-hf-id="hf-vpd4" class="f02-field">Client<svg data-hf-id="hf-qxum" class="f02-scrib" data-w="170"></svg></div>
+        <div data-hf-id="hf-sylo" class="f02-field">Site<svg data-hf-id="hf-fcu4" class="f02-scrib" data-w="190"></svg></div>
+        <div data-hf-id="hf-5mhv" class="f02-field">Date<svg data-hf-id="hf-bcl0" class="f02-scrib" data-w="110"></svg></div>
+        <div data-hf-id="hf-z25x" class="f02-check"><span data-hf-id="hf-6h2f" class="f02-box"></span>Onduleur vérifié</div>
+        <div data-hf-id="hf-u0g3" class="f02-check"><span data-hf-id="hf-n5on" class="f02-box"></span>Strings mesurés</div>
+        <div data-hf-id="hf-w7a8" class="f02-check"><span data-hf-id="hf-mrdm" class="f02-box"></span>Photos prises</div>
+        <div data-hf-id="hf-7wff" class="f02-field">Obs.<svg data-hf-id="hf-a6us" class="f02-scrib" data-w="190"></svg></div>
+        <div data-hf-id="hf-nzmv" class="f02-field"><svg data-hf-id="hf-sknh" class="f02-scrib" data-w="230"></svg></div>
+      </div>
+      <div data-hf-id="hf-kd1e" id="f02-F2" class="f02-item f02-form" style="left:330px; top:420px;">
+        <div data-hf-id="hf-xw87" class="f02-form-h">FICHE D'INTERVENTION</div>
+        <div data-hf-id="hf-ppuo" class="f02-field">Client<svg data-hf-id="hf-7fpk" class="f02-scrib" data-w="150"></svg></div>
+        <div data-hf-id="hf-hqro" class="f02-field">Site<svg data-hf-id="hf-p9fg" class="f02-scrib" data-w="200"></svg></div>
+        <div data-hf-id="hf-u6ub" class="f02-field">Date<svg data-hf-id="hf-kg6d" class="f02-scrib" data-w="120"></svg></div>
+        <div data-hf-id="hf-hv55" class="f02-check"><span data-hf-id="hf-md2l" class="f02-box"></span>Onduleur vérifié</div>
+        <div data-hf-id="hf-55xf" class="f02-check"><span data-hf-id="hf-p57s" class="f02-box"></span>Strings mesurés</div>
+        <div data-hf-id="hf-8pg8" class="f02-check"><span data-hf-id="hf-oqwr" class="f02-box"></span>Photos prises</div>
+        <div data-hf-id="hf-yr4b" class="f02-field">Obs.<svg data-hf-id="hf-37w7" class="f02-scrib" data-w="180"></svg></div>
+        <div data-hf-id="hf-453b" class="f02-field"><svg data-hf-id="hf-92if" class="f02-scrib" data-w="210"></svg></div>
+        <div data-hf-id="hf-a66c" class="f02-stain"></div>
+      </div>
+      <div data-hf-id="hf-wpzo" id="f02-F3" class="f02-item f02-form" style="left:470px; top:365px;">
+        <div data-hf-id="hf-xhx6" class="f02-form-h">FICHE D'INTERVENTION</div>
+        <div data-hf-id="hf-oixl" class="f02-field">Client<svg data-hf-id="hf-eswp" class="f02-scrib" data-w="160"></svg></div>
+        <div data-hf-id="hf-gjul" class="f02-field">Site<svg data-hf-id="hf-j3qv" class="f02-scrib" data-w="180"></svg></div>
+        <div data-hf-id="hf-tsja" class="f02-field">Date<svg data-hf-id="hf-8q27" class="f02-scrib" data-w="100"></svg></div>
+        <div data-hf-id="hf-j228" class="f02-check"><span data-hf-id="hf-oclq" class="f02-box"></span>Onduleur vérifié</div>
+        <div data-hf-id="hf-4rme" class="f02-check"><span data-hf-id="hf-nyap" class="f02-box"></span>Strings mesurés</div>
+        <div data-hf-id="hf-7ij5" class="f02-check"><span data-hf-id="hf-qqfw" class="f02-box"></span>Photos prises</div>
+        <div data-hf-id="hf-ycta" class="f02-field">Obs.<svg data-hf-id="hf-24qc" class="f02-scrib" data-w="200"></svg></div>
+        <div data-hf-id="hf-3qsa" class="f02-field"><svg data-hf-id="hf-wxki" class="f02-scrib" data-w="220"></svg></div>
+      </div>
+
+      <!-- rapport en retard -->
+      <div data-hf-id="hf-zykx" id="f02-R" class="f02-item f02-report" style="left:1060px; top:235px;">
+        <div data-hf-id="hf-nazn" class="f02-rh"><b data-hf-id="hf-ku8l">Rapport d'intervention</b><i data-hf-id="hf-p8y4">Maison Durand (démo) · à rédiger</i></div>
+        <div data-hf-id="hf-nk78" class="f02-rrow" style="width:250px"></div>
+        <div data-hf-id="hf-w3ui" class="f02-rrow" style="width:300px"></div>
+        <div data-hf-id="hf-4pig" class="f02-rrow" style="width:210px"></div>
+        <div data-hf-id="hf-cd6l" class="f02-rrow" style="width:290px; margin-top:40px"></div>
+        <div data-hf-id="hf-iol3" class="f02-rrow" style="width:240px"></div>
+        <div data-hf-id="hf-yuqm" class="f02-rrow" style="width:300px"></div>
+        <div data-hf-id="hf-jum0" class="f02-rrow" style="width:180px"></div>
+        <div data-hf-id="hf-oecj" class="f02-rrow" style="width:270px; margin-top:40px"></div>
+        <div data-hf-id="hf-ca2m" class="f02-rrow" style="width:230px"></div>
+        <div data-hf-id="hf-d22f" id="f02-stamp" class="f02-stamp">EN RETARD</div>
+      </div>
+
+      <!-- tableur -->
+      <div data-hf-id="hf-c1vk" id="f02-W" class="f02-item f02-sheet" style="left:540px; top:650px;">
+        <div data-hf-id="hf-9krq" class="f02-sheet-t">suivi_interventions_v3_FINAL.xlsx</div>
+        <div data-hf-id="hf-35h9" class="f02-grid">
+          <div data-hf-id="hf-0zp9" class="f02-c f02-hd"></div><div data-hf-id="hf-hyae" class="f02-c f02-hd">Site</div><div data-hf-id="hf-adht" class="f02-c f02-hd">Date</div><div data-hf-id="hf-5ylx" class="f02-c f02-hd">Tech.</div><div data-hf-id="hf-gxev" class="f02-c f02-hd">Rapport</div><div data-hf-id="hf-0d20" class="f02-c f02-hd">Photos</div>
+          <div data-hf-id="hf-ooki" class="f02-c f02-hd">12</div><div data-hf-id="hf-5p44" class="f02-c">Durand</div><div data-hf-id="hf-66vy" class="f02-c">15/10</div><div data-hf-id="hf-pwp1" class="f02-c">?</div><div data-hf-id="hf-gcbj" class="f02-c f02-err">#REF!</div><div data-hf-id="hf-kxam" class="f02-c">??</div>
+          <div data-hf-id="hf-oa9h" class="f02-c f02-hd">13</div><div data-hf-id="hf-4b96" class="f02-c">Moulin</div><div data-hf-id="hf-n37n" class="f02-c f02-err">##/##</div><div data-hf-id="hf-pna9" class="f02-c">JM</div><div data-hf-id="hf-w0ap" class="f02-c">à faire</div><div data-hf-id="hf-mvg9" class="f02-c f02-err">manquant</div>
+          <div data-hf-id="hf-r2eo" class="f02-c f02-hd">14</div><div data-hf-id="hf-9g0s" class="f02-c">Gîte des…</div><div data-hf-id="hf-kp1u" class="f02-c">02/10</div><div data-hf-id="hf-zms9" class="f02-c">?</div><div data-hf-id="hf-ku53" class="f02-c f02-err">en retard</div><div data-hf-id="hf-5495" class="f02-c">3 / ?</div>
+          <div data-hf-id="hf-qo3n" class="f02-c f02-hd">15</div><div data-hf-id="hf-c76r" class="f02-c">Hangar</div><div data-hf-id="hf-igsy" class="f02-c">??</div><div data-hf-id="hf-ht4q" class="f02-c">LB</div><div data-hf-id="hf-pd3p" class="f02-c">à faire</div><div data-hf-id="hf-63ir" class="f02-c f02-err">#N/A</div>
+          <div data-hf-id="hf-q9sm" class="f02-c f02-hd">16</div><div data-hf-id="hf-qfzs" class="f02-c"></div><div data-hf-id="hf-o6ds" class="f02-c"></div><div data-hf-id="hf-mzgp" class="f02-c"></div><div data-hf-id="hf-ndrq" class="f02-c"></div><div data-hf-id="hf-m6un" class="f02-c"></div>
+        </div>
+      </div>
+
+      <!-- polaroids -->
+      <div data-hf-id="hf-6fs9" id="f02-P1" class="f02-item f02-polaroid" style="left:-25px; top:484px;">
+        <svg data-hf-id="hf-1edl" viewBox="0 0 206 206"><rect data-hf-id="hf-8pne" width="206" height="206" fill="#9CC3EA"/><circle data-hf-id="hf-fs4d" cx="160" cy="44" r="20" fill="#FFC44D"/><polygon data-hf-id="hf-8wfp" points="10,190 196,190 170,92 36,92" fill="#34465F"/><g data-hf-id="hf-pufh" fill="#1E4E9C" stroke="#D6E5F8" stroke-width="2"><polygon data-hf-id="hf-c837" points="48,104 82,104 78,126 42,126"/><polygon data-hf-id="hf-91hk" points="88,104 120,104 120,126 86,126"/><polygon data-hf-id="hf-hgjb" points="126,104 158,104 164,126 128,126"/><polygon data-hf-id="hf-geb3" points="40,132 78,132 74,158 34,158"/><polygon data-hf-id="hf-6376" points="84,132 122,132 122,158 82,158"/><polygon data-hf-id="hf-cnco" points="128,132 166,132 172,158 130,158"/></g><rect data-hf-id="hf-pvxs" y="190" width="206" height="16" fill="#7FA2C6"/></svg>
+        <div data-hf-id="hf-450j" class="f02-pcap">IMG_2031</div>
+      </div>
+      <div data-hf-id="hf-b8cg" id="f02-P2" class="f02-item f02-polaroid" style="left:1035px; top:-26px;">
+        <svg data-hf-id="hf-kohp" viewBox="0 0 206 206"><rect data-hf-id="hf-kpdx" width="206" height="206" fill="#D9DEE6"/><rect data-hf-id="hf-zo6w" x="40" y="36" width="126" height="140" rx="10" fill="#F4F6F9" stroke="#8A94A6" stroke-width="4"/><rect data-hf-id="hf-waxf" x="60" y="58" width="86" height="34" rx="4" fill="#24324B"/><circle data-hf-id="hf-stn2" cx="76" cy="120" r="9" fill="#22A35A"/><circle data-hf-id="hf-eslw" cx="104" cy="120" r="9" fill="#F59F00"/><rect data-hf-id="hf-rqmc" x="66" y="146" width="74" height="8" rx="4" fill="#B9C2D0"/></svg>
+        <div data-hf-id="hf-2y3g" class="f02-pcap">IMG_2034</div>
+      </div>
+      <div data-hf-id="hf-vwdk" id="f02-P3" class="f02-item f02-polaroid" style="left:1765px; top:424px;">
+        <svg data-hf-id="hf-lves" viewBox="0 0 206 206"><rect data-hf-id="hf-lnop" width="206" height="206" fill="#1A3F7E"/><g data-hf-id="hf-v73t" stroke="#C8DAF3" stroke-width="3"><line data-hf-id="hf-pomd" x1="0" y1="52" x2="206" y2="40"/><line data-hf-id="hf-in7j" x1="0" y1="110" x2="206" y2="96"/><line data-hf-id="hf-6pe1" x1="0" y1="168" x2="206" y2="152"/><line data-hf-id="hf-4b1h" x1="52" y1="0" x2="60" y2="206"/><line data-hf-id="hf-kdwb" x1="122" y1="0" x2="134" y2="206"/></g><polygon data-hf-id="hf-ilwp" points="140,0 206,0 206,80" fill="#FFFFFF" opacity="0.25"/></svg>
+        <div data-hf-id="hf-oucv" class="f02-pcap">IMG_2040</div>
+        <div data-hf-id="hf-n758" class="f02-lost">?</div>
+      </div>
+      <div data-hf-id="hf-upoa" id="f02-P4" class="f02-item f02-polaroid" style="left:1345px; top:829px;">
+        <svg data-hf-id="hf-lh3r" viewBox="0 0 206 206"><rect data-hf-id="hf-xgca" width="206" height="206" fill="#C5CCD6"/><path data-hf-id="hf-dm4k" d="M0,120 C40,100 70,150 110,128 C150,106 170,140 206,124" stroke="#24324B" stroke-width="10" fill="none"/><path data-hf-id="hf-ujmd" d="M0,150 C50,138 80,176 120,160 C160,144 180,170 206,160" stroke="#E5484D" stroke-width="10" fill="none"/></svg>
+        <div data-hf-id="hf-7shs" class="f02-pcap">IMG_2052</div>
+      </div>
+      <div data-hf-id="hf-7pl1" id="f02-P5" class="f02-item f02-polaroid" style="left:275px; top:839px;">
+        <svg data-hf-id="hf-mo0u" viewBox="0 0 206 206"><rect data-hf-id="hf-7m4r" width="206" height="206" fill="#F6C27A"/><circle data-hf-id="hf-hiop" cx="60" cy="150" r="46" fill="#FB9500"/><polygon data-hf-id="hf-i41p" points="0,206 206,206 206,150 120,126 0,170" fill="#34465F"/><g data-hf-id="hf-umip" fill="#1E4E9C" stroke="#D6E5F8" stroke-width="2"><polygon data-hf-id="hf-txut" points="132,150 168,140 172,160 136,170"/><polygon data-hf-id="hf-39x2" points="174,138 206,130 206,152 178,158"/></g></svg>
+        <div data-hf-id="hf-3tfi" class="f02-pcap">IMG_2058</div>
+      </div>
+
+      <!-- horloge -->
+      <svg data-hf-id="hf-4n36" id="f02-clock" class="f02-item f02-clock" style="left:835px; top:105px;" viewBox="0 0 130 130">
+        <circle data-hf-id="hf-ad1q" cx="65" cy="65" r="58" fill="#F1F5FB" stroke="#E5484D" stroke-width="8"/>
+        <g data-hf-id="hf-kam0" stroke="#8A94A6" stroke-width="4" stroke-linecap="round"><line data-hf-id="hf-g6on" x1="65" y1="14" x2="65" y2="24"/><line data-hf-id="hf-cg3r" x1="116" y1="65" x2="106" y2="65"/><line data-hf-id="hf-untp" x1="65" y1="116" x2="65" y2="106"/><line data-hf-id="hf-3kwv" x1="14" y1="65" x2="24" y2="65"/></g>
+        <line data-hf-id="hf-vt3g" id="f02-clock-h" x1="65" y1="65" x2="65" y2="38" stroke="#0B1F3F" stroke-width="8" stroke-linecap="round"/>
+        <line data-hf-id="hf-dg55" id="f02-clock-m" x1="65" y1="65" x2="65" y2="22" stroke="#E5484D" stroke-width="5" stroke-linecap="round"/>
+        <circle data-hf-id="hf-4e9j" cx="65" cy="65" r="6" fill="#0B1F3F"/>
+      </svg>
+
+      <!-- SMS -->
+      <div data-hf-id="hf-wmvd" id="f02-S1" class="f02-item f02-sms" style="left:1384px; top:84px;"><small data-hf-id="hf-ik2q">Bureau</small>Tu as les photos de chez Durand ?</div>
+      <div data-hf-id="hf-h9e1" id="f02-S2" class="f02-item f02-sms" style="left:1384px; top:192px;"><small data-hf-id="hf-mr5y">Bureau</small>Le rapport, c'est pour quand ?</div>
+      <div data-hf-id="hf-yz5u" id="f02-S3" class="f02-item f02-sms f02-me" style="left:1596px; top:300px;"><small data-hf-id="hf-uef3">Moi</small>Je le fais ce soir…</div>
+      <div data-hf-id="hf-ehvv" id="f02-badge" class="f02-item f02-badge" style="left:1828px; top:44px;"><span data-hf-id="hf-1zja" id="f02-badge-n">3</span></div>
+
+      <!-- client qui attend -->
+      <div data-hf-id="hf-jxup" id="f02-C" class="f02-item f02-client" style="left:1230px; top:720px;">
+        <svg data-hf-id="hf-5afm" width="56" height="56" viewBox="0 0 56 56"><path data-hf-id="hf-2y8g" d="M14,6 H42 M14,50 H42 M17,6 C17,22 39,22 39,28 C39,34 17,34 17,50 M39,6 C39,22 17,22 17,28 C17,34 39,34 39,50" stroke="#FFB547" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path data-hf-id="hf-r1h6" d="M22,46 L34,46 L28,38 Z" fill="#FFB547"/></svg>
+        <div data-hf-id="hf-yeow"><b data-hf-id="hf-susz">Ferme du Moulin (démo)</b><i data-hf-id="hf-r0xm">En attente du rapport · J+7</i></div>
+      </div>
+    </div>
+
+    <div data-hf-id="hf-tvhr" id="f02-pains">
+      <div data-hf-id="hf-8234" class="f02-pain" id="f02-pain1"><span data-hf-id="hf-trj8" class="f02-x"><svg data-hf-id="hf-ugfi" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-4n1i" d="M5,5 L17,17 M17,5 L5,17" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></span>Fiches papier</div>
+      <div data-hf-id="hf-yfag" class="f02-pain" id="f02-pain2"><span data-hf-id="hf-gvvg" class="f02-x"><svg data-hf-id="hf-x0vm" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-by22" d="M5,5 L17,17 M17,5 L5,17" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></span>Photos dispersées</div>
+      <div data-hf-id="hf-n4fd" class="f02-pain" id="f02-pain3"><span data-hf-id="hf-foyd" class="f02-x"><svg data-hf-id="hf-xf6n" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-ccd3" d="M5,5 L17,17 M17,5 L5,17" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></span>Rapports en retard</div>
+    </div>
+
+    <div data-hf-id="hf-4tae" id="f02-scrim"></div>
+    <div data-hf-id="hf-iiqy" id="f02-head">
+      <span data-hf-id="hf-mzu0" class="f02-hl"><span data-hf-id="hf-cnni" class="f02-hw f02-h1">Du</span> <span data-hf-id="hf-nuzc" class="f02-hw f02-h1">temps</span> <span data-hf-id="hf-0j2g" class="f02-hw f02-h1 f02-redw">perdu.</span></span>
+      <span data-hf-id="hf-p0io" class="f02-hl"><span data-hf-id="hf-3xdu" class="f02-hw f02-h2">Des</span> <span data-hf-id="hf-tudy" class="f02-hw f02-h2">clients</span> <span data-hf-id="hf-59p3" class="f02-hw f02-h2">qui</span> <span data-hf-id="hf-aat6" class="f02-hw f02-h2 f02-redw">attendent.</span></span>
+    </div>
+
+    <!-- bascule -->
+    <div data-hf-id="hf-rh8h" id="f02-dot"></div>
+    <div data-hf-id="hf-o6yo" id="f02-flood"></div>
+    <div data-hf-id="hf-3r5e" id="f02-day"></div>
+    <svg data-hf-id="hf-vu2d" id="f02-rays" viewBox="0 0 800 800"></svg>
+    <div data-hf-id="hf-xhba" id="f02-halo"></div>
+    <div data-hf-id="hf-wcmy" id="f02-lockup">
+      <img data-hf-id="hf-kahr" id="f02-emblem" src="assets/logo-ohmnia-emblem.png" alt="Ohmnia PV">
+      <div data-hf-id="hf-ygar" id="f02-wordmark-box"><img data-hf-id="hf-wb1l" id="f02-wordmark" src="assets/logo-ohmnia-wordmark.png" alt=""></div>
+    </div>
+    <div data-hf-id="hf-31l0" id="f02-tag">
+      <span data-hf-id="hf-ehoc" class="f02-tl"><span data-hf-id="hf-7uie" class="f02-tw f02-t1">L'application</span> <span data-hf-id="hf-7qgm" class="f02-tw f02-t1">de</span> <span data-hf-id="hf-d5ok" class="f02-tw f02-t1">maintenance</span> <span data-hf-id="hf-psl1" class="f02-tw f02-t1">photovoltaïque</span></span>
+      <span data-hf-id="hf-s9dg" class="f02-tl"><span data-hf-id="hf-i4ac" class="f02-tw f02-t2">pensée</span> <span data-hf-id="hf-f4pk" class="f02-tw f02-t2 f02-pros" id="f02-pros">pour les pros.<i data-hf-id="hf-4id6" id="f02-tag-ul"></i></span></span>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var SVGNS = "http://www.w3.org/2000/svg";
+      var root = document.querySelector('[data-composition-id="02-chaos-bascule"]');
+      var q = function (s) { return root.querySelector(s); };
+      var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+      var seed = 4242;
+      var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // ---- handwriting scribbles (deterministic)
+      qa(".f02-scrib").forEach(function (svg) {
+        var w = +svg.getAttribute("data-w");
+        svg.setAttribute("viewBox", "0 0 " + w + " 18");
+        svg.style.flex = "0 0 " + w + "px";
+        var d = "M2," + (12 + rnd() * 3).toFixed(1), x = 2;
+        while (x < w - 10) {
+          var step = 6 + rnd() * 9;
+          x += step;
+          d += " Q" + (x - step / 2).toFixed(1) + "," + (rnd() < 0.5 ? 2 + rnd() * 5 : 13 + rnd() * 5).toFixed(1) + " " + x.toFixed(1) + "," + (8 + rnd() * 6).toFixed(1);
+        }
+        var p = document.createElementNS(SVGNS, "path");
+        p.setAttribute("d", d); p.setAttribute("fill", "none"); p.setAttribute("stroke", "#2B4C9B"); p.setAttribute("stroke-width", "2"); p.setAttribute("stroke-linecap", "round");
+        svg.appendChild(p);
+        var base = document.createElementNS(SVGNS, "line");
+        base.setAttribute("x1", 0); base.setAttribute("x2", w); base.setAttribute("y1", 17); base.setAttribute("y2", 17);
+        base.setAttribute("stroke", "#B7BFCC"); base.setAttribute("stroke-width", "1.5");
+        svg.appendChild(base);
+      });
+      // ticks on some checkboxes
+      qa(".f02-box").forEach(function (b, k) {
+        if (k % 3 === 1) return;
+        b.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15" style="position:absolute;left:-2px;top:-4px"><path d="M2,8 L6,12 L15,1" stroke="#2B4C9B" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>';
+      });
+
+      // ---- sun rays
+      var rays = q("#f02-rays");
+      for (var i = 0; i < 24; i++) {
+        var a = (i / 24) * Math.PI * 2;
+        var r1 = 200, r2 = 400, hw = 0.05;
+        var pts = [[400 + Math.cos(a - hw) * r1, 400 + Math.sin(a - hw) * r1], [400 + Math.cos(a) * r2, 400 + Math.sin(a) * r2], [400 + Math.cos(a + hw) * r1, 400 + Math.sin(a + hw) * r1]];
+        var poly = document.createElementNS(SVGNS, "polygon");
+        poly.setAttribute("points", pts.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" "));
+        poly.setAttribute("fill", i % 2 ? "rgba(251,149,0,0.16)" : "rgba(251,149,0,0.10)");
+        rays.appendChild(poly);
+      }
+
+      // ---- chaos items: landed center (cx,cy), size, rotation, entry offset
+      var CX = 960, CY = 520;
+      var items = [
+        { id: "#f02-F1", w: 280, h: 360, rot: -9, t: 0.14, from: [-760, 60, -30] },
+        { id: "#f02-F2", w: 280, h: 360, rot: 5, t: 0.26, from: [-820, 260, 25] },
+        { id: "#f02-F3", w: 280, h: 360, rot: -2, t: 0.38, from: [-900, -120, -20] },
+        { id: "#f02-P1", w: 230, h: 272, rot: -14, t: 1.62, burst: true },
+        { id: "#f02-P2", w: 230, h: 272, rot: 7, t: 1.70, burst: true },
+        { id: "#f02-P3", w: 230, h: 272, rot: 12, t: 1.78, burst: true },
+        { id: "#f02-P4", w: 230, h: 272, rot: -9, t: 1.86, burst: true },
+        { id: "#f02-P5", w: 230, h: 272, rot: 10, t: 1.94, burst: true },
+        { id: "#f02-R", w: 360, h: 470, rot: 4, t: 3.02, from: [900, -60, 18] },
+        { id: "#f02-S1", w: 470, h: 96, rot: -2, t: 4.30, pop: true },
+        { id: "#f02-S2", w: 440, h: 96, rot: 1.5, t: 4.72, pop: true },
+        { id: "#f02-S3", w: 270, h: 96, rot: -1, t: 5.14, pop: true },
+        { id: "#f02-W", w: 560, h: 300, rot: -3, t: 4.88, from: [0, 520, -6] },
+        { id: "#f02-clock", w: 130, h: 130, rot: 0, t: 5.22, pop: true },
+        { id: "#f02-C", w: 620, h: 120, rot: -2, t: 5.98, from: [0, -900, 0] },
+        { id: "#f02-badge", w: 64, h: 64, rot: 0, t: 6.30, pop: true }
+      ];
+      items.forEach(function (it) {
+        var el = q(it.id);
+        it.el = el;
+        var left = parseFloat(el.style.left), top = parseFloat(el.style.top);
+        it.cx = left + it.w / 2; it.cy = top + it.h / 2;
+      });
+
+      // grid slots (4 x 4) for "tout se range d'un coup"
+      var cellW = 280, cellH = 180, gap = 26;
+      var gridW = 4 * cellW + 3 * gap, gridH = 4 * cellH + 3 * gap;
+      var gx0 = CX - gridW / 2 + cellW / 2, gy0 = CY - gridH / 2 + cellH / 2;
+
+      var tl = gsap.timeline({ paused: true });
+
+      // ---- ambient
+      tl.fromTo("#f02-lamp", { opacity: 0 }, { opacity: 1, duration: 1.2, ease: "power2.out" }, 0);
+
+      // ---- carry-over: the sheets flying at the end of 01 keep flying across the cut
+      var carry = [[1500, 150, 220, 0], [1790, 330, -260, 1], [1330, 520, 300, 2], [1660, 640, -200, 3], [1860, 770, 240, 6], [1440, 290, -180, 7]];
+      var carryBox = q("#f02-carry");
+      carry.forEach(function (c, j) {
+        var d = document.createElement("div");
+        d.className = "f02-csheet";
+        d.style.left = (c[0] - 75) + "px"; d.style.top = (c[1] - 98) + "px";
+        carryBox.appendChild(d);
+        var k = c[3];
+        tl.fromTo(d, { x: 0, y: 0, rotation: c[2], rotationX: (k % 2 ? 38 : -32), rotationY: (k % 3 ? -28 : 34), scale: 0.95 + (k % 5) * 0.12, opacity: 1, transformPerspective: 900 },
+          { x: (c[0] > 1600 ? 260 : 140), y: 300 + j * 30, rotation: c[2] + (j % 2 ? 70 : -70), opacity: 0, duration: 0.9 + (j % 3) * 0.1, ease: "power1.in" }, 0);
+      });
+
+      // ---- entrances (landed state = CSS position, rotation via GSAP)
+      items.forEach(function (it, k) {
+        if (it.burst) {
+          tl.fromTo(it.el, { x: CX - it.cx, y: CY - it.cy, rotation: 0, scale: 0.2, opacity: 0 },
+            { x: 0, y: 0, rotation: it.rot, scale: 1, opacity: 1, duration: 0.75, ease: "power3.out" }, it.t);
+        } else if (it.pop) {
+          tl.fromTo(it.el, { scale: 0.4, opacity: 0, rotation: it.rot, transformOrigin: "50% 50%" },
+            { scale: 1, opacity: 1, rotation: it.rot, duration: 0.42, ease: "power3.out" }, it.t);
+        } else {
+          tl.fromTo(it.el, { x: it.from[0], y: it.from[1], rotation: it.from[2], opacity: 1 },
+            { x: 0, y: 0, rotation: it.rot, opacity: 1, duration: (it.id === "#f02-R" ? 0.55 : 0.7), ease: "power3.out" }, it.t);
+        }
+      });
+      // stamp slam on the report
+      tl.fromTo("#f02-stamp", { scale: 2.2, opacity: 0, rotation: -24 }, { scale: 1, opacity: 1, rotation: -14, duration: 0.28, ease: "power4.in" }, 3.32);
+      tl.fromTo("#f02-R", { x: 0, y: 0 }, { x: 6, y: 4, duration: 0.06, ease: "power1.out", immediateRender: false }, 3.6);
+      tl.to("#f02-R", { x: 0, y: 0, duration: 0.18, ease: "power2.out" }, 3.66);
+      // clock spinning faster and faster
+      tl.fromTo("#f02-clock-m", { rotation: 0 }, { rotation: 2160, svgOrigin: "65 65", duration: 4.4, ease: "power2.in" }, 5.3);
+      tl.fromTo("#f02-clock-h", { rotation: 0 }, { rotation: 180, svgOrigin: "65 65", duration: 4.4, ease: "power2.in" }, 5.3);
+      // unread badge counter 3 -> 12
+      var badge = { n: 3 };
+      tl.to(badge, { n: 12, duration: 3.0, ease: "power1.in", onUpdate: function () { q("#f02-badge-n").textContent = Math.round(badge.n); } }, 6.5);
+
+      // ---- pain list (VO cues 0.56 / 1.65 / 3.03)
+      tl.fromTo("#f02-pain1", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.56);
+      tl.fromTo("#f02-pain2", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 1.65);
+      tl.fromTo("#f02-pain3", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 3.03);
+
+      // ---- headline over the chaos (VO 4.27 / 5.96)
+      tl.fromTo("#f02-scrim", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 4.15);
+      tl.fromTo(".f02-h1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.12 }, 4.3);
+      tl.fromTo(".f02-h2", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 }, 5.98);
+
+      // ---- overwhelm: everything closes in (7.4–9.6), then tremor and freeze
+      items.forEach(function (it, k) {
+        var dx = (CX - it.cx) * (0.16 + (k % 3) * 0.03), dy = (CY - it.cy) * (0.16 + (k % 4) * 0.025);
+        it.closeX = dx; it.closeY = dy; it.closeRot = it.rot + (k % 2 ? 4 : -4);
+        tl.fromTo(it.el, { x: 0, y: 0, rotation: it.rot }, { x: dx, y: dy, rotation: it.closeRot, scale: 1.04, duration: 2.2, ease: "power2.inOut", immediateRender: false }, 7.4);
+      });
+      tl.fromTo("#f02-pains", { y: 0, opacity: 1 }, { y: 30, opacity: 0.55, duration: 2.2, ease: "power2.inOut", immediateRender: false }, 7.4);
+      // tremor (finite, deterministic)
+      var shakes = [[5, -3], [-6, 4], [4, 5], [-5, -4], [6, 2], [-3, -5], [0, 0]];
+      shakes.forEach(function (s, j) {
+        tl.to("#f02-chaos", { x: s[0], y: s[1], duration: 0.07, ease: "none" }, 8.9 + j * 0.1);
+      });
+
+      // ---- BASCULE (10.0): tout se range d'un coup
+      tl.to(["#f02-scrim", "#f02-head", "#f02-pains"], { opacity: 0, duration: 0.14, ease: "power2.in" }, 9.86);
+      items.forEach(function (it, k) {
+        var slot = k;
+        var gx = gx0 + (slot % 4) * (cellW + gap), gy = gy0 + Math.floor(slot / 4) * (cellH + gap);
+        var gs = Math.min((cellW - 16) / it.w, (cellH - 16) / it.h);
+        tl.fromTo(it.el, { x: it.closeX, y: it.closeY, rotation: it.closeRot, scale: 1.04 },
+          { x: gx - it.cx, y: gy - it.cy, rotation: 0, scale: gs, duration: 0.34, ease: "expo.out", immediateRender: false }, 10.0 + (k % 4) * 0.012);
+        tl.to(it.el, { x: CX - it.cx, y: CY - it.cy, scale: 0.04, opacity: 0, duration: 0.32, ease: "power3.in" }, 10.56 + (k % 5) * 0.01);
+      });
+      tl.fromTo("#f02-bg", { filter: "brightness(1)" }, { filter: "brightness(1.6)", duration: 0.35, ease: "power2.out", immediateRender: false }, 10.0);
+      tl.fromTo("#f02-dot", { scale: 0.2, opacity: 0 }, { scale: 1.4, opacity: 1, duration: 0.22, ease: "power3.out" }, 10.66);
+      tl.fromTo("#f02-flood", { scale: 0 }, { scale: 1, duration: 0.58, ease: "power3.in" }, 10.7);
+      tl.fromTo("#f02-day", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 11.2);
+      tl.to("#f02-dot", { opacity: 0, duration: 0.2 }, 11.05);
+
+      // ---- logo (VO "Ohmnia PV" 10.85–11.73)
+      tl.fromTo("#f02-halo", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: "power3.out" }, 10.98);
+      tl.fromTo("#f02-rays", { opacity: 0, rotation: -8, scale: 0.85 }, { opacity: 1, rotation: 10, scale: 1, duration: 5.9, ease: "power1.out" }, 11.05);
+      tl.fromTo("#f02-emblem", { scale: 0.55, opacity: 0, y: 30 }, { scale: 1, opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 10.96);
+      tl.fromTo("#f02-wordmark-box", { clipPath: "inset(0% 0% 100% 0%)", y: 26 }, { clipPath: "inset(0% 0% 0% 0%)", y: 0, duration: 0.6, ease: "power3.out" }, 11.22);
+      tl.to("#f02-lockup", { y: -70, duration: 0.7, ease: "power3.inOut" }, 11.9);
+      tl.to(["#f02-halo", "#f02-rays"], { y: -70, duration: 0.7, ease: "power3.inOut" }, 11.9);
+
+      // ---- tagline (VO 12.11 / 14.68)
+      tl.fromTo(".f02-t1", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out", stagger: 0.16 }, 12.12);
+      tl.fromTo(".f02-t2", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out", stagger: 0.18 }, 14.66);
+      tl.fromTo("#f02-tag-ul", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 15.12);
+
+      window.__timelines["02-chaos-bascule"] = tl;
+    })();
+  </script>
+</template>

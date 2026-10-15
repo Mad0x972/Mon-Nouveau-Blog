@@ -3,3 +3,11 @@ node_modules/
 .hyperframes/frame-packets/
 .thumbnails/
 *.log
+.hyperframes/preview/
+.hyperframes/render-outputs.json
+.hyperframes/video-state.json
+.hyperframes/history-id
+.hyperframes/hf-ids-stamped.json
+renders/*
+!renders/ohmnia-pv-promo.mp4
+.hyperframes/*-lock/

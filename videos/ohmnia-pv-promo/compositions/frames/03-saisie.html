@@ -1,0 +1,328 @@
+<template>
+  <style>
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Medium.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Black.woff2") format("woff2");}
+
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #f03-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 55% 70% at 74% 50%, #EAF1FB 0%, #F5F7FB 60%); }
+    #f03-ring { position: absolute; left: 952px; top: 70px; width: 900px; height: 900px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(1, 81, 162, 0.07) 0%, rgba(1, 81, 162, 0.035) 50%, rgba(1, 81, 162, 0) 70%); }
+    #f03-ring2 { position: absolute; left: 1052px; top: 170px; width: 700px; height: 700px; border-radius: 50%; border: 2px solid rgba(1, 81, 162, 0.10); }
+
+    /* ---- left column */
+    #f03-copy { position: absolute; left: 140px; top: 210px; width: 900px; }
+    .f03-eyebrow { display: inline-block; padding: 10px 22px; border-radius: 100px; font-family: "Inter Display", sans-serif; font-weight: 700; font-size: 24px;
+      letter-spacing: 0.12em; color: #0151A2; background: rgba(1, 81, 162, 0.08); border: 1.5px solid rgba(1, 81, 162, 0.22); white-space: nowrap; }
+    .f03-accent { width: 72px; height: 6px; border-radius: 3px; background: #FB9500; margin-top: 34px; transform-origin: left center; }
+    .f03-h { margin-top: 22px; font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 96px; line-height: 1.02; letter-spacing: -0.03em; color: #0B1F3F; }
+    .f03-hl { display: block; white-space: nowrap; }
+    .f03-hw { display: inline-block; }
+    .f03-sub { margin-top: 26px; font-family: "Inter", sans-serif; font-weight: 600; font-size: 44px; color: #475569; white-space: nowrap; letter-spacing: -0.01em; }
+    #f03-chips { display: flex; gap: 16px; margin-top: 44px; }
+    .f03-chip { position: relative; display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 26px 0 20px; border-radius: 100px; font-weight: 700; font-size: 25px;
+      color: #0151A2; background: #FFFFFF; border: 1.5px solid rgba(1, 81, 162, 0.22); white-space: nowrap; overflow: hidden; }
+    .f03-chip-fill { position: absolute; inset: 0; background: #0151A2; border-radius: 100px; opacity: 0; }
+    .f03-chip span, .f03-chip svg { position: relative; }
+    #f03-offline { position: absolute; left: 140px; top: 820px; display: flex; align-items: center; gap: 14px; height: 54px; padding: 0 24px 0 18px; border-radius: 100px;
+      background: #0B1F3F; color: #FFFFFF; font-weight: 700; font-size: 22px; white-space: nowrap; }
+
+    /* ---- phone */
+    #f03-phone { position: absolute; left: 1200px; top: 52px; width: 404px; height: 836px; border-radius: 62px; background: #0B0F17;
+      box-shadow: 0 40px 80px rgba(11, 31, 63, 0.28), 0 0 0 2px #2A3140 inset; }
+    #f03-screen { position: absolute; left: 14px; top: 14px; width: 376px; height: 808px; border-radius: 50px; overflow: hidden; background: #080F1B; }
+    #f03-app { position: absolute; left: 0; top: 0; width: 412px; height: 885px; transform-origin: 0 0; transform: scale(0.91262); color: #E9ECF5; }
+    .f03-status { height: 32px; background: #10274B; display: flex; align-items: center; justify-content: space-between; padding: 0 26px 0 30px; font-size: 14px; font-weight: 700; }
+    .f03-status-r { display: flex; align-items: center; gap: 8px; }
+    .f03-off { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; color: #FFB547; background: rgba(255, 181, 71, 0.14); padding: 2px 8px; border-radius: 8px; }
+    .f03-head { height: 70px; background: #10274B; display: flex; align-items: center; gap: 12px; padding: 0 14px; }
+    .f03-head-t b { display: block; font-size: 18px; font-weight: 800; white-space: nowrap; }
+    .f03-head-t i { display: block; font-style: normal; font-size: 12.5px; color: #C8D1E0; margin-top: 2px; white-space: nowrap; }
+    .f03-okbtn { margin-left: auto; width: 46px; height: 34px; border-radius: 12px; background: #1E3A66; display: flex; align-items: center; justify-content: center; }
+    .f03-sum { height: 64px; background: #0D1729; display: flex; align-items: center; padding: 0 14px; border-bottom: 1px solid #1B2740; }
+    .f03-sum small { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #8E9BB3; white-space: nowrap; }
+    .f03-sum b { display: block; font-size: 24px; font-weight: 800; white-space: nowrap; }
+    .f03-anom { margin-left: auto; display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 19px; background: #B81A1B; color: #FFFFFF;
+      font-size: 15px; font-weight: 800; white-space: nowrap; }
+    .f03-content { position: absolute; left: 0; top: 166px; width: 412px; height: 655px; overflow: hidden; }
+    .f03-panel { position: absolute; left: 0; top: 0; width: 412px; height: 655px; padding: 14px 12px; }
+    .f03-card { background: #11192D; border: 1px solid #1E2A44; border-radius: 18px; padding: 14px 14px 16px; }
+    .f03-card-t { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 800; white-space: nowrap; }
+    .f03-card-s { font-size: 12.5px; color: #8E9BB3; margin-top: 3px; white-space: nowrap; }
+    .f03-ico { width: 34px; height: 34px; border-radius: 10px; background: #312D25; display: flex; align-items: center; justify-content: center; flex: 0 0 34px; }
+    .f03-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 10px; margin-top: 14px; }
+    .f03-lab { font-size: 12.5px; color: #C8D1E0; font-weight: 600; margin-bottom: 6px; white-space: nowrap; }
+    .f03-in { position: relative; height: 50px; border-radius: 14px; border: 2px solid #38445A; background: #121A2E; display: flex; align-items: center; padding: 0 12px; }
+    .f03-in-ok { position: absolute; inset: -2px; border-radius: 14px; border: 2px solid #22A35A; background: #113328; opacity: 0; }
+    .f03-in-bad { position: absolute; inset: -2px; border-radius: 14px; border: 2px solid #E5484D; background: #52151A; opacity: 0; }
+    .f03-val { position: relative; font-size: 19px; font-weight: 800; color: #FFFFFF; white-space: nowrap; min-width: 4px; }
+    .f03-unit { position: relative; margin-left: auto; margin-right: 34px; font-size: 13px; color: #8E9BB3; font-weight: 600; white-space: nowrap; }
+    .f03-st { position: absolute; right: 9px; top: 11px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; }
+    .f03-st.f03-g { background: #1F9D55; }
+    .f03-st.f03-r { background: #E5484D; }
+    #f03-toast { margin-top: 14px; border-radius: 14px; background: #52151A; border: 1.5px solid #E5484D; padding: 11px 13px; display: flex; gap: 10px; align-items: flex-start; }
+    #f03-toast b { display: block; font-size: 14px; font-weight: 800; color: #FFD7D7; white-space: nowrap; }
+    #f03-toast i { display: block; font-style: normal; font-size: 12.5px; color: #FFB4B4; margin-top: 3px; white-space: nowrap; }
+    .f03-row { display: flex; align-items: center; height: 58px; border-bottom: 1px solid #1E2A44; font-size: 15px; font-weight: 600; color: #E9ECF5; white-space: nowrap; }
+    .f03-row:last-child { border-bottom: 0; }
+    .f03-pill { position: relative; margin-left: auto; width: 118px; height: 32px; border-radius: 16px; border: 1.5px dashed #38445A; }
+    .f03-pill span { position: absolute; inset: -1.5px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; opacity: 0; white-space: nowrap; }
+    .f03-pill .f03-pg { background: #113328; color: #5EE08F; border: 1.5px solid #22A35A; }
+    .f03-pill .f03-pr { background: #52151A; color: #FF9B9B; border: 1.5px solid #E5484D; }
+    .f03-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .f03-btn { position: relative; height: 54px; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 17px; font-weight: 800; overflow: hidden; }
+    .f03-btn.f03-cam { background: #F59F00; color: #1A1406; }
+    .f03-btn.f03-gal { border: 2px solid #38445A; color: #E9ECF5; }
+    .f03-filters { display: flex; gap: 8px; margin-top: 14px; }
+    .f03-f { height: 36px; padding: 0 14px; border-radius: 18px; border: 1.5px solid #38445A; display: flex; align-items: center; font-size: 13px; font-weight: 700; color: #C8D1E0; white-space: nowrap; }
+    .f03-f.f03-fa { background: #10274B; border-color: #10274B; color: #FFFFFF; }
+    .f03-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .f03-th { position: relative; height: 118px; border-radius: 14px; overflow: hidden; opacity: 0; }
+    .f03-th svg { width: 100%; height: 100%; display: block; }
+    .f03-th em { position: absolute; left: 6px; bottom: 6px; font-style: normal; font-size: 10.5px; font-weight: 800; color: #FFFFFF; background: rgba(8, 15, 27, 0.75); padding: 3px 7px; border-radius: 7px; white-space: nowrap; }
+    .f03-tabs { position: absolute; left: 0; top: 821px; width: 412px; height: 64px; background: #11192D; border-top: 1px solid #1E2A44; display: grid; grid-template-columns: repeat(5, 1fr); }
+    .f03-tab { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; font-weight: 700; color: #8E9BB3; white-space: nowrap; }
+    .f03-tab-pill { position: absolute; top: 7px; width: 54px; height: 30px; border-radius: 15px; background: #3B3420; opacity: 0; }
+    .f03-tab svg { position: relative; }
+    .f03-tab label { position: relative; }
+    .f03-dotn { position: absolute; top: 4px; left: 47px; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; background: #C81E1E; color: #FFFFFF;
+      font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .f03-dotn.f03-blue { background: #1E3A66; }
+    #f03-tabbar-ind { position: absolute; top: 0; left: 0; width: 46px; height: 3px; border-radius: 2px; background: #F59F00; }
+    #f03-flash { position: absolute; inset: 0; background: #FFFFFF; opacity: 0; }
+    .f03-tap { position: absolute; left: 0; top: 0; width: 60px; height: 60px; margin-left: -30px; margin-top: -30px; border-radius: 50%; background: rgba(255, 255, 255, 0.45); opacity: 0; }
+  </style>
+
+  <div data-hf-id="hf-24ks" id="root" data-composition-id="03-saisie" data-width="1920" data-height="1080" data-duration="8.5">
+    <div data-hf-id="hf-dhn4" id="f03-bg" class="clip" data-start="0" data-duration="8.5" data-track-index="0"></div>
+    <div data-hf-id="hf-hf5h" id="f03-ring"></div>
+    <div data-hf-id="hf-td9h" id="f03-ring2"></div>
+
+    <div data-hf-id="hf-g2js" id="f03-copy">
+      <div data-hf-id="hf-9swg" class="f03-eyebrow" id="f03-eyebrow">SUR LE TERRAIN</div>
+      <div data-hf-id="hf-llm2" class="f03-accent" id="f03-accent"></div>
+      <div data-hf-id="hf-zz46" class="f03-h">
+        <span data-hf-id="hf-dg5b" class="f03-hl"><span data-hf-id="hf-kk2k" class="f03-hw">Tout</span> <span data-hf-id="hf-2dyg" class="f03-hw">se</span> <span data-hf-id="hf-w15t" class="f03-hw">saisit</span></span>
+        <span data-hf-id="hf-jpxb" class="f03-hl"><span data-hf-id="hf-px6m" class="f03-hw">sur</span> <span data-hf-id="hf-47nf" class="f03-hw">place.</span></span>
+      </div>
+      <div data-hf-id="hf-3n1h" class="f03-sub" id="f03-sub">En quelques gestes.</div>
+      <div data-hf-id="hf-94wo" id="f03-chips">
+        <div data-hf-id="hf-rze7" class="f03-chip" id="f03-chip1"><i data-hf-id="hf-2di2" class="f03-chip-fill"></i><svg data-hf-id="hf-h4wu" width="26" height="26" viewBox="0 0 26 26"><path data-hf-id="hf-rez7" d="M4,18 A9,9 0 0 1 22,18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path data-hf-id="hf-119n" d="M13,18 L18,11" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span data-hf-id="hf-g4k7">Relevés</span></div>
+        <div data-hf-id="hf-jbic" class="f03-chip" id="f03-chip2"><i data-hf-id="hf-iyv2" class="f03-chip-fill"></i><svg data-hf-id="hf-zawy" width="26" height="26" viewBox="0 0 26 26"><path data-hf-id="hf-2m0v" d="M3,8 L6,11 L11,5 M3,18 L6,21 L11,15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path data-hf-id="hf-pibh" d="M15,8 H23 M15,18 H23" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg><span data-hf-id="hf-ep2l">Contrôles</span></div>
+        <div data-hf-id="hf-k365" class="f03-chip" id="f03-chip3"><i data-hf-id="hf-jd63" class="f03-chip-fill"></i><svg data-hf-id="hf-zp7z" width="26" height="26" viewBox="0 0 26 26"><rect data-hf-id="hf-7ejh" x="3" y="7" width="20" height="15" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><circle data-hf-id="hf-orl6" cx="13" cy="14.5" r="4" fill="none" stroke="currentColor" stroke-width="3"/><path data-hf-id="hf-mzdb" d="M9,7 L10.5,4 H15.5 L17,7" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg><span data-hf-id="hf-if7o">Photos</span></div>
+      </div>
+    </div>
+    <div data-hf-id="hf-uf22" id="f03-offline">
+      <svg data-hf-id="hf-hk4i" width="28" height="28" viewBox="0 0 28 28"><path data-hf-id="hf-ke2t" d="M4,22 V18 M10,22 V14 M16,22 V10 M22,22 V6" stroke="#FFB547" stroke-width="3.5" stroke-linecap="round"/><path data-hf-id="hf-ddco" d="M3,3 L25,25" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/></svg>
+      Même sans réseau · tout est enregistré
+    </div>
+
+    <div data-hf-id="hf-5bzd" id="f03-phone">
+      <div data-hf-id="hf-5zyv" id="f03-screen">
+        <div data-hf-id="hf-3yr4" id="f03-app">
+          <div data-hf-id="hf-mfw0" class="f03-status"><span data-hf-id="hf-oykg">10:24</span><span data-hf-id="hf-z1pk" class="f03-status-r"><span data-hf-id="hf-rghx" class="f03-off">HORS LIGNE</span>
+            <svg data-hf-id="hf-xmam" width="18" height="14" viewBox="0 0 18 14"><path data-hf-id="hf-c0l9" d="M1,13 V10 M5,13 V7 M9,13 V4 M13,13 V1" stroke="#5E6B85" stroke-width="2.4" stroke-linecap="round"/></svg>
+            <svg data-hf-id="hf-rwau" width="26" height="13" viewBox="0 0 26 13"><rect data-hf-id="hf-c255" x="1" y="1" width="21" height="11" rx="3" fill="none" stroke="#E9ECF5" stroke-width="1.6"/><rect data-hf-id="hf-cm49" x="3" y="3" width="14" height="7" rx="1.5" fill="#E9ECF5"/><rect data-hf-id="hf-8ala" x="23" y="4.5" width="2" height="4" rx="1" fill="#E9ECF5"/></svg></span></div>
+          <div data-hf-id="hf-r7ow" class="f03-head">
+            <svg data-hf-id="hf-03j0" width="26" height="26" viewBox="0 0 26 26"><path data-hf-id="hf-goxt" d="M20,13 H6 M12,6 L5,13 L12,20" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div data-hf-id="hf-uacb" class="f03-head-t"><b data-hf-id="hf-k268">Maison Durand (démo)</b><i data-hf-id="hf-24vo">15/10/2026 02h47 · Maintenance préventive</i></div>
+            <div data-hf-id="hf-a07c" class="f03-okbtn"><svg data-hf-id="hf-7kz6" width="20" height="20" viewBox="0 0 20 20"><path data-hf-id="hf-n05r" d="M3,10 L8,15 L17,5" fill="none" stroke="#F59F00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div data-hf-id="hf-nyib" class="f03-sum">
+            <div data-hf-id="hf-yeow"><small data-hf-id="hf-tvbe">TOTAL INSTALLATION</small><b data-hf-id="hf-g5oe">4,29 kW</b></div>
+            <div data-hf-id="hf-itum" class="f03-anom" id="f03-anom"><svg data-hf-id="hf-igxa" width="18" height="18" viewBox="0 0 18 18"><path data-hf-id="hf-jipg" d="M9,2 L17,16 H1 Z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/><path data-hf-id="hf-lqpu" d="M9,7 V11 M9,13.5 V13.6" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/></svg><span data-hf-id="hf-vqao" id="f03-anom-n">3 anomalies</span></div>
+          </div>
+
+          <div data-hf-id="hf-58xx" class="f03-content">
+            <!-- RELEVES -->
+            <div data-hf-id="hf-yf99" class="f03-panel" id="f03-p1">
+              <div data-hf-id="hf-7vfw" class="f03-card">
+                <div data-hf-id="hf-umnc" class="f03-card-t"><span data-hf-id="hf-jmtq" class="f03-ico"><svg data-hf-id="hf-4yie" width="20" height="20" viewBox="0 0 20 20"><path data-hf-id="hf-xy3o" d="M3,14 A7,7 0 0 1 17,14" fill="none" stroke="#F59F00" stroke-width="2.4" stroke-linecap="round"/><path data-hf-id="hf-1zt9" d="M10,14 L14,9" stroke="#F59F00" stroke-width="2.4" stroke-linecap="round"/></svg></span>Onduleur 1 › Entrée DC</div>
+                <div data-hf-id="hf-v50t" class="f03-card-s">Strings S1 · S2 — onduleur + optimiseurs</div>
+                <div data-hf-id="hf-wsbt" class="f03-fields">
+                  <div data-hf-id="hf-y7yw"><div data-hf-id="hf-720t" class="f03-lab">Tension sécurité S1</div><div data-hf-id="hf-q73v" class="f03-in" id="f03-fS1"><i data-hf-id="hf-m8pq" class="f03-in-ok"></i><i data-hf-id="hf-31ah" class="f03-in-bad"></i><span data-hf-id="hf-91ay" class="f03-val" data-v="11,0"></span><span data-hf-id="hf-hxel" class="f03-unit">V</span><span data-hf-id="hf-7gtr" class="f03-st f03-g"><svg data-hf-id="hf-s4xi" width="14" height="14" viewBox="0 0 14 14"><path data-hf-id="hf-udsv" d="M2,7 L5.5,10.5 L12,3.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+                  <div data-hf-id="hf-x11t"><div data-hf-id="hf-88xw" class="f03-lab">Tension sécurité S2</div><div data-hf-id="hf-fbm8" class="f03-in" id="f03-fS2"><i data-hf-id="hf-5jlu" class="f03-in-ok"></i><i data-hf-id="hf-8bb1" class="f03-in-bad"></i><span data-hf-id="hf-exk1" class="f03-val" data-v="9,0"></span><span data-hf-id="hf-2ohd" class="f03-unit">V</span><span data-hf-id="hf-x9ii" class="f03-st f03-r"><svg data-hf-id="hf-9qoq" width="14" height="14" viewBox="0 0 14 14"><path data-hf-id="hf-9y4x" d="M7,3 V8 M7,10.6 V10.8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg></span></div></div>
+                  <div data-hf-id="hf-xfcu"><div data-hf-id="hf-jjhl" class="f03-lab">Courant AC</div><div data-hf-id="hf-u7gl" class="f03-in" id="f03-fIA"><i data-hf-id="hf-5xwv" class="f03-in-ok"></i><i data-hf-id="hf-dk78" class="f03-in-bad"></i><span data-hf-id="hf-odht" class="f03-val" data-v="18,2"></span><span data-hf-id="hf-ecnc" class="f03-unit">A</span><span data-hf-id="hf-0lcf" class="f03-st f03-g"><svg data-hf-id="hf-a4zr" width="14" height="14" viewBox="0 0 14 14"><path data-hf-id="hf-gkbj" d="M2,7 L5.5,10.5 L12,3.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+                  <div data-hf-id="hf-w8fr"><div data-hf-id="hf-6wd7" class="f03-lab">Isolement</div><div data-hf-id="hf-w1si" class="f03-in" id="f03-fIso"><i data-hf-id="hf-6c7w" class="f03-in-ok"></i><i data-hf-id="hf-d5w7" class="f03-in-bad"></i><span data-hf-id="hf-aaa5" class="f03-val" data-v="45"></span><span data-hf-id="hf-sxhr" class="f03-unit">MΩ</span><span data-hf-id="hf-071e" class="f03-st f03-g"><svg data-hf-id="hf-ajas" width="14" height="14" viewBox="0 0 14 14"><path data-hf-id="hf-g60i" d="M2,7 L5.5,10.5 L12,3.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+                  <div data-hf-id="hf-wmqs"><div data-hf-id="hf-m9jd" class="f03-lab">Tension AC</div><div data-hf-id="hf-oqf5" class="f03-in" id="f03-fUA"><i data-hf-id="hf-6qix" class="f03-in-ok"></i><i data-hf-id="hf-ecta" class="f03-in-bad"></i><span data-hf-id="hf-kx1h" class="f03-val" data-v="236,4"></span><span data-hf-id="hf-3veg" class="f03-unit">V</span><span data-hf-id="hf-zsqd" class="f03-st f03-g"><svg data-hf-id="hf-ezkx" width="14" height="14" viewBox="0 0 14 14"><path data-hf-id="hf-frph" d="M2,7 L5.5,10.5 L12,3.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+                  <div data-hf-id="hf-vftp"><div data-hf-id="hf-uf92" class="f03-lab">Calibre protection</div><div data-hf-id="hf-p5ib" class="f03-in"><span data-hf-id="hf-g6ei" class="f03-val">20</span><span data-hf-id="hf-lcv9" class="f03-unit" style="margin-right:4px">A</span></div></div>
+                </div>
+                <div data-hf-id="hf-fqtg" id="f03-toast">
+                  <svg data-hf-id="hf-uxa5" width="22" height="22" viewBox="0 0 22 22" style="flex:0 0 22px"><path data-hf-id="hf-n3g8" d="M11,2 L21,19 H1 Z" fill="#E5484D"/><path data-hf-id="hf-mfku" d="M11,8 V13 M11,15.6 V15.8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>
+                  <div data-hf-id="hf-vu4q"><b data-hf-id="hf-lmkp">Anomalie détectée · String S2</b><i data-hf-id="hf-621b">9 V au lieu de 11 V · écart 18,2 % &gt; 10 %</i></div>
+                </div>
+              </div>
+            </div>
+            <!-- CONTROLES -->
+            <div data-hf-id="hf-2dda" class="f03-panel" id="f03-p2">
+              <div data-hf-id="hf-1ojo" class="f03-card">
+                <div data-hf-id="hf-yi92" class="f03-card-t"><span data-hf-id="hf-fas2" class="f03-ico"><svg data-hf-id="hf-5ctf" width="20" height="20" viewBox="0 0 20 20"><path data-hf-id="hf-lssh" d="M2,6 L4.5,8.5 L8,4 M2,14 L4.5,16.5 L8,12" fill="none" stroke="#F59F00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path data-hf-id="hf-x2kf" d="M11,6 H18 M11,14 H18" stroke="#F59F00" stroke-width="2.2" stroke-linecap="round"/></svg></span>Champ photovoltaïque</div>
+                <div data-hf-id="hf-8f7p" class="f03-card-s">Points de contrôle · 5</div>
+                <div data-hf-id="hf-f11t" style="margin-top:6px">
+                  <div data-hf-id="hf-7udn" class="f03-row">État des modules<div data-hf-id="hf-smrb" class="f03-pill" id="f03-c1"><span data-hf-id="hf-lh7t" class="f03-pg">Conforme</span></div></div>
+                  <div data-hf-id="hf-fyb5" class="f03-row">Encrassement des modules<div data-hf-id="hf-hr9o" class="f03-pill" id="f03-c2"><span data-hf-id="hf-pu2p" class="f03-pg">Propres</span></div></div>
+                  <div data-hf-id="hf-pb3i" class="f03-row">Ombrages<div data-hf-id="hf-kqj9" class="f03-pill" id="f03-c3"><span data-hf-id="hf-vt9k" class="f03-pg">Aucun</span></div></div>
+                  <div data-hf-id="hf-f0zx" class="f03-row">Structure et fixations<div data-hf-id="hf-1an6" class="f03-pill" id="f03-c4"><span data-hf-id="hf-vnc5" class="f03-pr">Non conforme</span></div></div>
+                  <div data-hf-id="hf-hwju" class="f03-row">Étanchéité de la toiture<div data-hf-id="hf-58r7" class="f03-pill" id="f03-c5"><span data-hf-id="hf-wd3x" class="f03-pg">Conforme</span></div></div>
+                </div>
+              </div>
+            </div>
+            <!-- PHOTOS -->
+            <div data-hf-id="hf-6bhb" class="f03-panel" id="f03-p3">
+              <div data-hf-id="hf-0hml" class="f03-card">
+                <div data-hf-id="hf-zhww" class="f03-card-t"><span data-hf-id="hf-fp33" class="f03-ico"><svg data-hf-id="hf-5r4g" width="20" height="20" viewBox="0 0 20 20"><rect data-hf-id="hf-dvl9" x="2" y="4" width="16" height="13" rx="3" fill="none" stroke="#F59F00" stroke-width="2.2"/><circle data-hf-id="hf-2ev6" cx="7" cy="9" r="1.8" fill="#F59F00"/><path data-hf-id="hf-s7bh" d="M4,15 L9,11 L12,13 L15,10 L18,13" fill="none" stroke="#F59F00" stroke-width="2" stroke-linejoin="round"/></svg></span>Ajouter des photos</div>
+                <div data-hf-id="hf-43cp" class="f03-card-s">Compressées et enregistrées sur l'appareil</div>
+                <div data-hf-id="hf-moqh" class="f03-btns">
+                  <div data-hf-id="hf-t725" class="f03-btn f03-cam" id="f03-cambtn"><svg data-hf-id="hf-ugfi" width="22" height="22" viewBox="0 0 22 22"><rect data-hf-id="hf-qy9f" x="2" y="6" width="18" height="13" rx="3.5" fill="none" stroke="#1A1406" stroke-width="2.4"/><circle data-hf-id="hf-9as2" cx="11" cy="12.5" r="3.4" fill="none" stroke="#1A1406" stroke-width="2.4"/><path data-hf-id="hf-i5jq" d="M7,6 L8.5,3 H13.5 L15,6" fill="none" stroke="#1A1406" stroke-width="2.4" stroke-linejoin="round"/></svg>Caméra</div>
+                  <div data-hf-id="hf-k0wx" class="f03-btn f03-gal"><svg data-hf-id="hf-x0vm" width="22" height="22" viewBox="0 0 22 22"><rect data-hf-id="hf-iqsl" x="3" y="3" width="16" height="16" rx="3" fill="none" stroke="#E9ECF5" stroke-width="2.2"/><circle data-hf-id="hf-dtbs" cx="8" cy="8.5" r="1.8" fill="#E9ECF5"/><path data-hf-id="hf-jh9o" d="M4,17 L9,12 L12,14.5 L15,11.5 L19,15" fill="none" stroke="#E9ECF5" stroke-width="2" stroke-linejoin="round"/></svg>Galerie</div>
+                </div>
+              </div>
+              <div data-hf-id="hf-42oj" class="f03-filters"><div data-hf-id="hf-q8i0" class="f03-f f03-fa">Toutes · <span data-hf-id="hf-av0n" id="f03-pcount">0</span></div><div data-hf-id="hf-yx04" class="f03-f">État initial</div><div data-hf-id="hf-l8ii" class="f03-f">Onduleur</div><div data-hf-id="hf-f3if" class="f03-f">Champ PV</div></div>
+              <div data-hf-id="hf-l1xp" class="f03-thumbs">
+                <div data-hf-id="hf-yaq7" class="f03-th" id="f03-th1"><svg data-hf-id="hf-kmwv" viewBox="0 0 120 118" preserveAspectRatio="xMidYMid slice"><rect data-hf-id="hf-fncz" width="120" height="118" fill="#9CC3EA"/><circle data-hf-id="hf-srit" cx="96" cy="24" r="11" fill="#FFC44D"/><polygon data-hf-id="hf-j7uc" points="6,110 114,110 98,52 22,52" fill="#34465F"/><g data-hf-id="hf-j3mg" fill="#1E4E9C" stroke="#D6E5F8" stroke-width="1.4"><polygon data-hf-id="hf-taj6" points="28,60 48,60 46,74 24,74"/><polygon data-hf-id="hf-4k1i" points="52,60 70,60 70,74 50,74"/><polygon data-hf-id="hf-jzam" points="74,60 92,60 96,74 76,74"/><polygon data-hf-id="hf-ho47" points="22,80 44,80 42,96 18,96"/><polygon data-hf-id="hf-a75e" points="48,80 72,80 72,96 46,96"/><polygon data-hf-id="hf-bj8y" points="76,80 98,80 102,96 78,96"/></g></svg><em data-hf-id="hf-wkej">État initial</em></div>
+                <div data-hf-id="hf-nf8k" class="f03-th" id="f03-th2"><svg data-hf-id="hf-i7sv" viewBox="0 0 120 118" preserveAspectRatio="xMidYMid slice"><rect data-hf-id="hf-bey0" width="120" height="118" fill="#D9DEE6"/><rect data-hf-id="hf-4i3f" x="26" y="18" width="68" height="82" rx="7" fill="#F4F6F9" stroke="#8A94A6" stroke-width="3"/><rect data-hf-id="hf-mdfp" x="38" y="30" width="44" height="18" rx="3" fill="#24324B"/><circle data-hf-id="hf-oc4i" cx="46" cy="64" r="5" fill="#22A35A"/><circle data-hf-id="hf-8lf4" cx="62" cy="64" r="5" fill="#F59F00"/><rect data-hf-id="hf-s9e2" x="40" y="80" width="40" height="5" rx="2.5" fill="#B9C2D0"/></svg><em data-hf-id="hf-f1h9">Onduleur</em></div>
+                <div data-hf-id="hf-qei5" class="f03-th" id="f03-th3"><svg data-hf-id="hf-hthu" viewBox="0 0 120 118" preserveAspectRatio="xMidYMid slice"><rect data-hf-id="hf-2rgs" width="120" height="118" fill="#1A3F7E"/><g data-hf-id="hf-ufg0" stroke="#C8DAF3" stroke-width="2"><line data-hf-id="hf-a2zm" x1="0" y1="30" x2="120" y2="22"/><line data-hf-id="hf-6314" x1="0" y1="64" x2="120" y2="56"/><line data-hf-id="hf-2zcn" x1="0" y1="98" x2="120" y2="90"/><line data-hf-id="hf-xlmc" x1="30" y1="0" x2="34" y2="118"/><line data-hf-id="hf-cg7a" x1="70" y1="0" x2="76" y2="118"/></g><polygon data-hf-id="hf-dqds" points="80,0 120,0 120,50" fill="#FFFFFF" opacity="0.22"/></svg><em data-hf-id="hf-n85w">Champ PV</em></div>
+              </div>
+            </div>
+          </div>
+
+          <div data-hf-id="hf-lhi2" class="f03-tabs" id="f03-tabs">
+            <div data-hf-id="hf-medw" class="f03-tab" id="f03-tab0"><i data-hf-id="hf-auxp" class="f03-tab-pill"></i><svg data-hf-id="hf-xf6n" width="22" height="22" viewBox="0 0 22 22"><rect data-hf-id="hf-96j9" x="4" y="3" width="14" height="17" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path data-hf-id="hf-1daz" d="M8,8 H14 M8,12 H14 M8,16 H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label data-hf-id="hf-vtne">Infos</label></div>
+            <div data-hf-id="hf-n61p" class="f03-tab" id="f03-tab1"><i data-hf-id="hf-f29d" class="f03-tab-pill"></i><svg data-hf-id="hf-xtho" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-hzo7" d="M3,16 A8,8 0 0 1 19,16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path data-hf-id="hf-lni4" d="M11,16 L15,10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><label data-hf-id="hf-nhq3">Relevés</label><span data-hf-id="hf-lh0v" class="f03-dotn" id="f03-dot1">1</span></div>
+            <div data-hf-id="hf-r45q" class="f03-tab" id="f03-tab2"><i data-hf-id="hf-g96g" class="f03-tab-pill"></i><svg data-hf-id="hf-y7sp" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-99b1" d="M2,7 L4.5,9.5 L8,5 M2,16 L4.5,18.5 L8,14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path data-hf-id="hf-aa8x" d="M11,7 H20 M11,16 H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label data-hf-id="hf-0vld">Contrôles</label><span data-hf-id="hf-bw87" class="f03-dotn" id="f03-dot2">2</span></div>
+            <div data-hf-id="hf-v29r" class="f03-tab" id="f03-tab3"><i data-hf-id="hf-fuvf" class="f03-tab-pill"></i><svg data-hf-id="hf-ym3q" width="22" height="22" viewBox="0 0 22 22"><rect data-hf-id="hf-q4n5" x="2" y="6" width="18" height="13" rx="3.5" fill="none" stroke="currentColor" stroke-width="2"/><circle data-hf-id="hf-9xst" cx="11" cy="12.5" r="3.3" fill="none" stroke="currentColor" stroke-width="2"/><path data-hf-id="hf-15tg" d="M7,6 L8.5,3 H13.5 L15,6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><label data-hf-id="hf-kgm0">Photos</label><span data-hf-id="hf-pkf7" class="f03-dotn f03-blue" id="f03-dot3">1</span></div>
+            <div data-hf-id="hf-z0ds" class="f03-tab" id="f03-tab4"><i data-hf-id="hf-dvca" class="f03-tab-pill"></i><svg data-hf-id="hf-z0er" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-zdd8" d="M6,2 H13 L18,7 V20 H6 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path data-hf-id="hf-p1xd" d="M9,11 H15 M9,15 H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><label data-hf-id="hf-e2w7">Rapport</label></div>
+            <i data-hf-id="hf-yrzr" id="f03-tabbar-ind"></i>
+          </div>
+          <div data-hf-id="hf-3gr3" id="f03-flash"></div>
+          <div data-hf-id="hf-ixq1" class="f03-tap" id="f03-tapA"></div>
+          <div data-hf-id="hf-p3fu" class="f03-tap" id="f03-tapB"></div>
+          <div data-hf-id="hf-t1jv" class="f03-tap" id="f03-tapC"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="03-saisie"]');
+      var q = function (s) { return root.querySelector(s); };
+      var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+      var tl = gsap.timeline({ paused: true });
+
+      var TABX = function (i) { return i * 82.4 + 41.2; }; // tab centres in app px
+
+      // ---- staging
+      tl.fromTo("#f03-ring", { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: "power3.out" }, 0);
+      tl.fromTo("#f03-ring2", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: "power3.out" }, 0.1);
+      tl.fromTo("#f03-phone", { y: 150, rotationY: -18, rotationX: 7, opacity: 0, transformPerspective: 1600 },
+        { y: 0, rotationY: 0, rotationX: 0, opacity: 1, duration: 1.0, ease: "power3.out" }, 0);
+      tl.fromTo("#f03-eyebrow", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.12);
+      tl.fromTo("#f03-accent", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 0.25);
+      tl.fromTo(".f03-hw", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out", stagger: 0.1 }, 0.5);
+      tl.fromTo(".f03-chip", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out", stagger: 0.08 }, 0.75);
+
+      // initial app state: relevés tab active
+      tl.set(["#f03-p2", "#f03-p3"], { opacity: 0, x: 60 }, 0);
+      tl.set("#f03-tabbar-ind", { x: TABX(1) - 23 }, 0);
+      tl.set("#f03-tab1 .f03-tab-pill", { opacity: 1 }, 0);
+      tl.set("#f03-tab1", { color: "#FFFFFF" }, 0);
+      tl.set("#f03-toast", { opacity: 0, y: 12 }, 0);
+      tl.set(["#f03-dot1", "#f03-dot2"], { opacity: 0, scale: 0.5 }, 0);
+
+      var chipOn = function (n, t) {
+        tl.to("#f03-chip" + n + " .f03-chip-fill", { opacity: 1, duration: 0.3, ease: "power2.out" }, t);
+        tl.to("#f03-chip" + n, { color: "#FFFFFF", borderColor: "#0151A2", duration: 0.3, ease: "power2.out" }, t);
+      };
+      var chipOff = function (n, t) {
+        tl.to("#f03-chip" + n + " .f03-chip-fill", { opacity: 0, duration: 0.3, ease: "power2.out" }, t);
+        tl.to("#f03-chip" + n, { color: "#0151A2", borderColor: "rgba(1,81,162,0.22)", duration: 0.3, ease: "power2.out" }, t);
+      };
+      var typeVal = function (sel, t, dur) {
+        var el = q(sel + " .f03-val");
+        var txt = el.getAttribute("data-v");
+        var o = { p: 0 };
+        tl.to(o, { p: 1, duration: dur, ease: "none", onUpdate: function () { el.textContent = txt.slice(0, Math.ceil(o.p * txt.length)); } }, t);
+      };
+      var okField = function (sel, t) {
+        tl.to(sel + " .f03-in-ok", { opacity: 1, duration: 0.22, ease: "power2.out" }, t);
+        tl.fromTo(sel + " .f03-st", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power3.out" }, t);
+      };
+      var badField = function (sel, t) {
+        tl.to(sel + " .f03-in-bad", { opacity: 1, duration: 0.22, ease: "power2.out" }, t);
+        tl.fromTo(sel + " .f03-st", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power3.out" }, t);
+      };
+      var tap = function (id, x, y, t) {
+        tl.fromTo(id, { x: x, y: y, scale: 0.3, opacity: 0.9 }, { x: x, y: y, scale: 1.6, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, t);
+      };
+      var anomCount = function (txt, t) {
+        tl.to("#f03-anom", { scale: 1.12, duration: 0.12, ease: "power2.out" }, t);
+        tl.set("#f03-anom-n", { textContent: txt }, t + 0.06);
+        tl.to("#f03-anom", { scale: 1, duration: 0.25, ease: "power2.out" }, t + 0.12);
+      };
+
+      // ---- relevés (0.9–2.9)
+      chipOn(1, 0.9);
+      typeVal("#f03-fS1", 0.95, 0.2); okField("#f03-fS1", 1.2);
+      typeVal("#f03-fIA", 1.3, 0.2); okField("#f03-fIA", 1.55);
+      typeVal("#f03-fIso", 1.62, 0.13); okField("#f03-fIso", 1.8);
+      typeVal("#f03-fUA", 1.9, 0.22); okField("#f03-fUA", 2.15);
+      typeVal("#f03-fS2", 2.25, 0.15); badField("#f03-fS2", 2.5);
+      tl.to("#f03-toast", { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 2.6);
+      tl.to("#f03-dot1", { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out" }, 2.66);
+      anomCount("4 anomalies", 2.7);
+
+      // ---- contrôles (2.95–4.7)
+      tap("#f03-tapA", TABX(2), 853, 2.95);
+      chipOff(1, 3.0); chipOn(2, 3.0);
+      tl.fromTo("#f03-sub", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 3.08);
+      tl.to("#f03-p1", { x: -60, opacity: 0, duration: 0.32, ease: "power2.inOut" }, 3.0);
+      tl.to("#f03-p2", { x: 0, opacity: 1, duration: 0.32, ease: "power2.inOut" }, 3.05);
+      tl.to("#f03-tabbar-ind", { x: TABX(2) - 23, duration: 0.3, ease: "power3.inOut" }, 3.0);
+      tl.to("#f03-tab1 .f03-tab-pill", { opacity: 0, duration: 0.2 }, 3.0);
+      tl.to("#f03-tab2 .f03-tab-pill", { opacity: 1, duration: 0.2 }, 3.08);
+      tl.to("#f03-tab1", { color: "#8E9BB3", duration: 0.2 }, 3.0);
+      tl.to("#f03-tab2", { color: "#FFFFFF", duration: 0.2 }, 3.08);
+      [["#f03-c1", 3.45], ["#f03-c2", 3.65], ["#f03-c3", 3.85], ["#f03-c4", 4.05], ["#f03-c5", 4.25]].forEach(function (c) {
+        tl.fromTo(c[0] + " span", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.28, ease: "power3.out" }, c[1]);
+      });
+      tl.to("#f03-dot2", { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out" }, 4.1);
+      anomCount("5 anomalies", 4.15);
+
+      // ---- photos (4.7–6.6)
+      tap("#f03-tapB", TABX(3), 853, 4.68);
+      chipOff(2, 4.75); chipOn(3, 4.75);
+      tl.to("#f03-p2", { x: -60, opacity: 0, duration: 0.32, ease: "power2.inOut" }, 4.75);
+      tl.to("#f03-p3", { x: 0, opacity: 1, duration: 0.32, ease: "power2.inOut" }, 4.8);
+      tl.to("#f03-tabbar-ind", { x: TABX(3) - 23, duration: 0.3, ease: "power3.inOut" }, 4.75);
+      tl.to("#f03-tab2 .f03-tab-pill", { opacity: 0, duration: 0.2 }, 4.75);
+      tl.to("#f03-tab3 .f03-tab-pill", { opacity: 1, duration: 0.2 }, 4.83);
+      tl.to("#f03-tab2", { color: "#8E9BB3", duration: 0.2 }, 4.75);
+      tl.to("#f03-tab3", { color: "#FFFFFF", duration: 0.2 }, 4.83);
+      var shots = [[5.35, "#f03-th1", "1"], [5.85, "#f03-th2", "2"], [6.3, "#f03-th3", "3"]];
+      var taps = ["#f03-tapC", "#f03-tapA", "#f03-tapB"];
+      shots.forEach(function (s, k) {
+        tap(taps[k], 112, 296, s[0]);
+        tl.to("#f03-cambtn", { scale: 0.95, duration: 0.08, ease: "power2.out" }, s[0]);
+        tl.to("#f03-cambtn", { scale: 1, duration: 0.2, ease: "power2.out" }, s[0] + 0.08);
+        tl.fromTo("#f03-flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05, ease: "none", immediateRender: false }, s[0] + 0.1);
+        tl.to("#f03-flash", { opacity: 0, duration: 0.22, ease: "power2.out" }, s[0] + 0.15);
+        tl.fromTo(s[1], { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, s[0] + 0.25);
+        tl.set("#f03-pcount", { textContent: s[2] }, s[0] + 0.25);
+        tl.set("#f03-dot3", { textContent: String(1 + k + 1) }, s[0] + 0.25);
+      });
+
+      // ---- "même sans réseau" (6.7)
+      tl.fromTo("#f03-offline", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 6.7);
+
+      window.__timelines["03-saisie"] = tl;
+    })();
+  </script>
+</template>

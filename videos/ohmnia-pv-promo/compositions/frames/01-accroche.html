@@ -1,0 +1,287 @@
+<template>
+  <style>
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Medium.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Black.woff2") format("woff2");}
+
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #f01-bg { position: absolute; inset: 0; background: linear-gradient(180deg, #8DBFEC 0%, #BFDCF5 48%, #E6F2FC 100%); }
+    #f01-night { position: absolute; inset: 0; background: linear-gradient(180deg, #040913 0%, #08142B 55%, #10213D 100%); opacity: 0; }
+    #f01-stars { position: absolute; inset: 0; }
+    .f01-star { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #F4F7FF; opacity: 0; box-shadow: 0 0 8px rgba(220, 232, 255, 0.9); }
+    #f01-sunglow { position: absolute; left: 1440px; top: 0px; width: 450px; height: 450px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 205, 100, 0.6) 0%, rgba(255, 196, 90, 0.2) 42%, rgba(255, 196, 90, 0) 68%); }
+    #f01-sun { position: absolute; left: 1590px; top: 150px; width: 150px; height: 150px; border-radius: 50%;
+      background: radial-gradient(circle at 40% 38%, #FFF3C9 0%, #FFCB57 45%, #FB9500 100%);
+      box-shadow: 0 0 70px rgba(255, 186, 74, 0.65); }
+    .f01-cloud { position: absolute; height: 64px; border-radius: 999px; background: #FFFFFF; opacity: 0.9;
+      box-shadow: 40px -22px 0 6px #FFFFFF, 92px -6px 0 -4px #FFFFFF; }
+    #f01-land, #f01-windows { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+
+    #f01-stack { position: absolute; left: 690px; top: 590px; width: 270px; height: 330px; }
+    .f01-pile { position: absolute; left: 0; top: 0; width: 250px; height: 310px; }
+    .f01-paper { position: absolute; left: 0; top: 0; width: 250px; height: 310px; border-radius: 6px; background-color: #FFFFFF;
+      background-image: linear-gradient(#0B1F3F, #0B1F3F), repeating-linear-gradient(180deg, transparent 0 22px, #C9D3E3 22px 25px);
+      background-size: 120px 10px, 200px 210px; background-position: 24px 26px, 24px 60px; background-repeat: no-repeat;
+      box-shadow: 0 10px 24px rgba(4, 9, 20, 0.35); }
+    #f01-sheets { position: absolute; inset: 0; }
+    .f01-sheet { position: absolute; left: 750px; top: 640px; width: 150px; height: 196px; border-radius: 5px; background-color: #FFFFFF;
+      background-image: linear-gradient(#24324B, #24324B), repeating-linear-gradient(180deg, transparent 0 15px, #C7D1E1 15px 17px);
+      background-size: 70px 7px, 118px 130px; background-position: 16px 18px, 16px 44px; background-repeat: no-repeat;
+      box-shadow: 0 12px 26px rgba(2, 6, 16, 0.45); opacity: 0; }
+
+    #f01-title { position: absolute; left: 120px; top: 140px; width: 1300px; }
+    #f01-eyebrow { display: inline-block; padding: 10px 22px; border-radius: 100px; font-family: "Inter Display", sans-serif;
+      font-weight: 700; font-size: 26px; letter-spacing: 0.12em; color: #0151A2; background: rgba(1, 81, 162, 0.10);
+      border: 1.5px solid rgba(1, 81, 162, 0.28); white-space: nowrap; }
+    .f01-line { display: flex; align-items: center; gap: 22px; margin-top: 26px; height: 100px;
+      font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 80px; letter-spacing: -0.03em; line-height: 1; color: #0B1F3F; white-space: nowrap; }
+    .f01-words { display: flex; gap: 0.24em; }
+    .f01-w { display: inline-block; position: relative; }
+    .f01-hot { color: #C2410C; }
+    .f01-red { color: #FF6B6B; }
+    #f01-l2 { color: #F1F5FB; }
+    #f01-underline { position: absolute; left: 0; right: 0.12em; bottom: -10px; height: 10px; border-radius: 6px; background: #FF5A5F; display: block; transform-origin: left center; }
+    #f01-clock, #f01-doc { width: 86px; height: 86px; flex: 0 0 86px; overflow: visible; }
+  </style>
+
+  <div data-hf-id="hf-50y6" id="root" data-composition-id="01-accroche" data-width="1920" data-height="1080" data-duration="5">
+    <div data-hf-id="hf-panc" id="f01-bg" class="clip" data-start="0" data-duration="5" data-track-index="0"></div>
+    <div data-hf-id="hf-1vh9" id="f01-night"></div>
+    <div data-hf-id="hf-mqgw" id="f01-stars"></div>
+    <div data-hf-id="hf-9qmm" id="f01-sunglow"></div>
+    <div data-hf-id="hf-hzg5" id="f01-sun"></div>
+    <div data-hf-id="hf-5ath" id="f01-cloud1" class="f01-cloud" style="left:1110px; top:118px; width:190px;"></div>
+    <div data-hf-id="hf-tmow" id="f01-cloud2" class="f01-cloud" style="left:1360px; top:300px; width:150px;"></div>
+    <div data-hf-id="hf-g853" id="f01-cloud3" class="f01-cloud" style="left:1720px; top:400px; width:120px;"></div>
+
+    <svg data-hf-id="hf-mdq5" id="f01-land" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+      <defs data-hf-id="hf-mh0t">
+        <linearGradient data-hf-id="hf-zgug" id="f01-panelGrad" x1="0" y1="0" x2="0.4" y2="1">
+          <stop data-hf-id="hf-77zl" offset="0" stop-color="#2D63B8" />
+          <stop data-hf-id="hf-7u4o" offset="1" stop-color="#15387A" />
+        </linearGradient>
+        <linearGradient data-hf-id="hf-7rxy" id="f01-wallGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop data-hf-id="hf-mzbo" offset="0" stop-color="#FFFFFF" />
+          <stop data-hf-id="hf-s7bo" offset="1" stop-color="#E3EAF3" />
+        </linearGradient>
+        <clipPath data-hf-id="hf-a547" id="f01-panelClip"></clipPath>
+      </defs>
+      <path data-hf-id="hf-7ml7" id="f01-hill-back" d="M0,770 C260,720 560,742 880,756 C1180,768 1480,716 1920,748 L1920,1080 L0,1080 Z" fill="#9DBEDD" />
+      <rect data-hf-id="hf-4jko" id="f01-wall" x="1200" y="598" width="520" height="250" fill="url(#f01-wallGrad)" />
+      <rect data-hf-id="hf-ib88" x="1200" y="598" width="520" height="16" fill="#C9D5E4" />
+      <rect data-hf-id="hf-3qk6" id="f01-door" x="1428" y="716" width="70" height="132" rx="6" fill="#0B1F3F" />
+      <rect data-hf-id="hf-q6ce" id="f01-win1" x="1270" y="660" width="112" height="92" rx="6" fill="#BCD7F2" stroke="#0B1F3F" stroke-width="6" />
+      <rect data-hf-id="hf-1o4r" id="f01-win2" x="1540" y="660" width="112" height="92" rx="6" fill="#BCD7F2" stroke="#0B1F3F" stroke-width="6" />
+      <polygon data-hf-id="hf-ycpp" id="f01-roof" points="1112,612 1808,612 1702,428 1218,428" fill="#34465F" />
+      <rect data-hf-id="hf-jl2o" x="1100" y="606" width="720" height="12" rx="6" fill="#22324A" />
+      <g data-hf-id="hf-esgy" id="f01-panels"></g>
+      <g data-hf-id="hf-0fdh" clip-path="url(#f01-panelClip)">
+        <polygon data-hf-id="hf-dqv2" id="f01-glint" points="0,420 70,420 -40,630 -110,630" fill="#FFFFFF" opacity="0.42" />
+      </g>
+      <path data-hf-id="hf-fjcg" id="f01-hill-front" d="M0,852 C380,812 760,842 1080,842 C1400,842 1690,822 1920,842 L1920,1080 L0,1080 Z" fill="#7FA2C6" />
+    </svg>
+
+    <svg data-hf-id="hf-5vyx" id="f01-windows" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+      <defs data-hf-id="hf-vl9d">
+        <radialGradient data-hf-id="hf-pki7" id="f01-winGlow" cx="0.5" cy="0.5" r="0.5">
+          <stop data-hf-id="hf-0mqx" offset="0" stop-color="#FFD27A" stop-opacity="0.55" />
+          <stop data-hf-id="hf-uqsu" offset="1" stop-color="#FFD27A" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <g data-hf-id="hf-8zwd" id="f01-glowA" opacity="0">
+        <ellipse data-hf-id="hf-ymhj" cx="1326" cy="706" rx="120" ry="92" fill="url(#f01-winGlow)" />
+        <rect data-hf-id="hf-cupd" x="1273" y="663" width="106" height="86" rx="4" fill="#FFD27A" />
+      </g>
+      <g data-hf-id="hf-ec1m" id="f01-glowB" opacity="0">
+        <ellipse data-hf-id="hf-jnfq" cx="1596" cy="706" rx="120" ry="92" fill="url(#f01-winGlow)" />
+        <rect data-hf-id="hf-jbaz" x="1543" y="663" width="106" height="86" rx="4" fill="#FFC861" />
+      </g>
+    </svg>
+
+    <div data-hf-id="hf-9zhv" id="f01-stack">
+      <div data-hf-id="hf-d514" class="f01-pile"><div data-hf-id="hf-scua" class="f01-paper" style="transform: translate(10px, 18px) rotate(-5deg);"></div></div>
+      <div data-hf-id="hf-7ceo" class="f01-pile"><div data-hf-id="hf-wrlb" class="f01-paper" style="transform: translate(4px, 12px) rotate(4deg);"></div></div>
+      <div data-hf-id="hf-65hl" class="f01-pile"><div data-hf-id="hf-giq4" class="f01-paper" style="transform: translate(12px, 8px) rotate(-2deg);"></div></div>
+      <div data-hf-id="hf-6jsm" class="f01-pile"><div data-hf-id="hf-4wg1" class="f01-paper" style="transform: translate(0px, 4px) rotate(3deg);"></div></div>
+      <div data-hf-id="hf-5cvj" class="f01-pile"><div data-hf-id="hf-m2mm" class="f01-paper" style="transform: translate(8px, 0px) rotate(-1deg);"></div></div>
+    </div>
+    <div data-hf-id="hf-cd6p" id="f01-sheets"></div>
+
+    <div data-hf-id="hf-7dw5" id="f01-title">
+      <div data-hf-id="hf-808p" id="f01-eyebrow">INTERVENTION PHOTOVOLTAÏQUE</div>
+      <div data-hf-id="hf-fwwh" id="f01-l1" class="f01-line">
+        <svg data-hf-id="hf-c1xd" id="f01-clock" viewBox="0 0 86 86">
+          <circle data-hf-id="hf-24pv" id="f01-clock-face" cx="43" cy="43" r="36" fill="none" stroke="#0B1F3F" stroke-width="8" />
+          <line data-hf-id="hf-rpst" id="f01-hand-h" x1="43" y1="43" x2="43" y2="25" stroke="#C2410C" stroke-width="8" stroke-linecap="round" />
+          <line data-hf-id="hf-lpzc" id="f01-hand-m" x1="43" y1="43" x2="43" y2="15" stroke="#0B1F3F" stroke-width="6" stroke-linecap="round" />
+          <circle data-hf-id="hf-mzqy" cx="43" cy="43" r="5" fill="#0B1F3F" id="f01-clock-pin" />
+        </svg>
+        <div data-hf-id="hf-w5dv" class="f01-words">
+          <span data-hf-id="hf-mukd" class="f01-w f01-w1 f01-hot" id="f01-l1-2h">2&nbsp;h</span>
+          <span data-hf-id="hf-qorq" class="f01-w f01-w1">sur</span>
+          <span data-hf-id="hf-ypfb" class="f01-w f01-w1">le</span>
+          <span data-hf-id="hf-gwxm" class="f01-w f01-w1">toit…</span>
+        </div>
+      </div>
+      <div data-hf-id="hf-m2ma" id="f01-l2" class="f01-line">
+        <svg data-hf-id="hf-2yj5" id="f01-doc" viewBox="0 0 86 86">
+          <rect data-hf-id="hf-gi6y" x="22" y="10" width="50" height="64" rx="6" fill="#F1F5FB" opacity="0.35" transform="rotate(8 47 42)" />
+          <rect data-hf-id="hf-e4wy" x="14" y="8" width="52" height="68" rx="6" fill="none" stroke="#F1F5FB" stroke-width="7" />
+          <line data-hf-id="hf-5nu5" x1="25" y1="26" x2="55" y2="26" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round" />
+          <line data-hf-id="hf-giom" x1="25" y1="41" x2="55" y2="41" stroke="#F1F5FB" stroke-width="5" stroke-linecap="round" />
+          <line data-hf-id="hf-qg6q" x1="25" y1="55" x2="46" y2="55" stroke="#F1F5FB" stroke-width="5" stroke-linecap="round" />
+        </svg>
+        <div data-hf-id="hf-u477" class="f01-words">
+          <span data-hf-id="hf-fiso" class="f01-w f01-w2">…&nbsp;et</span>
+          <span data-hf-id="hf-daeo" class="f01-w f01-w2 f01-red">2&nbsp;h</span>
+          <span data-hf-id="hf-r06k" class="f01-w f01-w2">de</span>
+          <span data-hf-id="hf-7mr3" class="f01-w f01-w2">paperasse.<i data-hf-id="hf-w95r" id="f01-underline"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var SVGNS = "http://www.w3.org/2000/svg";
+      var root = document.querySelector('[data-composition-id="01-accroche"]');
+      var q = function (s) { return root.querySelector(s); };
+      var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+
+      // deterministic PRNG
+      var seed = 1907;
+      var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+      // ---- roof panels (3 rows x 6 cols, perspective trapezoid)
+      var xl = function (y) { return 1218 - (y - 428) * (106 / 184); };
+      var xr = function (y) { return 1702 + (y - 428) * (106 / 184); };
+      var panelsG = q("#f01-panels");
+      var clip = q("#f01-panelClip");
+      var rowH = 44, rowGap = 7, top0 = 446, g = 0.012, w = (0.92 - 5 * g) / 6;
+      var panels = [];
+      for (var r = 0; r < 3; r++) {
+        var y0 = top0 + r * (rowH + rowGap), y1 = y0 + rowH;
+        for (var c = 0; c < 6; c++) {
+          var u0 = 0.04 + c * (w + g), u1 = u0 + w;
+          var W0 = xr(y0) - xl(y0), W1 = xr(y1) - xl(y1);
+          var p = [[xl(y0) + u0 * W0, y0], [xl(y0) + u1 * W0, y0], [xl(y1) + u1 * W1, y1], [xl(y1) + u0 * W1, y1]];
+          var pts = p.map(function (v) { return v[0].toFixed(1) + "," + v[1].toFixed(1); }).join(" ");
+          var grp = document.createElementNS(SVGNS, "g");
+          var poly = document.createElementNS(SVGNS, "polygon");
+          poly.setAttribute("points", pts);
+          poly.setAttribute("fill", "url(#f01-panelGrad)");
+          poly.setAttribute("stroke", "#D6E5F8");
+          poly.setAttribute("stroke-width", "2.5");
+          grp.appendChild(poly);
+          // cell texture
+          var mtx = (p[0][0] + p[1][0]) / 2, mbx = (p[3][0] + p[2][0]) / 2;
+          var l1 = document.createElementNS(SVGNS, "line");
+          l1.setAttribute("x1", mtx.toFixed(1)); l1.setAttribute("y1", y0); l1.setAttribute("x2", mbx.toFixed(1)); l1.setAttribute("y2", y1);
+          var l2 = document.createElementNS(SVGNS, "line");
+          var ym = (y0 + y1) / 2, xlm = (p[0][0] + p[3][0]) / 2, xrm = (p[1][0] + p[2][0]) / 2;
+          l2.setAttribute("x1", xlm.toFixed(1)); l2.setAttribute("y1", ym); l2.setAttribute("x2", xrm.toFixed(1)); l2.setAttribute("y2", ym);
+          [l1, l2].forEach(function (l) { l.setAttribute("stroke", "rgba(214,229,248,0.28)"); l.setAttribute("stroke-width", "1.5"); grp.appendChild(l); });
+          panelsG.appendChild(grp);
+          panels.push({ el: grp, col: c, row: r });
+          var cp = document.createElementNS(SVGNS, "polygon");
+          cp.setAttribute("points", pts);
+          clip.appendChild(cp);
+        }
+      }
+
+      // ---- stars
+      var starsBox = q("#f01-stars");
+      var stars = [];
+      for (var i = 0; i < 26; i++) {
+        var s = document.createElement("div");
+        s.className = "f01-star";
+        var sx = 60 + rnd() * 1800, sy = 30 + rnd() * 470;
+        if (sx < 1300 && sy > 120 && sy < 430) { sy = 40 + rnd() * 70; }
+        var sz = 2 + rnd() * 3;
+        s.style.left = sx.toFixed(0) + "px"; s.style.top = sy.toFixed(0) + "px";
+        s.style.width = sz.toFixed(1) + "px"; s.style.height = sz.toFixed(1) + "px";
+        starsBox.appendChild(s);
+        stars.push(s);
+      }
+
+      // ---- flying sheets
+      var sheetsBox = q("#f01-sheets");
+      var targets = [
+        [1500, 150, 220], [1790, 330, -260], [1330, 520, 300], [1660, 640, -200], [1150, 470, 160],
+        [990, 650, -320], [1860, 770, 240], [1440, 290, -180], [1250, 770, 280], [560, 800, -240],
+        [400, 610, 200], [1720, 890, -300], [1040, 900, 260], [1590, 70, -220]
+      ];
+      var sheets = targets.map(function (t, k) {
+        var d = document.createElement("div");
+        d.className = "f01-sheet";
+        d.id = "f01-sheet-" + k;
+        sheetsBox.appendChild(d);
+        return { el: d, tx: t[0] - 825, ty: t[1] - 738, rot: t[2], k: k };
+      });
+
+      var tl = gsap.timeline({ paused: true });
+
+      // ---- day establishes (hero visible immediately)
+      tl.fromTo("#f01-land", { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" }, 0);
+      tl.fromTo("#f01-windows", { y: 70 }, { y: 0, duration: 0.9, ease: "power3.out" }, 0);
+      tl.fromTo("#f01-sun", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: "power3.out" }, 0.1);
+      tl.fromTo("#f01-sunglow", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "power2.out" }, 0.1);
+      tl.fromTo(["#f01-cloud1", "#f01-cloud2", "#f01-cloud3"], { x: -40, opacity: 0 }, { x: 0, opacity: 0.9, duration: 1.0, ease: "power3.out", stagger: 0.12 }, 0.15);
+      tl.fromTo(["#f01-cloud1", "#f01-cloud2", "#f01-cloud3"], { x: 0 }, { x: 36, duration: 2.2, ease: "none", immediateRender: false }, 1.15);
+      panels.forEach(function (p) {
+        tl.fromTo(p.el, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.35 + p.col * 0.07 + p.row * 0.04);
+      });
+      tl.fromTo("#f01-glint", { x: 1060 }, { x: 1880, duration: 0.95, ease: "power2.inOut" }, 1.05);
+      tl.fromTo("#f01-eyebrow", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0.35);
+
+      // ---- "deux heures sur le toit…" (VO 2.14–3.34)
+      tl.fromTo("#f01-clock", { scale: 0.5, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, 2.05);
+      tl.fromTo(".f01-w1", { y: 46, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out", stagger: 0.09 }, 2.12);
+      tl.fromTo("#f01-hand-m", { rotation: 0 }, { rotation: 720, svgOrigin: "43 43", duration: 1.15, ease: "power1.inOut" }, 2.15);
+      tl.fromTo("#f01-hand-h", { rotation: 0 }, { rotation: 60, svgOrigin: "43 43", duration: 1.15, ease: "power1.inOut" }, 2.15);
+
+      // ---- sunset in the pause (3.34–3.76)
+      tl.to("#f01-sun", { y: 760, duration: 0.62, ease: "power2.in" }, 3.22);
+      tl.to("#f01-sunglow", { opacity: 0, duration: 0.45, ease: "power2.in" }, 3.25);
+      tl.to("#f01-night", { opacity: 1, duration: 0.5, ease: "power1.inOut" }, 3.3);
+      tl.fromTo("#f01-land", { filter: "brightness(1) saturate(1)" }, { filter: "brightness(0.36) saturate(0.8)", duration: 0.5, ease: "power1.inOut", immediateRender: false }, 3.3);
+      tl.to(["#f01-cloud1", "#f01-cloud2", "#f01-cloud3"], { opacity: 0, duration: 0.35, ease: "power1.in" }, 3.28);
+      stars.forEach(function (s, k) {
+        tl.fromTo(s, { opacity: 0 }, { opacity: 0.35 + (k % 5) * 0.13, duration: 0.4, ease: "power1.out" }, 3.5 + (k % 9) * 0.07);
+      });
+      tl.fromTo("#f01-glowA", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 3.62);
+      tl.fromTo("#f01-glowB", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 3.74);
+      tl.to("#f01-eyebrow", { color: "#C9DBF5", backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(201,219,245,0.35)", duration: 0.45, ease: "power1.inOut" }, 3.32);
+      tl.to(".f01-w1", { color: "#F1F5FB", duration: 0.45, ease: "power1.inOut" }, 3.32);
+      tl.to("#f01-l1-2h", { color: "#FFB547", duration: 0.45, ease: "power1.inOut" }, 3.32);
+      tl.to(["#f01-clock-face", "#f01-hand-m"], { stroke: "#F1F5FB", duration: 0.45, ease: "power1.inOut" }, 3.32);
+      tl.to("#f01-hand-h", { stroke: "#FFB547", duration: 0.45, ease: "power1.inOut" }, 3.32);
+      tl.to("#f01-clock-pin", { fill: "#F1F5FB", duration: 0.45, ease: "power1.inOut" }, 3.32);
+
+      // ---- "… et deux heures de paperasse." (VO 3.76–4.93)
+      tl.fromTo("#f01-stack", { y: 140, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 3.66);
+      tl.fromTo("#f01-doc", { scale: 0.5, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.45, ease: "power3.out" }, 3.72);
+      tl.fromTo(".f01-w2", { y: 46, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.09 }, 3.78);
+      tl.fromTo("#f01-underline", { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 4.42);
+      tl.to("#f01-stack", { y: -18, rotation: -3, duration: 0.25, ease: "power2.out" }, 4.07);
+      sheets.forEach(function (s) {
+        var dur = 1.0 + (s.k % 4) * 0.08;
+        tl.set(s.el, { opacity: 1 }, 3.94 + s.k * 0.03);
+        tl.fromTo(s.el, { x: 0, y: 0, rotation: 0, rotationX: 0, rotationY: 0, scale: 0.75, transformPerspective: 900 },
+          { x: s.tx, y: s.ty, rotation: s.rot, rotationX: (s.k % 2 ? 38 : -32), rotationY: (s.k % 3 ? -28 : 34),
+            scale: 0.95 + (s.k % 5) * 0.12, duration: dur, ease: "power2.out" }, 3.94 + s.k * 0.03);
+      });
+      tl.to(".f01-pile", { y: -30, opacity: 0.6, duration: 0.6, ease: "power2.out", stagger: 0.04 }, 4.0);
+
+      window.__timelines["01-accroche"] = tl;
+    })();
+  </script>
+</template>

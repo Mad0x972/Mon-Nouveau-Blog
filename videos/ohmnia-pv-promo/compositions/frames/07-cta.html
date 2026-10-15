@@ -1,0 +1,69 @@
+<template>
+  <style>
+    @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Black.woff2") format("woff2");}
+
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #f07-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 55% at 50% 22%, #FFF1D9 0%, #FAF6EE 38%, #F5F7FB 72%); }
+    #f07-rings { position: absolute; left: 360px; top: -300px; width: 1200px; height: 1200px; overflow: visible; }
+    #f07-glow { position: absolute; left: 560px; top: -80px; width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(251, 149, 0, 0.26) 0%, rgba(251, 149, 0, 0.08) 42%, rgba(251, 149, 0, 0) 68%); }
+    #f07-logo { position: absolute; left: 697px; top: 70px; width: 526px; height: 470px; }
+    #f07-pro { position: absolute; left: 1244px; top: 474px; height: 60px; padding: 0 20px; border-radius: 14px; background: #0B1F3F; color: #FFFFFF;
+      font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 34px; letter-spacing: 0.08em; display: flex; align-items: center; white-space: nowrap; }
+    #f07-cta { position: absolute; left: 520px; top: 612px; width: 880px; height: 120px; border-radius: 60px; background: #FB9500; overflow: hidden;
+      box-shadow: 0 24px 50px rgba(251, 149, 0, 0.35); display: flex; align-items: center; justify-content: center; gap: 22px;
+      font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 50px; letter-spacing: -0.02em; color: #0B1F3F; white-space: nowrap; }
+    #f07-cta span, #f07-cta svg { position: relative; }
+    #f07-shine { position: absolute; top: -20px; left: 0; width: 180px; height: 160px; background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.65) 50%, rgba(255,255,255,0) 100%); }
+    #f07-ripple { position: absolute; left: 440px; top: 60px; width: 80px; height: 80px; margin-left: -40px; margin-top: -40px; border-radius: 50%; background: rgba(255, 255, 255, 0.6); opacity: 0; }
+    #f07-url { position: absolute; left: 0; right: 0; top: 774px; display: flex; align-items: center; justify-content: center; gap: 16px;
+      font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 56px; letter-spacing: -0.01em; color: #0151A2; white-space: nowrap; }
+  </style>
+
+  <div data-hf-id="hf-hp2h" id="root" data-composition-id="07-cta" data-width="1920" data-height="1080" data-duration="6">
+    <div data-hf-id="hf-hujx" id="f07-bg" class="clip" data-start="0" data-duration="6" data-track-index="0"></div>
+    <svg data-hf-id="hf-wwfy" id="f07-rings" viewBox="0 0 1200 1200">
+      <circle data-hf-id="hf-4ak7" cx="600" cy="600" r="330" fill="none" stroke="rgba(1,81,162,0.08)" stroke-width="2"/>
+      <circle data-hf-id="hf-w3t6" cx="600" cy="600" r="430" fill="none" stroke="rgba(1,81,162,0.06)" stroke-width="2"/>
+      <circle data-hf-id="hf-q4p4" cx="600" cy="600" r="530" fill="none" stroke="rgba(1,81,162,0.045)" stroke-width="2"/>
+    </svg>
+    <div data-hf-id="hf-eppg" id="f07-glow"></div>
+    <img data-hf-id="hf-dx63" id="f07-logo" src="assets/logo-ohmnia-pv.png" alt="Ohmnia PV">
+    <div data-hf-id="hf-795n" id="f07-pro">PRO</div>
+    <div data-hf-id="hf-cqmb" id="f07-cta">
+      <i data-hf-id="hf-fe5k" id="f07-shine"></i><i data-hf-id="hf-ts7d" id="f07-ripple"></i>
+      <span data-hf-id="hf-lxo1">Essayez-le dès maintenant</span>
+      <svg data-hf-id="hf-bzqq" width="52" height="52" viewBox="0 0 52 52"><circle data-hf-id="hf-i88p" cx="26" cy="26" r="24" fill="#0B1F3F"/><path data-hf-id="hf-ik4x" d="M18,26 H33 M27,19 L34,26 L27,33" fill="none" stroke="#FB9500" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div data-hf-id="hf-mk8i" id="f07-url">
+      <svg data-hf-id="hf-1hnq" width="54" height="54" viewBox="0 0 54 54"><circle data-hf-id="hf-6afj" cx="27" cy="27" r="22" fill="none" stroke="#0151A2" stroke-width="4.5"/><ellipse data-hf-id="hf-udz5" cx="27" cy="27" rx="10" ry="22" fill="none" stroke="#0151A2" stroke-width="4"/><path data-hf-id="hf-kr1v" d="M6,20 H48 M6,34 H48" stroke="#0151A2" stroke-width="4"/></svg>
+      <span data-hf-id="hf-daz5">ohmniapv.fr</span>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var tl = gsap.timeline({ paused: true });
+      tl.fromTo("#f07-rings", { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, ease: "power3.out" }, 0);
+      tl.fromTo("#f07-glow", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: "power3.out" }, 0.05);
+      tl.fromTo("#f07-logo", { scale: 0.9, opacity: 0, y: 24 }, { scale: 1, opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 0.1);
+      // "Pro" (VO ~1.45)
+      tl.fromTo("#f07-pro", { scale: 0.5, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.45, ease: "power3.out" }, 1.42);
+      // "Essayez-le dès maintenant" (VO 2.36)
+      tl.fromTo("#f07-cta", { scale: 0.86, opacity: 0, y: 30 }, { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 2.3);
+      tl.fromTo("#f07-shine", { x: -220 }, { x: 980, duration: 0.8, ease: "power2.inOut" }, 2.75);
+      // tap
+      tl.to("#f07-cta", { scale: 0.965, duration: 0.09, ease: "power2.out" }, 3.28);
+      tl.to("#f07-cta", { scale: 1, duration: 0.3, ease: "power2.out" }, 3.37);
+      tl.fromTo("#f07-ripple", { scale: 0.3, opacity: 0.8 }, { scale: 9, opacity: 0, duration: 0.7, ease: "power2.out", immediateRender: false }, 3.3);
+      // URL
+      tl.fromTo("#f07-url", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, 3.9);
+      window.__timelines["07-cta"] = tl;
+    })();
+  </script>
+</template>

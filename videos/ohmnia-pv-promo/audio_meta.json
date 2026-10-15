@@ -1,0 +1,675 @@
+{
+  "voices": [
+    {
+      "line": 1,
+      "path": "assets/voice/voix-ligne-1.mp3",
+      "start": 0,
+      "duration_s": 5.232
+    },
+    {
+      "line": 2,
+      "path": "assets/voice/voix-ligne-2.mp3",
+      "start": 5.3,
+      "duration_s": 7.32
+    },
+    {
+      "line": 3,
+      "path": "assets/voice/voix-ligne-3.mp3",
+      "start": 15.55,
+      "duration_s": 5.352
+    },
+    {
+      "line": 4,
+      "path": "assets/voice/voix-ligne-4.mp3",
+      "start": 22.35,
+      "duration_s": 4.08
+    },
+    {
+      "line": 5,
+      "path": "assets/voice/voix-ligne-5.mp3",
+      "start": 30.3,
+      "duration_s": 4.8
+    },
+    {
+      "line": 6,
+      "path": "assets/voice/voix-ligne-6.mp3",
+      "start": 38.25,
+      "duration_s": 6.504
+    },
+    {
+      "line": 7,
+      "path": "assets/voice/voix-ligne-7.mp3",
+      "start": 46.25,
+      "duration_s": 5.832
+    },
+    {
+      "line": 8,
+      "path": "assets/voice/voix-ligne-8.mp3",
+      "start": 54.3,
+      "duration_s": 3.984
+    }
+  ],
+  "bgm": {
+    "path": "assets/audio/musique-ohmnia.mp3",
+    "source": "host",
+    "volume": 0.42
+  },
+  "sfx": [
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 2.06,
+      "duration_s": 0.6,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-down.wav",
+      "at": 3.24,
+      "duration_s": 0.9,
+      "volume": 0.5,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-paper-rustle.wav",
+      "at": 3.68,
+      "duration_s": 0.55,
+      "volume": 0.35,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-paper-flutter.wav",
+      "at": 3.92,
+      "duration_s": 1.1,
+      "volume": 0.55,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-paper-rustle.wav",
+      "at": 5.5,
+      "duration_s": 0.55,
+      "volume": 0.4,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-photo-flick.wav",
+      "at": 6.64,
+      "duration_s": 0.16,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-photo-flick.wav",
+      "at": 6.8,
+      "duration_s": 0.16,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-photo-flick.wav",
+      "at": 6.96,
+      "duration_s": 0.16,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 8,
+      "duration_s": 0.6,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-stamp.wav",
+      "at": 8.58,
+      "duration_s": 0.7,
+      "volume": 0.6,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-sms.wav",
+      "at": 9.3,
+      "duration_s": 0.45,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-sms.wav",
+      "at": 9.72,
+      "duration_s": 0.45,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-error.wav",
+      "at": 9.9,
+      "duration_s": 0.35,
+      "volume": 0.26,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-sms.wav",
+      "at": 10.14,
+      "duration_s": 0.45,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-notif.wav",
+      "at": 10.98,
+      "duration_s": 0.9,
+      "volume": 0.4,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-snap.wav",
+      "at": 15,
+      "duration_s": 0.3,
+      "volume": 0.55,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-sunrise.wav",
+      "at": 15.66,
+      "duration_s": 1.6,
+      "volume": 0.6,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-shimmer.wav",
+      "at": 15.96,
+      "duration_s": 1.3,
+      "volume": 0.45,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 16.9,
+      "duration_s": 0.6,
+      "volume": 0.18,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 22,
+      "duration_s": 0.6,
+      "volume": 0.25,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 23.2,
+      "duration_s": 0.2,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 23.55,
+      "duration_s": 0.2,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 23.8,
+      "duration_s": 0.2,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 24.15,
+      "duration_s": 0.2,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-alert.wav",
+      "at": 24.5,
+      "duration_s": 0.5,
+      "volume": 0.38,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tap.wav",
+      "at": 24.95,
+      "duration_s": 0.07,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 25.45,
+      "duration_s": 0.2,
+      "volume": 0.26,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 25.65,
+      "duration_s": 0.2,
+      "volume": 0.26,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 25.85,
+      "duration_s": 0.2,
+      "volume": 0.26,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-error.wav",
+      "at": 26.05,
+      "duration_s": 0.35,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 26.25,
+      "duration_s": 0.2,
+      "volume": 0.26,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tap.wav",
+      "at": 26.68,
+      "duration_s": 0.07,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tap.wav",
+      "at": 27.35,
+      "duration_s": 0.07,
+      "volume": 0.25,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-shutter.wav",
+      "at": 27.45,
+      "duration_s": 0.22,
+      "volume": 0.38,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 27.6,
+      "duration_s": 0.12,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tap.wav",
+      "at": 27.85,
+      "duration_s": 0.07,
+      "volume": 0.25,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-shutter.wav",
+      "at": 27.95,
+      "duration_s": 0.22,
+      "volume": 0.38,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 28.1,
+      "duration_s": 0.12,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tap.wav",
+      "at": 28.3,
+      "duration_s": 0.07,
+      "volume": 0.25,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-shutter.wav",
+      "at": 28.4,
+      "duration_s": 0.22,
+      "volume": 0.38,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 28.55,
+      "duration_s": 0.12,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 28.7,
+      "duration_s": 0.12,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-up.wav",
+      "at": 29.95,
+      "duration_s": 0.7,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pen.wav",
+      "at": 30.15,
+      "duration_s": 1.3,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-button.wav",
+      "at": 31.58,
+      "duration_s": 0.35,
+      "volume": 0.4,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pages.wav",
+      "at": 31.8,
+      "duration_s": 0.7,
+      "volume": 0.5,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 33.88,
+      "duration_s": 0.6,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tap.wav",
+      "at": 34.33,
+      "duration_s": 0.07,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 34.6,
+      "duration_s": 0.6,
+      "volume": 0.2,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tap.wav",
+      "at": 35.32,
+      "duration_s": 0.07,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-send.wav",
+      "at": 35.45,
+      "duration_s": 0.55,
+      "volume": 0.5,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-ding.wav",
+      "at": 35.75,
+      "duration_s": 1.4,
+      "volume": 0.42,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-up.wav",
+      "at": 37.95,
+      "duration_s": 0.7,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pin.wav",
+      "at": 38.3,
+      "duration_s": 0.22,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pin.wav",
+      "at": 38.42,
+      "duration_s": 0.22,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pin.wav",
+      "at": 38.54,
+      "duration_s": 0.22,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pin.wav",
+      "at": 38.66,
+      "duration_s": 0.22,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pin.wav",
+      "at": 38.78,
+      "duration_s": 0.22,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 38.95,
+      "duration_s": 0.6,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 39,
+      "duration_s": 0.12,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tick.wav",
+      "at": 39.8,
+      "duration_s": 0.05,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tick.wav",
+      "at": 40.3,
+      "duration_s": 0.05,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tick.wav",
+      "at": 40.8,
+      "duration_s": 0.05,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-tick.wav",
+      "at": 41.3,
+      "duration_s": 0.05,
+      "volume": 0.3,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-key.wav",
+      "at": 43.58,
+      "duration_s": 0.06,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-key.wav",
+      "at": 43.665,
+      "duration_s": 0.06,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-key.wav",
+      "at": 43.75,
+      "duration_s": 0.06,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-key.wav",
+      "at": 43.835,
+      "duration_s": 0.06,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-key.wav",
+      "at": 43.92,
+      "duration_s": 0.06,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-key.wav",
+      "at": 44.005,
+      "duration_s": 0.06,
+      "volume": 0.28,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 44.15,
+      "duration_s": 0.2,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 46,
+      "duration_s": 0.6,
+      "volume": 0.18,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-hit-soft.wav",
+      "at": 46.45,
+      "duration_s": 0.9,
+      "volume": 0.45,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-hit-soft.wav",
+      "at": 48.1,
+      "duration_s": 0.9,
+      "volume": 0.45,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-hit-soft.wav",
+      "at": 49.75,
+      "duration_s": 0.9,
+      "volume": 0.45,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 48.4,
+      "duration_s": 0.12,
+      "volume": 0.16,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 48.58,
+      "duration_s": 0.12,
+      "volume": 0.16,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 48.76,
+      "duration_s": 0.12,
+      "volume": 0.16,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 48.94,
+      "duration_s": 0.12,
+      "volume": 0.16,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 49.12,
+      "duration_s": 0.12,
+      "volume": 0.16,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-sms.wav",
+      "at": 50.15,
+      "duration_s": 0.45,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-sms.wav",
+      "at": 50.45,
+      "duration_s": 0.45,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-sms.wav",
+      "at": 50.75,
+      "duration_s": 0.45,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-check.wav",
+      "at": 51.05,
+      "duration_s": 0.2,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-shimmer.wav",
+      "at": 54.1,
+      "duration_s": 1.3,
+      "volume": 0.4,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-pop.wav",
+      "at": 55.42,
+      "duration_s": 0.12,
+      "volume": 0.32,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-whoosh-soft.wav",
+      "at": 56.3,
+      "duration_s": 0.6,
+      "volume": 0.22,
+      "source": "host"
+    },
+    {
+      "file": "assets/audio/sfx-button.wav",
+      "at": 57.28,
+      "duration_s": 0.35,
+      "volume": 0.45,
+      "source": "host"
+    }
+  ]
+}

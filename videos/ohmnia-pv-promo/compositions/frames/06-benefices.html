@@ -1,0 +1,172 @@
+<template>
+  <style>
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Medium.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Black.woff2") format("woff2");}
+
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #f06-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 40%, #FFFFFF 0%, #F5F7FB 65%); }
+    #f06-eyebrow { position: absolute; left: 0; right: 0; top: 92px; text-align: center; }
+    #f06-eyebrow span { display: inline-block; padding: 10px 24px; border-radius: 100px; font-family: "Inter Display", sans-serif; font-weight: 700; font-size: 24px;
+      letter-spacing: 0.12em; color: #0151A2; background: rgba(1, 81, 162, 0.08); border: 1.5px solid rgba(1, 81, 162, 0.22); white-space: nowrap; }
+
+    .f06-card { position: absolute; top: 196px; width: 540px; height: 650px; border-radius: 30px; background: #FFFFFF; overflow: hidden;
+      box-shadow: 0 30px 60px rgba(11, 31, 63, 0.10), 0 0 0 1.5px rgba(1, 81, 162, 0.14); }
+    .f06-art { position: absolute; left: 0; top: 0; width: 540px; height: 380px; background: linear-gradient(180deg, #EEF4FC 0%, #F7FAFE 100%); }
+    .f06-num { position: absolute; left: 36px; top: 30px; width: 54px; height: 54px; border-radius: 50%; background: #0151A2; color: #FFFFFF; font-family: "Inter Display", sans-serif;
+      font-weight: 900; font-size: 26px; display: flex; align-items: center; justify-content: center; }
+    .f06-txt { position: absolute; left: 40px; right: 40px; top: 412px; }
+    .f06-accent { width: 64px; height: 6px; border-radius: 3px; background: #FB9500; transform-origin: left center; }
+    .f06-title { margin-top: 18px; font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 54px; line-height: 1.04; letter-spacing: -0.025em; color: #0B1F3F; }
+    .f06-title span { display: block; white-space: nowrap; }
+    .f06-desc { margin-top: 16px; font-size: 24px; font-weight: 600; color: #475569; white-space: nowrap; }
+
+    /* card 1 art: papers + clock */
+    .f06-paper { position: absolute; left: 92px; top: 120px; width: 150px; height: 196px; border-radius: 8px; background-color: #FFFFFF;
+      background-image: linear-gradient(#0B1F3F, #0B1F3F), repeating-linear-gradient(180deg, transparent 0 18px, #D5DCE6 18px 21px);
+      background-size: 74px 8px, 112px 120px; background-position: 18px 22px, 18px 50px; background-repeat: no-repeat;
+      box-shadow: 0 10px 22px rgba(11, 31, 63, 0.16); }
+    #f06-clock { position: absolute; left: 288px; top: 108px; width: 210px; height: 210px; overflow: visible; }
+    #f06-gain { position: absolute; left: 300px; top: 326px; width: 186px; text-align: center; font-size: 20px; font-weight: 800; color: #C2410C; white-space: nowrap; }
+
+    /* card 2 art: calendar */
+    #f06-cal { position: absolute; left: 50px; top: 104px; width: 440px; height: 250px; border-radius: 18px; background: #FFFFFF; box-shadow: 0 12px 26px rgba(11, 31, 63, 0.12); padding: 16px; }
+    .f06-days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; font-size: 15px; font-weight: 800; color: #6B778C; text-align: center; }
+    .f06-slots { display: grid; grid-template-columns: repeat(5, 1fr); grid-auto-rows: 38px; gap: 8px; margin-top: 10px; }
+    .f06-slot { position: relative; border-radius: 9px; background: #F1F4F9; }
+    .f06-slot b { position: absolute; inset: 0; border-radius: 9px; background: #0151A2; opacity: 0; }
+    .f06-slot b.f06-o { background: #FB9500; }
+
+    /* card 3 art: report + notifications */
+    #f06-rep { position: absolute; left: 70px; top: 96px; width: 190px; height: 256px; border-radius: 8px; background: #FFFFFF; overflow: hidden; box-shadow: 0 14px 28px rgba(11, 31, 63, 0.16); }
+    #f06-rep i { display: block; height: 74px; background: #10274B; border-top: 5px solid #F59F00; }
+    #f06-rep u { display: block; height: 9px; border-radius: 5px; background: #E3E8F0; margin: 14px 16px 0; text-decoration: none; }
+    #f06-seal { position: absolute; left: 196px; top: 236px; width: 86px; height: 86px; }
+    .f06-notif { position: absolute; left: 210px; width: 300px; height: 70px; border-radius: 18px; background: #FFFFFF; box-shadow: 0 14px 28px rgba(11, 31, 63, 0.16);
+      display: flex; align-items: center; gap: 12px; padding: 0 14px; }
+    .f06-notif svg { flex: 0 0 38px; }
+    .f06-notif b { display: block; font-size: 16px; font-weight: 800; color: #0B1F3F; white-space: nowrap; }
+    .f06-notif i { display: block; font-style: normal; font-size: 13.5px; font-weight: 600; color: #6B778C; white-space: nowrap; margin-top: 1px; }
+  </style>
+
+  <div data-hf-id="hf-vokh" id="root" data-composition-id="06-benefices" data-width="1920" data-height="1080" data-duration="8.5">
+    <div data-hf-id="hf-km4z" id="f06-bg" class="clip" data-start="0" data-duration="8.5" data-track-index="0"></div>
+    <div data-hf-id="hf-bfhd" id="f06-eyebrow"><span data-hf-id="hf-jw8m">AVEC OHMNIA PV</span></div>
+
+    <!-- 1. moins d'administratif -->
+    <div data-hf-id="hf-ahd9" class="f06-card" id="f06-c1" style="left:120px;">
+      <div data-hf-id="hf-cbbo" class="f06-art">
+        <div data-hf-id="hf-t28b" class="f06-paper" id="f06-p5"></div><div data-hf-id="hf-p44a" class="f06-paper" id="f06-p4"></div><div data-hf-id="hf-6cel" class="f06-paper" id="f06-p3"></div><div data-hf-id="hf-5kqs" class="f06-paper" id="f06-p2"></div><div data-hf-id="hf-gg8f" class="f06-paper" id="f06-p1"></div>
+        <svg data-hf-id="hf-xm92" id="f06-clock" viewBox="0 0 210 210">
+          <circle data-hf-id="hf-9r99" cx="105" cy="105" r="88" fill="#FFFFFF" stroke="#DCE4EF" stroke-width="14"/>
+          <circle data-hf-id="hf-9omz" id="f06-arc" cx="105" cy="105" r="88" fill="none" stroke="#FB9500" stroke-width="14" stroke-linecap="round" transform="rotate(-90 105 105)"/>
+          <g data-hf-id="hf-l29t" stroke="#8A94A6" stroke-width="5" stroke-linecap="round"><line data-hf-id="hf-v0qv" x1="105" y1="34" x2="105" y2="46"/><line data-hf-id="hf-4fk9" x1="176" y1="105" x2="164" y2="105"/><line data-hf-id="hf-7qtl" x1="105" y1="176" x2="105" y2="164"/><line data-hf-id="hf-zc9t" x1="34" y1="105" x2="46" y2="105"/></g>
+          <line data-hf-id="hf-c1gt" id="f06-hand" x1="105" y1="105" x2="105" y2="52" stroke="#0B1F3F" stroke-width="8" stroke-linecap="round"/>
+          <circle data-hf-id="hf-gtli" cx="105" cy="105" r="9" fill="#0B1F3F"/>
+        </svg>
+        <div data-hf-id="hf-04l0" id="f06-gain">Temps gagné</div>
+        <div data-hf-id="hf-u0sq" class="f06-num">1</div>
+      </div>
+      <div data-hf-id="hf-xql3" class="f06-txt"><div data-hf-id="hf-38av" class="f06-accent"></div><div data-hf-id="hf-gskl" class="f06-title"><span data-hf-id="hf-d62b">Moins</span><span data-hf-id="hf-bpkv">d'administratif</span></div><div data-hf-id="hf-1o2s" class="f06-desc">Le rapport se fait sur place</div></div>
+    </div>
+
+    <!-- 2. plus d'interventions -->
+    <div data-hf-id="hf-l86s" class="f06-card" id="f06-c2" style="left:690px;">
+      <div data-hf-id="hf-uvsc" class="f06-art">
+        <div data-hf-id="hf-zhvo" id="f06-cal">
+          <div data-hf-id="hf-oqhs" class="f06-days"><span data-hf-id="hf-tg8o">Lun</span><span data-hf-id="hf-sx6f">Mar</span><span data-hf-id="hf-puj7">Mer</span><span data-hf-id="hf-u7u3">Jeu</span><span data-hf-id="hf-xkgq">Ven</span></div>
+          <div data-hf-id="hf-65ry" class="f06-slots" id="f06-slots"></div>
+        </div>
+        <div data-hf-id="hf-uf3r" class="f06-num">2</div>
+      </div>
+      <div data-hf-id="hf-hkuv" class="f06-txt"><div data-hf-id="hf-abqf" class="f06-accent"></div><div data-hf-id="hf-x795" class="f06-title"><span data-hf-id="hf-xea9">Plus</span><span data-hf-id="hf-2jx2">d'interventions</span></div><div data-hf-id="hf-q94u" class="f06-desc">Le temps gagné va au terrain</div></div>
+    </div>
+
+    <!-- 3. une image plus pro -->
+    <div data-hf-id="hf-uv4d" class="f06-card" id="f06-c3" style="left:1260px;">
+      <div data-hf-id="hf-tov9" class="f06-art">
+        <div data-hf-id="hf-g8jd" id="f06-rep"><i data-hf-id="hf-wt6k"></i><u data-hf-id="hf-3ci9" style="width:130px"></u><u data-hf-id="hf-po5z" style="width:150px"></u><u data-hf-id="hf-z2yw" style="width:100px"></u><u data-hf-id="hf-sc6c" style="width:140px"></u><u data-hf-id="hf-60im" style="width:120px"></u><u data-hf-id="hf-4m1j" style="width:150px"></u></div>
+        <svg data-hf-id="hf-shet" id="f06-seal" viewBox="0 0 86 86"><circle data-hf-id="hf-gnly" cx="43" cy="43" r="40" fill="#16A34A" stroke="#FFFFFF" stroke-width="5"/><path data-hf-id="hf-hefz" d="M25,44 L37,56 L61,30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div data-hf-id="hf-xq7q" class="f06-notif" id="f06-n3" style="top:216px;"><svg data-hf-id="hf-8snu" width="38" height="38" viewBox="0 0 38 38"><rect data-hf-id="hf-qjv1" width="38" height="38" rx="11" fill="#E3F6EA"/><path data-hf-id="hf-6d6u" d="M11,19 L17,25 L28,13" fill="none" stroke="#16A34A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><div data-hf-id="hf-yeow"><b data-hf-id="hf-y7pn">Rapport envoyé</b><i data-hf-id="hf-zsss">Gîte des Pins (démo)</i></div></div>
+        <div data-hf-id="hf-mpic" class="f06-notif" id="f06-n2" style="top:156px;"><svg data-hf-id="hf-w01q" width="38" height="38" viewBox="0 0 38 38"><rect data-hf-id="hf-yzwh" width="38" height="38" rx="11" fill="#E3F6EA"/><path data-hf-id="hf-odai" d="M11,19 L17,25 L28,13" fill="none" stroke="#16A34A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><div data-hf-id="hf-y7yw"><b data-hf-id="hf-mv3f">Rapport envoyé</b><i data-hf-id="hf-zfne">Ferme du Moulin (démo)</i></div></div>
+        <div data-hf-id="hf-2d6a" class="f06-notif" id="f06-n1" style="top:96px;"><svg data-hf-id="hf-wecr" width="38" height="38" viewBox="0 0 38 38"><rect data-hf-id="hf-06tk" width="38" height="38" rx="11" fill="#E3F6EA"/><path data-hf-id="hf-orlj" d="M11,19 L17,25 L28,13" fill="none" stroke="#16A34A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><div data-hf-id="hf-x11t"><b data-hf-id="hf-mgse">Rapport envoyé</b><i data-hf-id="hf-oz9l">Maison Durand (démo)</i></div></div>
+        <div data-hf-id="hf-utes" class="f06-num">3</div>
+      </div>
+      <div data-hf-id="hf-h6ju" class="f06-txt"><div data-hf-id="hf-9xfe" class="f06-accent"></div><div data-hf-id="hf-ye68" class="f06-title"><span data-hf-id="hf-liz4">Une image</span><span data-hf-id="hf-epai">plus pro</span></div><div data-hf-id="hf-v80y" class="f06-desc">Un rapport soigné, le jour même</div></div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="06-benefices"]');
+      var q = function (s) { return root.querySelector(s); };
+      var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+
+      // calendar slots (5 days x 4 rows); deterministic fill order
+      var slotsBox = q("#f06-slots");
+      for (var i = 0; i < 20; i++) {
+        var d = document.createElement("div");
+        d.className = "f06-slot";
+        var b = document.createElement("b");
+        if (i === 7 || i === 13) b.className = "f06-o";
+        d.appendChild(b);
+        slotsBox.appendChild(d);
+      }
+      var fillOrder = [0, 6, 11, 2, 15, 8, 18, 4, 12, 1, 9, 16, 7, 13];
+      var arcLen = 2 * Math.PI * 88;
+
+      var tl = gsap.timeline({ paused: true });
+      tl.fromTo("#f06-eyebrow span", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.1);
+
+      // pre-place the paper stack offsets
+      ["#f06-p1", "#f06-p2", "#f06-p3", "#f06-p4", "#f06-p5"].forEach(function (p, k) {
+        tl.set(p, { x: k * 7, y: -k * 9, rotation: (k % 2 ? 4 : -3) * (k ? 1 : 0) }, 0);
+      });
+      tl.set("#f06-arc", { strokeDasharray: arcLen, strokeDashoffset: arcLen }, 0);
+
+      var reveal = function (id, t) {
+        tl.fromTo(id, { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65, ease: "power3.out" }, t);
+        tl.fromTo(id + " .f06-accent", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, t + 0.25);
+        tl.fromTo(id + " .f06-title span", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 }, t + 0.2);
+        tl.fromTo(id + " .f06-desc", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, t + 0.45);
+      };
+
+      // 1 — "Moins d'administratif" (VO 0.56)
+      reveal("#f06-c1", 0.45);
+      tl.to(["#f06-p5", "#f06-p4", "#f06-p3", "#f06-p2"], { x: 0, y: 0, rotation: 0, opacity: 0, duration: 0.5, ease: "power3.in", stagger: 0.07 }, 0.95);
+      tl.to("#f06-p1", { rotation: 0, duration: 0.4, ease: "power2.out" }, 1.25);
+      tl.to("#f06-arc", { strokeDashoffset: arcLen * 0.62, duration: 1.0, ease: "power2.inOut" }, 1.0);
+      tl.fromTo("#f06-hand", { rotation: 0 }, { rotation: 137, svgOrigin: "105 105", duration: 1.0, ease: "power2.inOut" }, 1.0);
+      tl.fromTo("#f06-gain", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 1.6);
+
+      // 2 — "Plus d'interventions" (VO 2.19)
+      reveal("#f06-c2", 2.1);
+      tl.to("#f06-c1", { opacity: 0.55, duration: 0.4, ease: "power2.out" }, 2.15);
+      var slotEls = qa("#f06-slots .f06-slot b");
+      fillOrder.forEach(function (idx, k) {
+        tl.fromTo(slotEls[idx], { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power3.out" }, 2.4 + k * 0.06);
+      });
+
+      // 3 — "Une image plus professionnelle" (VO 3.83)
+      reveal("#f06-c3", 3.75);
+      tl.to("#f06-c2", { opacity: 0.55, duration: 0.4, ease: "power2.out" }, 3.8);
+      tl.fromTo("#f06-rep", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 3.95);
+      [["#f06-n1", 4.15], ["#f06-n2", 4.45], ["#f06-n3", 4.75]].forEach(function (n) {
+        tl.fromTo(n[0], { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, n[1]);
+      });
+      tl.fromTo("#f06-seal", { scale: 0.3, opacity: 0, rotation: -20 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.45, ease: "power3.out" }, 5.05);
+
+      // final triptych hold
+      tl.to(["#f06-c1", "#f06-c2"], { opacity: 1, duration: 0.5, ease: "power2.out" }, 5.75);
+
+      window.__timelines["06-benefices"] = tl;
+    })();
+  </script>
+</template>

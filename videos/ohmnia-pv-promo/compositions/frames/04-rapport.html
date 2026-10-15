@@ -1,0 +1,316 @@
+<template>
+  <style>
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Medium.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/Inter-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/Inter-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:600;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-SemiBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:800;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-ExtraBold.woff2") format("woff2");}
+    @font-face{font-family:"Inter Display";font-weight:900;font-style:normal;font-display:block;src:url("assets/fonts/InterDisplay-Black.woff2") format("woff2");}
+
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Inter", sans-serif; }
+    #f04-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 20% 55%, #EAF1FB 0%, #F5F7FB 62%); }
+    #f04-ring { position: absolute; left: -98px; top: 70px; width: 900px; height: 900px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(1, 81, 162, 0.07) 0%, rgba(1, 81, 162, 0.03) 50%, rgba(1, 81, 162, 0) 70%); }
+
+    /* copy */
+    #f04-copy { position: absolute; left: 720px; top: 96px; width: 1100px; }
+    .f04-eyebrow { display: inline-block; padding: 10px 22px; border-radius: 100px; font-family: "Inter Display", sans-serif; font-weight: 700; font-size: 24px;
+      letter-spacing: 0.12em; color: #0151A2; background: rgba(1, 81, 162, 0.08); border: 1.5px solid rgba(1, 81, 162, 0.22); white-space: nowrap; }
+    .f04-accent { width: 72px; height: 6px; border-radius: 3px; background: #FB9500; margin-top: 28px; transform-origin: left center; }
+    .f04-h { margin-top: 18px; font-family: "Inter Display", sans-serif; font-weight: 900; font-size: 92px; line-height: 1.02; letter-spacing: -0.03em; color: #0B1F3F; white-space: nowrap; }
+    .f04-hw { display: inline-block; }
+    #f04-sub { display: flex; align-items: center; gap: 16px; margin-top: 18px; font-weight: 600; font-size: 42px; color: #475569; white-space: nowrap; letter-spacing: -0.01em; }
+    #f04-moon { width: 50px; height: 50px; flex: 0 0 50px; overflow: visible; }
+
+    /* report pages */
+    .f04-page { position: absolute; width: 300px; height: 424px; border-radius: 6px; background: #FFFFFF; overflow: hidden;
+      box-shadow: 0 26px 50px rgba(11, 31, 63, 0.22), 0 0 0 1px rgba(11, 31, 63, 0.06); color: #0B1F3F; }
+    .f04-cover-h { height: 150px; background: #10274B; border-top: 6px solid #F59F00; padding: 14px 18px; color: #FFFFFF; }
+    .f04-cover-h .f04-brand { font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 13px; white-space: nowrap; }
+    .f04-cover-h .f04-kind { margin-top: 26px; font-size: 8.5px; font-weight: 800; letter-spacing: 0.14em; color: #F59F00; white-space: nowrap; }
+    .f04-cover-h .f04-title { margin-top: 6px; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 17px; line-height: 1.15; }
+    .f04-cover-h .f04-site { margin-top: 5px; font-size: 10px; color: #C8D1E0; white-space: nowrap; }
+    .f04-tbl { margin: 12px 16px 0; border: 1px solid #E6EAF0; border-radius: 4px; overflow: hidden; }
+    .f04-tr { display: flex; height: 17px; font-size: 8px; border-bottom: 1px solid #EEF1F5; }
+    .f04-tr:last-child { border-bottom: 0; }
+    .f04-tr span:first-child { width: 78px; background: #F3F5F8; color: #6B778C; padding: 4px 6px; font-weight: 600; white-space: nowrap; }
+    .f04-tr span:last-child { padding: 4px 7px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+    .f04-alert { margin: 10px 16px 0; border: 1.5px solid #E5484D; background: #FDECEC; border-radius: 5px; padding: 6px 8px; }
+    .f04-alert b { display: block; font-size: 9px; color: #B81A1B; white-space: nowrap; }
+    .f04-alert i { display: block; font-style: normal; font-size: 7px; color: #C2484B; margin-top: 2px; white-space: nowrap; }
+    .f04-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 10px 16px 0; }
+    .f04-kpi { background: #F3F5F8; border-radius: 4px; padding: 5px 5px 6px; }
+    .f04-kpi small { display: block; font-size: 5.5px; font-weight: 800; color: #6B778C; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; }
+    .f04-kpi b { display: block; font-size: 11px; font-weight: 800; margin-top: 2px; white-space: nowrap; }
+    .f04-ph { display: flex; justify-content: space-between; align-items: flex-end; margin: 14px 16px 0; padding-bottom: 6px; border-bottom: 1.5px solid #10274B;
+      font-size: 8px; font-weight: 800; white-space: nowrap; }
+    .f04-ph i { font-style: normal; font-weight: 600; color: #8A94A6; font-size: 6px; }
+    .f04-sec { display: flex; align-items: center; gap: 6px; margin: 14px 16px 8px; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 12px; white-space: nowrap; }
+    .f04-sec:before { content: ""; width: 3px; height: 13px; border-radius: 2px; background: #F59F00; }
+    .f04-th { display: grid; grid-template-columns: 1.6fr 1fr; margin: 0 16px; background: #10274B; color: #FFFFFF; font-size: 7px; font-weight: 800; border-radius: 3px 3px 0 0; }
+    .f04-th span, .f04-trow span { padding: 5px 6px; white-space: nowrap; overflow: hidden; }
+    .f04-trow { display: grid; grid-template-columns: 1.6fr 1fr; margin: 0 16px; font-size: 7.5px; border-bottom: 1px solid #EEF1F5; }
+    .f04-ok { background: #E3F6EA; color: #15803D; font-weight: 700; text-align: center; }
+    .f04-ko { background: #FDE2E2; color: #C81E1E; font-weight: 700; text-align: center; }
+    .f04-up { background: #FDF0D5; color: #B45309; font-weight: 700; text-align: center; }
+    .f04-an { display: grid; grid-template-columns: 54px 1fr; gap: 6px; align-items: center; margin: 0 16px; padding: 6px 0; border-bottom: 1px solid #EEF1F5; }
+    .f04-crit { font-size: 6.5px; font-weight: 800; color: #FFFFFF; border-radius: 8px; padding: 3px 0; text-align: center; white-space: nowrap; }
+    .f04-an b { display: block; font-size: 7.5px; white-space: nowrap; overflow: hidden; }
+    .f04-an i { display: block; font-style: normal; font-size: 6.5px; color: #6B778C; white-space: nowrap; overflow: hidden; margin-top: 1px; }
+    .f04-sigbox { margin: 8px 16px 0; height: 62px; border: 1px solid #E6EAF0; border-radius: 4px; position: relative; }
+    .f04-sigbox small { position: absolute; left: 8px; top: 5px; font-size: 6.5px; font-weight: 800; color: #6B778C; }
+
+    /* phone (validation screen) */
+    #f04-phone { position: absolute; left: 150px; top: 52px; width: 404px; height: 836px; border-radius: 62px; background: #0B0F17;
+      box-shadow: 0 40px 80px rgba(11, 31, 63, 0.28), 0 0 0 2px #2A3140 inset; }
+    #f04-screen { position: absolute; left: 14px; top: 14px; width: 376px; height: 808px; border-radius: 50px; overflow: hidden; background: #080F1B; }
+    #f04-app { position: absolute; left: 0; top: 0; width: 412px; height: 885px; transform-origin: 0 0; transform: scale(0.91262); color: #E9ECF5; }
+    .f04-status { height: 32px; background: #10274B; display: flex; align-items: center; justify-content: space-between; padding: 0 26px 0 30px; font-size: 14px; font-weight: 700; }
+    .f04-head { height: 70px; background: #10274B; display: flex; align-items: center; gap: 12px; padding: 0 14px; }
+    .f04-head b { display: block; font-size: 18px; font-weight: 800; white-space: nowrap; }
+    .f04-head i { display: block; font-style: normal; font-size: 12.5px; color: #C8D1E0; margin-top: 2px; white-space: nowrap; }
+    .f04-sum { height: 64px; background: #0D1729; display: flex; align-items: center; padding: 0 14px; border-bottom: 1px solid #1B2740; }
+    .f04-sum small { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.07em; color: #8E9BB3; white-space: nowrap; }
+    .f04-sum b { display: block; font-size: 24px; font-weight: 800; white-space: nowrap; }
+    .f04-anom { margin-left: auto; display: flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 19px; background: #B81A1B; color: #FFFFFF; font-size: 15px; font-weight: 800; white-space: nowrap; }
+    .f04-card { margin: 14px 12px 0; background: #11192D; border: 1px solid #1E2A44; border-radius: 18px; padding: 14px; }
+    .f04-card-t { font-size: 16px; font-weight: 800; white-space: nowrap; }
+    .f04-card-s { font-size: 12.5px; color: #8E9BB3; margin-top: 3px; white-space: nowrap; }
+    #f04-pad { position: relative; margin-top: 12px; height: 210px; border-radius: 14px; background: #FFFFFF; overflow: hidden; }
+    #f04-pad small { position: absolute; left: 14px; top: 10px; font-size: 12px; font-weight: 700; color: #8A94A6; }
+    #f04-pad .f04-base { position: absolute; left: 22px; right: 22px; bottom: 46px; border-bottom: 2px dashed #C9D1DD; }
+    #f04-sig { position: absolute; left: 30px; top: 34px; width: 330px; height: 150px; overflow: visible; }
+    #f04-signer { margin-top: 12px; }
+    #f04-signer b { display: block; font-size: 16px; font-weight: 800; white-space: nowrap; }
+    #f04-signer i { display: block; font-style: normal; font-size: 12.5px; color: #8E9BB3; margin-top: 2px; white-space: nowrap; }
+    #f04-gen { position: relative; margin: 14px 12px 0; height: 62px; border-radius: 16px; background: #F59F00; color: #1A1406; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 18px; font-weight: 800; white-space: nowrap; }
+    #f04-gen-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: #1F9D55; transform-origin: left center; }
+    #f04-gen-lab, #f04-gen-ok { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px; white-space: nowrap; }
+    #f04-gen-ok { color: #FFFFFF; opacity: 0; }
+    #f04-sheet { position: absolute; left: 0; top: 520px; width: 412px; height: 365px; background: #11192D; border-radius: 26px 26px 0 0; border-top: 1px solid #2A3756;
+      box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.45); padding: 12px 16px 0; }
+    .f04-grab { width: 44px; height: 5px; border-radius: 3px; background: #38445A; margin: 0 auto; }
+    .f04-sheet-t { font-size: 17px; font-weight: 800; margin-top: 14px; white-space: nowrap; }
+    .f04-opt { position: relative; display: flex; align-items: center; gap: 14px; height: 64px; margin-top: 8px; padding: 0 14px; border-radius: 16px; background: #0D1729;
+      font-size: 16px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+    .f04-opt-ico { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex: 0 0 40px; }
+    .f04-opt-hl { position: absolute; inset: 0; border-radius: 16px; border: 2px solid #F59F00; background: rgba(245, 159, 0, 0.14); opacity: 0; }
+    .f04-tap { position: absolute; left: 0; top: 0; width: 60px; height: 60px; margin-left: -30px; margin-top: -30px; border-radius: 50%; background: rgba(255, 255, 255, 0.45); opacity: 0; }
+
+    /* email card */
+    #f04-mail { position: absolute; left: 900px; top: 452px; width: 800px; height: 380px; border-radius: 22px; background: #FFFFFF;
+      box-shadow: 0 30px 60px rgba(11, 31, 63, 0.22), 0 0 0 1px rgba(11, 31, 63, 0.06); padding: 26px 30px; color: #0B1F3F; }
+    .f04-mail-h { display: flex; align-items: center; gap: 14px; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 26px; white-space: nowrap; }
+    .f04-mrow { display: flex; align-items: center; gap: 14px; height: 52px; border-bottom: 1.5px solid #EDF0F5; font-size: 21px; color: #475569; white-space: nowrap; }
+    .f04-mrow b { color: #0B1F3F; font-weight: 700; }
+    .f04-to { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px 0 6px; border-radius: 18px; background: #EAF1FB; color: #0151A2; font-weight: 700; }
+    .f04-to i { width: 26px; height: 26px; border-radius: 50%; background: #0151A2; color: #FFFFFF; font-style: normal; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+    .f04-line { height: 12px; border-radius: 6px; background: #E7EBF1; margin-top: 16px; }
+    #f04-attach { position: absolute; left: 30px; bottom: 30px; display: flex; align-items: center; gap: 14px; height: 74px; padding: 0 22px 0 14px; border-radius: 16px;
+      background: #F5F7FB; border: 1.5px solid #E1E6EE; white-space: nowrap; }
+    #f04-attach b { display: block; font-size: 18px; font-weight: 700; }
+    #f04-attach i { display: block; font-style: normal; font-size: 15px; color: #6B778C; margin-top: 2px; }
+    #f04-send { position: absolute; right: 30px; bottom: 38px; display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 28px; border-radius: 30px;
+      background: #0151A2; color: #FFFFFF; font-size: 22px; font-weight: 800; white-space: nowrap; }
+    #f04-plane { position: absolute; left: 1560px; top: 760px; width: 64px; height: 64px; opacity: 0; }
+    #f04-toast { position: absolute; left: 960px; top: 540px; display: flex; align-items: center; gap: 24px; height: 140px; padding: 0 52px 0 34px; border-radius: 70px;
+      background: #16A34A; color: #FFFFFF; box-shadow: 0 26px 50px rgba(22, 163, 74, 0.32); white-space: nowrap; }
+    #f04-toast b { display: block; font-family: "Inter Display", sans-serif; font-weight: 800; font-size: 48px; }
+    #f04-toast i { display: block; font-style: normal; font-size: 25px; font-weight: 600; color: #DCFCE7; margin-top: 2px; }
+  </style>
+
+  <div data-hf-id="hf-6yv1" id="root" data-composition-id="04-rapport" data-width="1920" data-height="1080" data-duration="8.5">
+    <div data-hf-id="hf-0vz5" id="f04-bg" class="clip" data-start="0" data-duration="8.5" data-track-index="0"></div>
+    <div data-hf-id="hf-d4xo" id="f04-ring"></div>
+
+    <div data-hf-id="hf-lwgp" id="f04-copy">
+      <div data-hf-id="hf-w752" class="f04-eyebrow" id="f04-eyebrow">RAPPORT</div>
+      <div data-hf-id="hf-qve6" class="f04-accent" id="f04-accent"></div>
+      <div data-hf-id="hf-lhz5" class="f04-h"><span data-hf-id="hf-466a" class="f04-hw">Le</span> <span data-hf-id="hf-msev" class="f04-hw">rapport</span> <span data-hf-id="hf-q6rj" class="f04-hw">est</span> <span data-hf-id="hf-0o0d" class="f04-hw">prêt.</span></div>
+      <div data-hf-id="hf-xxj3" id="f04-sub">
+        <svg data-hf-id="hf-waed" id="f04-moon" viewBox="0 0 50 50"><path data-hf-id="hf-kovm" d="M33,8 A18,18 0 1 0 42,34 A14,14 0 1 1 33,8 Z" fill="#475569"/><line data-hf-id="hf-pjv4" id="f04-strike" x1="6" y1="44" x2="44" y2="6" stroke="#E5484D" stroke-width="5" stroke-linecap="round"/></svg>
+        Plus de saisie le soir.
+      </div>
+    </div>
+
+    <!-- report pages -->
+    <div data-hf-id="hf-oua0" class="f04-page" id="f04-pg1" data-layout-allow-overlap style="left:860px; top:410px;">
+      <div data-hf-id="hf-guc3" class="f04-cover-h">
+        <div data-hf-id="hf-xtfw" class="f04-brand">Ohmnia Energies</div>
+        <div data-hf-id="hf-qa8k" class="f04-kind">MAINTENANCE PRÉVENTIVE</div>
+        <div data-hf-id="hf-a2p5" class="f04-title">Rapport d'intervention photovoltaïque</div>
+        <div data-hf-id="hf-mnm3" class="f04-site">Maison Durand (démo)</div>
+      </div>
+      <div data-hf-id="hf-9xo3" class="f04-tbl">
+        <div data-hf-id="hf-a6e5" class="f04-tr"><span data-hf-id="hf-9pey">Client</span><span data-hf-id="hf-n2yk">Maison Durand (démo)</span></div>
+        <div data-hf-id="hf-mnsh" class="f04-tr"><span data-hf-id="hf-vz7e">Site</span><span data-hf-id="hf-062k">4 rue des Lilas, 69005 Lyon</span></div>
+        <div data-hf-id="hf-nupk" class="f04-tr"><span data-hf-id="hf-k64d">Date</span><span data-hf-id="hf-ekju">15 octobre 2026 à 02h47</span></div>
+        <div data-hf-id="hf-ngej" class="f04-tr"><span data-hf-id="hf-rn03">Technicien</span><span data-hf-id="hf-s1gu">Technicien démo</span></div>
+        <div data-hf-id="hf-lgve" class="f04-tr"><span data-hf-id="hf-tryp">Centrale</span><span data-hf-id="hf-7b9k">Onduleur + optimiseurs</span></div>
+        <div data-hf-id="hf-l2kd" class="f04-tr"><span data-hf-id="hf-zkzq">Référence</span><span data-hf-id="hf-zrjh">INT-20261015-CA06</span></div>
+      </div>
+      <div data-hf-id="hf-8pbj" class="f04-alert"><b data-hf-id="hf-ans9">Installation non conforme aux contrôles réalisés</b><i data-hf-id="hf-hren">5 anomalies : 2 urgentes, 2 à planifier, 1 à surveiller</i></div>
+      <div data-hf-id="hf-ox8q" class="f04-kpis">
+        <div data-hf-id="hf-wb57" class="f04-kpi"><small data-hf-id="hf-k4a0">PUISSANCE DC</small><b data-hf-id="hf-g5oe">4,29 kW</b></div>
+        <div data-hf-id="hf-qo23" class="f04-kpi"><small data-hf-id="hf-uqb3">ONDULEURS</small><b data-hf-id="hf-t4n0">1</b></div>
+        <div data-hf-id="hf-q9r2" class="f04-kpi"><small data-hf-id="hf-077y">MPPT / STRINGS</small><b data-hf-id="hf-hn77">1 / 2</b></div>
+        <div data-hf-id="hf-pvg1" class="f04-kpi"><small data-hf-id="hf-9i8d">MODULES</small><b data-hf-id="hf-jprm">23</b></div>
+      </div>
+    </div>
+    <div data-hf-id="hf-fy7u" class="f04-page" id="f04-pg2" data-layout-allow-overlap style="left:1100px; top:404px;">
+      <div data-hf-id="hf-4dwn" class="f04-ph">Ohmnia Energies<i data-hf-id="hf-kz9i">Rapport d'intervention · Maison Durand (démo)</i></div>
+      <div data-hf-id="hf-ed7l" class="f04-sec">4. Champ photovoltaïque</div>
+      <div data-hf-id="hf-ul0n" class="f04-th"><span data-hf-id="hf-c10d">Point de contrôle</span><span data-hf-id="hf-a1s1">Résultat</span></div>
+      <div data-hf-id="hf-0vzz" class="f04-trow"><span data-hf-id="hf-2qt8">État des modules</span><span data-hf-id="hf-c2p1" class="f04-ok">Conforme</span></div>
+      <div data-hf-id="hf-6gvz" class="f04-trow"><span data-hf-id="hf-jq1e">Encrassement des modules</span><span data-hf-id="hf-by8l" class="f04-ok">Propres</span></div>
+      <div data-hf-id="hf-62ky" class="f04-trow"><span data-hf-id="hf-hcb1">Ombrages</span><span data-hf-id="hf-1x2c" class="f04-ok">Aucun</span></div>
+      <div data-hf-id="hf-5o9x" class="f04-trow"><span data-hf-id="hf-t5du">Structure et fixations</span><span data-hf-id="hf-s7q8" class="f04-ko">Non conforme</span></div>
+      <div data-hf-id="hf-8gf4" class="f04-trow"><span data-hf-id="hf-pydd">Étanchéité de la toiture</span><span data-hf-id="hf-wid5" class="f04-ok">Conforme</span></div>
+      <div data-hf-id="hf-vu95" class="f04-sec">Onduleurs</div>
+      <div data-hf-id="hf-9pqf" class="f04-th"><span data-hf-id="hf-cldd">Point de contrôle</span><span data-hf-id="hf-2k5x">Résultat</span></div>
+      <div data-hf-id="hf-8243" class="f04-trow"><span data-hf-id="hf-nvuy">Journal d'alarmes</span><span data-hf-id="hf-xpa8" class="f04-ok">Conforme</span></div>
+      <div data-hf-id="hf-7nt2" class="f04-trow"><span data-hf-id="hf-e3v1">Supervision et communication</span><span data-hf-id="hf-xaz7" class="f04-ok">Conforme</span></div>
+      <div data-hf-id="hf-79i1" class="f04-trow"><span data-hf-id="hf-mz9t">Version du logiciel interne</span><span data-hf-id="hf-km1u" class="f04-up">À mettre à jour</span></div>
+    </div>
+    <div data-hf-id="hf-rqrs" class="f04-page" id="f04-pg3" data-layout-allow-overlap style="left:1340px; top:410px;">
+      <div data-hf-id="hf-n1fr" class="f04-ph">Ohmnia Energies<i data-hf-id="hf-tbbe">Rapport d'intervention · Maison Durand (démo)</i></div>
+      <div data-hf-id="hf-7aeh" class="f04-sec">5. Anomalies et recommandations</div>
+      <div data-hf-id="hf-hbby" class="f04-an"><span data-hf-id="hf-yfhz" class="f04-crit" style="background:#C81E1E">Urgent</span><div data-hf-id="hf-yeow"><b data-hf-id="hf-c8qx">Tension de sécurité · String S2</b><i data-hf-id="hf-n6wd">9 V au lieu de 11 V · écart 18,2 %</i></div></div>
+      <div data-hf-id="hf-gf42" class="f04-an"><span data-hf-id="hf-dgc7" class="f04-crit" style="background:#C81E1E">Urgent</span><div data-hf-id="hf-y7yw"><b data-hf-id="hf-unrl">Arrêt d'urgence / coupure pompiers</b><i data-hf-id="hf-jv1o">Non conforme</i></div></div>
+      <div data-hf-id="hf-gtf3" class="f04-an"><span data-hf-id="hf-3il3" class="f04-crit" style="background:#F59F00">À planifier</span><div data-hf-id="hf-x11t"><b data-hf-id="hf-z8r5">Communication des optimiseurs</b><i data-hf-id="hf-zf9m">2 optimiseurs ne communiquent pas</i></div></div>
+      <div data-hf-id="hf-h7q4" class="f04-an"><span data-hf-id="hf-sm3b" class="f04-crit" style="background:#F59F00">À planifier</span><div data-hf-id="hf-xfcu"><b data-hf-id="hf-8un2">Structure et fixations</b><i data-hf-id="hf-96eo">Reprendre les fixations</i></div></div>
+      <div data-hf-id="hf-hm15" class="f04-an"><span data-hf-id="hf-6856" class="f04-crit" style="background:#10274B">À surveiller</span><div data-hf-id="hf-w8fr"><b data-hf-id="hf-rvkq">Logiciel interne (firmware)</b><i data-hf-id="hf-rdep">À mettre à jour</i></div></div>
+      <div data-hf-id="hf-1h92" class="f04-sec">7. Validation</div>
+      <div data-hf-id="hf-lx6x" class="f04-sigbox"><small data-hf-id="hf-9whm">Le client · M. Durand</small><svg data-hf-id="hf-vdg7" viewBox="0 0 330 150" style="position:absolute; left:70px; top:6px; width:150px; height:68px"><path data-hf-id="hf-ml0j" class="f04-sigpath-mini" fill="none" stroke="#24324B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+
+    <!-- email -->
+    <div data-hf-id="hf-76sr" id="f04-mail" data-layout-allow-overlap>
+      <div data-hf-id="hf-64o1" class="f04-mail-h"><svg data-hf-id="hf-2b42" width="34" height="34" viewBox="0 0 34 34"><rect data-hf-id="hf-30k4" x="3" y="7" width="28" height="20" rx="4" fill="none" stroke="#0151A2" stroke-width="3"/><path data-hf-id="hf-dnxf" d="M4,9 L17,19 L30,9" fill="none" stroke="#0151A2" stroke-width="3" stroke-linejoin="round"/></svg>Nouveau message</div>
+      <div data-hf-id="hf-j1bk" class="f04-mrow">À <span data-hf-id="hf-ei4s" class="f04-to"><i data-hf-id="hf-yjc8">D</i>M. Durand (client)</span></div>
+      <div data-hf-id="hf-yg7g" class="f04-mrow">Objet <b data-hf-id="hf-221q">Rapport d'intervention — Maison Durand (démo)</b></div>
+      <div data-hf-id="hf-6cnr" class="f04-line" style="width:620px"></div>
+      <div data-hf-id="hf-ypue" class="f04-line" style="width:470px"></div>
+      <div data-hf-id="hf-f385" id="f04-attach">
+        <svg data-hf-id="hf-ahnq" width="44" height="52" viewBox="0 0 44 52"><path data-hf-id="hf-j0dp" d="M6,2 H28 L40,14 V50 H6 Z" fill="#FDECEC" stroke="#E5484D" stroke-width="3" stroke-linejoin="round"/><path data-hf-id="hf-qqhn" d="M28,2 V14 H40" fill="none" stroke="#E5484D" stroke-width="3" stroke-linejoin="round"/><text data-hf-id="hf-200a" x="23" y="38" text-anchor="middle" font-family="Inter" font-weight="800" font-size="11" fill="#E5484D">PDF</text></svg>
+        <div data-hf-id="hf-wmqs"><b data-hf-id="hf-bq54">Rapport_Maison_Durand_2026-10-15.pdf</b><i data-hf-id="hf-5n3n">6 pages · 251 Ko</i></div>
+      </div>
+      <div data-hf-id="hf-jka4" id="f04-send"><svg data-hf-id="hf-h4wu" width="26" height="26" viewBox="0 0 26 26"><path data-hf-id="hf-yctq" d="M3,12 L23,3 L16,23 L12,14 Z" fill="#FFFFFF"/><path data-hf-id="hf-1xfv" d="M12,14 L23,3" stroke="#0151A2" stroke-width="2"/></svg>Envoyer</div>
+    </div>
+    <svg data-hf-id="hf-672w" id="f04-plane" viewBox="0 0 64 64"><path data-hf-id="hf-z1nr" d="M6,30 L58,8 L40,58 L30,36 Z" fill="#0151A2"/><path data-hf-id="hf-zkl9" d="M30,36 L58,8" stroke="#FFFFFF" stroke-width="3"/></svg>
+    <div data-hf-id="hf-ukxn" id="f04-toast">
+      <svg data-hf-id="hf-24ou" width="80" height="80" viewBox="0 0 68 68"><circle data-hf-id="hf-73ws" cx="34" cy="34" r="32" fill="#FFFFFF"/><path data-hf-id="hf-rjgj" d="M20,35 L30,45 L49,24" fill="none" stroke="#16A34A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div data-hf-id="hf-vftp"><b data-hf-id="hf-y7pn">Rapport envoyé</b><i data-hf-id="hf-9mtd">à M. Durand · 15/10/2026 03:14</i></div>
+    </div>
+
+    <!-- phone -->
+    <div data-hf-id="hf-2iiy" id="f04-phone">
+      <div data-hf-id="hf-88dy" id="f04-screen">
+        <div data-hf-id="hf-gp93" id="f04-app">
+          <div data-hf-id="hf-mc3d" class="f04-status"><span data-hf-id="hf-9o3m">10:31</span><span data-hf-id="hf-pt7c" style="display:flex;gap:8px;align-items:center"><svg data-hf-id="hf-xmam" width="18" height="14" viewBox="0 0 18 14"><path data-hf-id="hf-dlnr" d="M1,13 V10 M5,13 V7 M9,13 V4 M13,13 V1" stroke="#E9ECF5" stroke-width="2.4" stroke-linecap="round"/></svg><svg data-hf-id="hf-rwau" width="26" height="13" viewBox="0 0 26 13"><rect data-hf-id="hf-c255" x="1" y="1" width="21" height="11" rx="3" fill="none" stroke="#E9ECF5" stroke-width="1.6"/><rect data-hf-id="hf-9gdj" x="3" y="3" width="12" height="7" rx="1.5" fill="#E9ECF5"/><rect data-hf-id="hf-8ala" x="23" y="4.5" width="2" height="4" rx="1" fill="#E9ECF5"/></svg></span></div>
+          <div data-hf-id="hf-mq1p" class="f04-head"><svg data-hf-id="hf-zawy" width="26" height="26" viewBox="0 0 26 26"><path data-hf-id="hf-goxt" d="M20,13 H6 M12,6 L5,13 L12,20" fill="none" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg><div data-hf-id="hf-vu4q"><b data-hf-id="hf-k268">Maison Durand (démo)</b><i data-hf-id="hf-24vo">15/10/2026 02h47 · Maintenance préventive</i></div></div>
+          <div data-hf-id="hf-vsp8" class="f04-sum"><div data-hf-id="hf-1043"><small data-hf-id="hf-tvbe">TOTAL INSTALLATION</small><b data-hf-id="hf-zwyq">4,29 kW</b></div><div data-hf-id="hf-7fz8" class="f04-anom"><svg data-hf-id="hf-igxa" width="18" height="18" viewBox="0 0 18 18"><path data-hf-id="hf-jipg" d="M9,2 L17,16 H1 Z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/><path data-hf-id="hf-lqpu" d="M9,7 V11 M9,13.5 V13.6" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/></svg>5 anomalies</div></div>
+          <div data-hf-id="hf-icix" class="f04-card">
+            <div data-hf-id="hf-tdpu" class="f04-card-t">7. Validation</div>
+            <div data-hf-id="hf-pv8r" class="f04-card-s">Signature du client sur l'écran</div>
+            <div data-hf-id="hf-82f1" id="f04-pad"><small data-hf-id="hf-cw20">Signature du client</small><i data-hf-id="hf-c5ps" class="f04-base"></i>
+              <svg data-hf-id="hf-vhtx" id="f04-sig" viewBox="0 0 330 150"><path data-hf-id="hf-c8xc" id="f04-sigpath" fill="none" stroke="#24324B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div data-hf-id="hf-95so" id="f04-signer"><b data-hf-id="hf-mkui">M. Durand</b><i data-hf-id="hf-xh1x">Signé le 15/10/2026 à 03:13</i></div>
+          </div>
+          <div data-hf-id="hf-qfoo" id="f04-gen" data-layout-allow-overlap><i data-hf-id="hf-atky" id="f04-gen-fill"></i>
+            <span data-hf-id="hf-mp6y" id="f04-gen-lab"><svg data-hf-id="hf-ugfi" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-pl1g" d="M5,2 H13 L18,7 V20 H5 Z" fill="none" stroke="#1A1406" stroke-width="2.4" stroke-linejoin="round"/><path data-hf-id="hf-uz8z" d="M8,12 H15 M8,16 H13" stroke="#1A1406" stroke-width="2.4" stroke-linecap="round"/></svg>Générer le rapport</span>
+            <span data-hf-id="hf-16xb" id="f04-gen-ok"><svg data-hf-id="hf-x0vm" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-3plp" d="M4,11 L9,16 L18,6" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Rapport prêt · 6 pages</span>
+          </div>
+          <div data-hf-id="hf-lusj" id="f04-sheet">
+            <div data-hf-id="hf-mimh" class="f04-grab"></div>
+            <div data-hf-id="hf-2usc" class="f04-sheet-t">Partager le rapport</div>
+            <div data-hf-id="hf-l2fy" class="f04-opt"><span data-hf-id="hf-s67h" class="f04-opt-ico" style="background:#14305F"><svg data-hf-id="hf-xf6n" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-sejg" d="M3,8 A3,3 0 0 1 6,5 H9 L11,7 H16 A3,3 0 0 1 19,10 V16 A3,3 0 0 1 16,19 H6 A3,3 0 0 1 3,16 Z" fill="none" stroke="#7FB2FF" stroke-width="2.2"/></svg></span>Drive partagé</div>
+            <div data-hf-id="hf-dw7t" class="f04-opt"><span data-hf-id="hf-jwka" class="f04-opt-ico" style="background:#1F3A2C"><svg data-hf-id="hf-xtho" width="22" height="22" viewBox="0 0 22 22"><path data-hf-id="hf-53ly" d="M11,3 V14 M6,9 L11,14 L16,9 M4,18 H18" fill="none" stroke="#5EE08F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Télécharger le PDF</div>
+            <div data-hf-id="hf-1z3j" class="f04-opt" id="f04-optmail"><i data-hf-id="hf-hc5v" class="f04-opt-hl"></i><span data-hf-id="hf-vpe0" class="f04-opt-ico" style="background:#3B3420; position:relative"><svg data-hf-id="hf-y7sp" width="22" height="22" viewBox="0 0 22 22"><rect data-hf-id="hf-mgqq" x="2" y="5" width="18" height="13" rx="3" fill="none" stroke="#F59F00" stroke-width="2.2"/><path data-hf-id="hf-xlkr" d="M3,6 L11,12 L19,6" fill="none" stroke="#F59F00" stroke-width="2.2" stroke-linejoin="round"/></svg></span><span data-hf-id="hf-c5ph" style="position:relative">Envoyer par e-mail</span></div>
+          </div>
+          <div data-hf-id="hf-gwvr" class="f04-tap" id="f04-tapA"></div>
+          <div data-hf-id="hf-88zw" class="f04-tap" id="f04-tapB"></div>
+        </div>
+      </div>
+    </div>
+    <div data-hf-id="hf-6dlm" class="f04-tap" id="f04-tapC" style="background: rgba(1, 81, 162, 0.35);"></div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="04-rapport"]');
+      var q = function (s) { return root.querySelector(s); };
+      var SIG = "M22,104 C18,62 28,30 46,28 C74,26 80,86 42,104 C28,110 16,102 26,92 C40,82 56,70 64,84 C68,92 72,96 78,82 C82,72 86,72 88,84 C90,94 95,98 101,82 C105,70 113,68 115,82 C117,96 123,98 129,80 C133,68 141,66 143,82 C145,96 153,98 160,74 C165,56 171,40 174,28 C171,58 168,86 176,98 C186,110 214,86 250,74 M70,124 C130,116 200,112 296,98";
+      q("#f04-sigpath").setAttribute("d", SIG);
+      q(".f04-sigpath-mini").setAttribute("d", SIG);
+      var sigLen = q("#f04-sigpath").getTotalLength();
+
+      var tl = gsap.timeline({ paused: true });
+      // the phone + ring are on screen from the first frame (push-slide brings the frame in)
+      tl.fromTo("#f04-ring", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: "power3.out" }, 0);
+      tl.set(["#f04-signer"], { opacity: 0 }, 0);
+      tl.set("#f04-sheet", { y: 380 }, 0);
+      tl.set("#f04-gen-fill", { scaleX: 0 }, 0);
+
+      // signature (0.15–1.35)
+      tl.fromTo("#f04-sigpath", { strokeDasharray: sigLen, strokeDashoffset: sigLen }, { strokeDashoffset: 0, duration: 1.2, ease: "power1.inOut" }, 0.15);
+      tl.fromTo("#f04-signer", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 1.35);
+
+      // copy (VO "Le rapport est prêt" 0.60)
+      tl.fromTo("#f04-eyebrow", { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0.35);
+      tl.fromTo("#f04-accent", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 0.45);
+      tl.fromTo(".f04-hw", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out", stagger: 0.1 }, 0.6);
+
+      // generate (1.6) → pages fly out (VO "à la fin de l'intervention" 1.71–3.03)
+      tl.fromTo("#f04-tapA", { x: 206, y: 570, scale: 0.3, opacity: 0.9 }, { x: 206, y: 570, scale: 1.7, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 1.58);
+      tl.to("#f04-gen", { scale: 0.96, duration: 0.08, ease: "power2.out" }, 1.6);
+      tl.to("#f04-gen", { scale: 1, duration: 0.2, ease: "power2.out" }, 1.68);
+      tl.to("#f04-gen-fill", { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, 1.66);
+      tl.to("#f04-gen-lab", { opacity: 0, duration: 0.15 }, 1.66);
+      tl.to("#f04-gen-ok", { opacity: 1, duration: 0.2 }, 2.08);
+      var PHX = 352, PHY = 500;
+      [["#f04-pg1", 1010, 622, -7], ["#f04-pg2", 1250, 616, 0], ["#f04-pg3", 1490, 622, 7]].forEach(function (p, k) {
+        var el = q(p[0]);
+        var cx = parseFloat(el.style.left) + 150, cy = parseFloat(el.style.top) + 212;
+        p.push(cx, cy);
+        tl.fromTo(el, { x: PHX - cx, y: PHY - cy, scale: 0.22, rotation: -12, opacity: 0 },
+          { x: p[1] - cx, y: p[2] - cy, scale: 1, rotation: p[3], opacity: 1, duration: 0.8, ease: "power3.out" }, 1.78 + k * 0.14);
+      });
+
+      // "Plus de saisie le soir." (VO 3.63)
+      tl.fromTo("#f04-sub", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 3.6);
+      tl.fromTo("#f04-strike", { strokeDasharray: 60, strokeDashoffset: 60 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 3.95);
+
+      // share sheet (3.9) → e-mail (4.35)
+      tl.to("#f04-sheet", { y: 0, duration: 0.45, ease: "power3.out" }, 3.88);
+      tl.fromTo("#f04-tapB", { x: 206, y: 757, scale: 0.3, opacity: 0.9 }, { x: 206, y: 757, scale: 1.7, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 4.33);
+      tl.to("#f04-optmail .f04-opt-hl", { opacity: 1, duration: 0.2, ease: "power2.out" }, 4.35);
+
+      // e-mail card + pages fold into the attachment (4.55–5.1)
+      tl.fromTo("#f04-mail", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 4.5);
+      [["#f04-pg1", 0], ["#f04-pg2", 1], ["#f04-pg3", 2]].forEach(function (p) {
+        var el = q(p[0]);
+        var cx = parseFloat(el.style.left) + 150, cy = parseFloat(el.style.top) + 212;
+        tl.to(el, { x: 960 - cx, y: 772 - cy, scale: 0.12, rotation: 0, opacity: 0, duration: 0.5, ease: "power3.in" }, 4.6 + p[1] * 0.06);
+      });
+      tl.fromTo("#f04-attach", { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" }, 5.05);
+
+      // send (5.3) → card flies off, toast (5.75)
+      tl.fromTo("#f04-tapC", { x: 1573, y: 764, scale: 0.3, opacity: 0.9 }, { x: 1573, y: 764, scale: 1.8, opacity: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 5.32);
+      tl.to("#f04-send", { scale: 0.95, duration: 0.08, ease: "power2.out" }, 5.34);
+      tl.to("#f04-send", { scale: 1, duration: 0.18, ease: "power2.out" }, 5.42);
+      tl.to("#f04-mail", { x: 260, y: -220, scale: 0.35, rotation: -8, opacity: 0, duration: 0.5, ease: "power3.in" }, 5.45);
+      tl.fromTo("#f04-plane", { x: 0, y: 0, scale: 0.6, opacity: 0, rotation: 0 }, { x: 240, y: -500, scale: 1.1, opacity: 1, rotation: -10, duration: 0.48, ease: "power2.in" }, 5.45);
+      tl.to("#f04-plane", { opacity: 0, duration: 0.15 }, 5.95);
+      tl.fromTo("#f04-toast", { y: 40, scale: 0.9, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: "power3.out" }, 5.75);
+
+      window.__timelines["04-rapport"] = tl;
+    })();
+  </script>
+</template>
