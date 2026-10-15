@@ -11,3 +11,4 @@ node_modules/
 renders/*
 !renders/ohmnia-pv-promo.mp4
 .hyperframes/*-lock/
+!renders/planche-contact.jpg
